@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kinda Whimsical Games | KOWG</title>
+  <meta name="description" content="Kinda Whimsical Games (KOWG) - An indie game studio crafting colorful stories and experiences for all ages">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- GSAP for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/Flip.min.js"></script>
+</head>
+<body>
+  <!-- Background Pattern -->
+  <div class="background-pattern"></div>
+  
+  <!-- Header with Navigation -->
+  <header class="site-header">
+    <div class="logo-container">
+      <div class="logo-wrapper">
+        <!-- Placeholder for actual logo image -->
+        <img src="img/Kinda_Whimsical_Games.jpg" alt="Kinda Whimsical Games Logo" class="logo-img">
+      </div>
+    </div>
+    <nav class="header-nav">
+      <ul class="nav-links">
+        <li><a href="#home" class="nav-link active" data-slide="0">Home</a></li>
+        <li><a href="#games" class="nav-link" data-slide="1">Our Games</a></li>
+        <li><a href="#about" class="nav-link" data-slide="2">About Us</a></li>
+        <li><a href="#contact" class="nav-link" data-slide="3">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Slider Container -->
+  <main class="slider-container">
+    <!-- Slider Navigation Arrows -->
+    <button class="slider-arrow slider-arrow-left" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path fill="#fff" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+      </svg>
+    </button>
+    
+    <button class="slider-arrow slider-arrow-right" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path fill="#fff" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+      </svg>
+    </button>
+    
+    <!-- Slides Wrapper -->
+    <div class="slider-wrapper">
+      <!-- Home Slide -->
+      <section id="home" class="slide slide-home active">
+        <div class="slide-content">
+          <div class="home-hero">
+            <div class="logo-display">
+              <!-- SVG logo for animation -->
+              <img class="logo-svg" src="img/Kinda_Whimsical_Games.jpg" alt="">
+            </div>
+            <h1 class="studio-name">Kinda Whimsical Games</h1>
+            <p class="studio-tagline">Where stories unfold and worlds come alive.</p>
+            
+            <div class="game-preview">
+              <span>Currently crafting:</span>
+              <ul>
+                <li>Retenta - A card game where memories become power</li>
+                <li>Untitled Detective Game - Solve mysteries in unexpected ways</li>
+                <li>Runner - A journey through vibrant landscapes</li>
+              </ul>
+            </div>
+            
+            <button class="cta-button flip-trigger">See Our Games</button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Games Slide -->
+      <section id="games" class="slide slide-games">
+        <div class="slide-content">
+          <h1>Our Games</h1>
+          
+          <div class="games-grid">
+            <div class="game-card" id="game1">
+              <div class="card-front">
+                <div class="card-image">
+                  <!-- Placeholder for game image -->
+                </div>
+                <h2>Retenta</h2>
+                <p class="game-status">In Development</p>
+              </div>
+              <div class="card-back">
+                <h3>Retenta</h3>
+                <p>A card game where memories become power. In Retenta, players collect and strategically play cards representing fragments of forgotten experiences, building a narrative as they compete to recover what was lost.</p>
+                <a href="#" class="card-link">Learn More</a>
+              </div>
+            </div>
+            
+            <div class="game-card" id="game2">
+              <div class="card-front">
+                <div class="card-image">
+                  <!-- Placeholder for game image -->
+                   <img src="img/detective.png" alt="">
+                </div>
+                <h2>Detective Game</h2>
+                <p class="game-status">Concept Phase</p>
+              </div>
+              <div class="card-back">
+                <h3>Untitled Detective Game</h3>
+                <p>Follow impossible clues through a city where nothing is quite as it seems. Our detective game challenges players to think outside the box, piecing together a mystery where the laws of reality might bend but never break.</p>
+                <a href="#" class="card-link">Learn More</a>
+              </div>
+            </div>
+            
+            <div class="game-card" id="game3">
+              <div class="card-front">
+                <div class="card-image">
+                  <!-- Placeholder for game image -->
+                </div>
+                <h2>Runner</h2>
+                <p class="game-status">Early Development</p>
+              </div>
+              <div class="card-back">
+                <h3>Runner</h3>
+                <p>More than just an endless runner - a journey through vibrant landscapes that change as you progress. Simple mechanics belie a deeper story that unfolds with each milestone reached.</p>
+                <a href="#" class="card-link">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- About Slide -->
+      <section id="about" class="slide slide-about">
+        <div class="slide-content">
+          <h1>The Team Behind KOWG</h1>
+          
+          <div class="team-members">
+            <div class="team-card" id="team1">
+              <div class="member-front">
+                <div class="member-image">
+                  <!-- Placeholder for Sebastian's image -->
+                </div>
+                <h2>Sebastian Aguiar Køster</h2>
+                <p>Developer & Builder</p>
+              </div>
+              <div class="member-back">
+                <h3>Sebastian Aguiar Køster</h3>
+                <p>The code wizard who brings our worlds to life, Sebastian transforms concepts into playable experiences. With a passion for elegant solutions and interactive storytelling, he works tirelessly to ensure every game feels just right.</p>
+              </div>
+            </div>
+            
+            <div class="team-card" id="team2">
+              <div class="member-front">
+                <div class="member-image">
+                  <!-- Placeholder for Julie's image -->
+                </div>
+                <h2>Julie Hindkjær</h2>
+                <p>Writer & Concept Artist</p>
+              </div>
+              <div class="member-back">
+                <h3>Julie Hindkjær</h3>
+                <p>Julie crafts the stories and visuals that give our games their soul. Her artistic vision and narrative talents create the emotional landscapes our players explore, balancing whimsy with depth in everything she touches.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="studio-philosophy">
+            <h2>Our Approach</h2>
+            <p>At Kinda Whimsical Games, we believe in creating experiences that stick with you - games that feel like discovering a hidden treasure in a familiar place. We make games that are accessible to all ages while offering layers of meaning for those who seek them.</p>
+            <p>Working as a duo allows us to stay nimble, passionate, and true to our vision. Every project is a labor of love, handcrafted with attention to detail and a dash of the unexpected.</p>
+            <p>Our name says it all - we're just kinda whimsical, balancing playfulness with purpose in everything we create.</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Contact Slide -->
+      <section id="contact" class="slide slide-contact">
+        <div class="slide-content">
+          <h1>Say Hello</h1>
+          
+          <div class="contact-container">
+            <div class="contact-form-container">
+              <p>Have a question about our games? Want to collaborate? Just want to say hi? We'd love to hear from you!</p>
+              
+              <form class="contact-form">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="message">Your Message</label>
+                  <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-button">Send Message</button>
+              </form>
+            </div>
+            
+            <div class="contact-info">
+              <div class="contact-card">
+                <div class="card-front contact-front">
+                  <h2>Contact Info</h2>
+                  <div class="contact-details">
+                    <p>
+                      <strong>Email:</strong><br>
+                      hello@kindawhimsicalgames.com
+                    </p>
+                    <p>
+                      <strong>Based in:</strong><br>
+                      Copenhagen, Denmark
+                    </p>
+                    <p>
+                      <strong>Working Hours:</strong><br>
+                      9am - 6pm (CET)
+                    </p>
+                  </div>
+                </div>
+                <div class="card-back contact-back">
+                  <h3>Follow Us</h3>
+                  <div class="social-links">
+                    <a href="#" class="social-link">Twitter</a>
+                    <a href="#" class="social-link">Instagram</a>
+                    <a href="#" class="social-link">itch.io</a>
+                  </div>
+                  <div class="newsletter-signup">
+                    <h3>Stay Updated</h3>
+                    <form class="newsletter-form">
+                      <input type="email" placeholder="Your email address" required>
+                      <button type="submit">Subscribe</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Pagination Indicator -->
+    <div class="pagination-dots">
+      <span class="dot active" data-slide="0"></span>
+      <span class="dot" data-slide="1"></span>
+      <span class="dot" data-slide="2"></span>
+      <span class="dot" data-slide="3"></span>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2025 Kinda Whimsical Games | KOWG</p>
+  </footer>
+  
+  <!-- JavaScript -->
+  <script src="js/scripts.js"></script>
+</body>
+</html>
