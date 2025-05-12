@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logoWrapper.addEventListener('mouseenter', () => {
       gsap.to(logoWrapper, {
         rotate: 360,
-        duration: 1,
+        duration: 2,
         ease: 'power1.inOut'
       });
     });
