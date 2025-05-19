@@ -261,28 +261,14 @@ p {
 }
 
 .logo-display {
-  width: 180px;
-  height: 150px;
-  margin-bottom: 2rem;
+  width: 1200px;
+  height: 500px;
 }
 
 .logo-svg {
-  width: 80%;
+  width: 100%;
   height: 100%;
-  border: solid 2px var(--primary-light);
-  border-radius: 100px;
-}
-
-.studio-name {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-}
-
-.studio-tagline {
-  font-size: 1.5rem;
-  margin-bottom: 3rem;
-  opacity: 0.9;
+  margin-top: 100px;
 }
 
 .game-preview {
@@ -291,7 +277,11 @@ p {
   border-radius: 10px;
   padding: 2rem;
   margin: 2rem auto;
-  max-width: 600px;
+  width: 1500px;
+  height: 100px;
+  margin-left: -350px;
+  margin-top: 150px;
+  align-content: center;
 }
 
 .game-preview span {
@@ -314,7 +304,7 @@ p {
 }
 
 .game-preview ul li:before {
-  content: '•';
+  content: '';
   position: absolute;
   left: 0;
   color: var(--accent-color);
@@ -350,7 +340,7 @@ p {
 
 .game-card {
   width: 300px;
-  height: 400px;
+  height: 600px;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -385,24 +375,27 @@ p {
 
 .game-card:hover .card-front {
   transform: rotateY(180deg);
+  animation: ease-in-out 2s;
 }
 
 .game-card:hover .card-back {
   transform: rotateY(0);
+  animation: ease-in-out 2s;
 }
 
 .card-image {
   width: 100%;
-  height: 200px;
+  height: 400px;
   background-color: var(--primary-dark);
   background-size: cover;
   background-position: center;
 }
 
+
 .card-image img {
   width: 100%;
   height: 100%;
-    object-fit: contain;
+  object-fit: cover;
   top: 10px;
 }
 
@@ -426,7 +419,7 @@ p {
 }
 
 .card-link:hover {
-  color: #f39c12;
+  color: var(--accent-color);
   text-decoration: underline;
 }
 
@@ -444,6 +437,10 @@ p {
   height: 400px;
   perspective: 1000px;
   cursor: pointer;
+}
+
+.team-card p {
+color: #f2ad3e;
 }
 
 .member-front, .member-back {
@@ -491,6 +488,11 @@ p {
   background-color: var(--primary-dark);
   background-size: cover;
   background-position: center;
+}
+
+.member-image img {
+width: 200px;
+border-radius: 100px;
 }
 
 .studio-philosophy {

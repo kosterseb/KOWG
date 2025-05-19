@@ -35,10 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
       duration: 1, 
       autoAlpha: 0, 
       scale: 0.5, 
-      ease: 'back.out(1.7)' 
+      ease: 'back.out(1.7)',
+      onComplete: () => {
+        // Start the game-preview floating animation
+        gsap.to('.logo-display', {
+          y: -10,
+          duration: 2,
+          repeat: -1,
+          yoyo: true,
+          ease: 'power1.inOut'
+        });
+      }
     }, '-=0.3')
-    .from('.studio-name', { duration: 0.8, y: 30, autoAlpha: 0, ease: 'power3.out' }, '-=0.5')
-    .from('.studio-tagline', { duration: 0.8, y: 20, autoAlpha: 0, ease: 'power3.out' }, '-=0.6')
+    
     .from('.game-preview', { 
       duration: 0.8, 
       y: 30, 
