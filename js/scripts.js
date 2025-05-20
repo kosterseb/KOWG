@@ -31,6 +31,38 @@ document.addEventListener('DOMContentLoaded', () => {
       stagger: 0.1, 
       ease: 'power3.out' 
     }, '-=0.4')
+    .from('.logo-svg', { 
+      duration: 1, 
+      autoAlpha: 0, 
+      scale: 0.5, 
+      ease: 'back.out(1.7)',
+      onComplete: () => {
+        // Start the logo-display floating animation
+        gsap.to('.logo-svg', {
+          y: -8,
+          duration: 2,
+          repeat: -1,
+          yoyo: true,
+          ease: 'power1.inOut'
+        });
+      }
+    }, '-=0.3')
+    .from('.logo-svg2', { 
+      duration: 2, 
+      autoAlpha: 0, 
+      scale: 0.5, 
+      ease: 'back.out(1.7)',
+      onComplete: () => {
+        // Start the logo-display floating animation
+        gsap.to('.logo-svg2', {
+          y: -10,
+          duration: 2,
+          repeat: -1,
+          yoyo: true,
+          ease: 'power1.inOut'
+        });
+      }
+    }, '-=0.4')
     .from('.floating-image', { 
       duration: 1, 
       autoAlpha: 0, 
@@ -43,22 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
       scale: 0.5, 
       ease: 'back.out(1.7)',
     })
-    .from('.logo-display', { 
-      duration: 1, 
-      autoAlpha: 0, 
-      scale: 0.5, 
-      ease: 'back.out(1.7)',
-      onComplete: () => {
-        // Start the logo-display floating animation
-        gsap.to('.logo-display', {
-          y: -10,
-          duration: 2,
-          repeat: -1,
-          yoyo: true,
-          ease: 'power1.inOut'
-        });
-      }
-    }, '-=0.3')
     
     .from('.game-preview', { 
       duration: 0.8, 
@@ -694,7 +710,7 @@ function initNewsMarquee() {
   
   gsap.to(newsContainer, {
     x: -totalWidth,
-    duration: 20,
+    duration: 30,
     ease: "linear",
     repeat: -1,
     repeatDelay: 0
