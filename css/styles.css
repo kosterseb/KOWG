@@ -77,7 +77,7 @@ p {
 
 .news-marquee-container {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 3rem auto 0;
   padding: 1.5rem;
   background-color: var(--card-bg);
@@ -279,22 +279,26 @@ p {
 }
 
 .floating-image img {
-  width: 150px;
+  width: 280px;
 }
 
 #float-img-1 {
-  top: 20%;
-  left: 35%;
+  top: 10%;
+  left: 18%;
+}
+
+#float-img-1 img {
+  width: 30%;
 }
 
 #float-img-2 {
-  top: 30%;
-  right: 30%;
+  top: 1%;
+  right: 32%;
 }
 
 #float-img-3 {
-  bottom: 45%;
-  left: 32%;
+  bottom: 40%;
+  left: 28%;
 }
 
 #float-img-4 {
@@ -303,13 +307,13 @@ p {
 }
 
 #float-img-5 {
-  bottom: 45%;
-  right: 42%;
+  bottom: 47%;
+  right: 27%;
 }
 
 #float-img-6 {
-  bottom: 45%;
-  right: 42%;
+  bottom: 35%;
+  right: 28%;
 }
 
 /* Responsive Adjustments */
