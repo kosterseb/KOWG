@@ -31,13 +31,25 @@ document.addEventListener('DOMContentLoaded', () => {
       stagger: 0.1, 
       ease: 'power3.out' 
     }, '-=0.4')
+    .from('.floating-image', { 
+      duration: 1, 
+      autoAlpha: 0, 
+      scale: 0.5, 
+      ease: 'back.out(1.7)',
+    })
+    .from('.news-marquee-container', { 
+      duration: 1, 
+      autoAlpha: 0, 
+      scale: 0.5, 
+      ease: 'back.out(1.7)',
+    })
     .from('.logo-display', { 
       duration: 1, 
       autoAlpha: 0, 
       scale: 0.5, 
       ease: 'back.out(1.7)',
       onComplete: () => {
-        // Start the game-preview floating animation
+        // Start the logo-display floating animation
         gsap.to('.logo-display', {
           y: -10,
           duration: 2,
@@ -655,4 +667,214 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(message);
     }
   }
+});
+
+// Add this to your existing script.js file or at the bottom of your existing script
+
+// News Marquee Animation
+function initNewsMarquee() {
+  const newsContainer = document.querySelector('.news-container');
+  
+  if (!newsContainer) return;
+  
+  // Clone the news items for continuous scroll
+  const newsItems = document.querySelectorAll('.news-item');
+  const clonedItems = Array.from(newsItems).map(item => item.cloneNode(true));
+  
+  clonedItems.forEach(item => {
+    newsContainer.appendChild(item);
+  });
+  
+  // Create GSAP animation for smooth scrolling
+  // This will be better than CSS animation for performance
+  let totalWidth = 0;
+  newsItems.forEach(item => {
+    totalWidth += item.offsetWidth + 24; // width + gap
+  });
+  
+  gsap.to(newsContainer, {
+    x: -totalWidth,
+    duration: 20,
+    ease: "linear",
+    repeat: -1,
+    repeatDelay: 0
+  });
+  
+  // Pause the animation on hover
+  newsContainer.addEventListener('mouseenter', () => {
+    gsap.to(newsContainer, { timeScale: 0.2, duration: 0.5 });
+  });
+  
+  newsContainer.addEventListener('mouseleave', () => {
+    gsap.to(newsContainer, { timeScale: 1, duration: 0.5 });
+  });
+}
+
+// News Modal Functionality
+function initNewsModal() {
+  const newsItems = document.querySelectorAll('.news-item');
+  const modalBackdrop = document.querySelector('.news-modal-backdrop');
+  const modal = document.querySelector('.news-modal');
+  const closeBtn = document.querySelector('.close-modal');
+  
+  if (!newsItems.length || !modalBackdrop || !modal) return;
+  
+  // Define news content
+  const newsData = {
+    1: {
+      title: "New Game Announcement: Project Horizon",
+      date: "May 18, 2025",
+      image: "/api/placeholder/400/300",
+      content: `<p>We're thrilled to announce our newest project in development: <strong>Project Horizon</strong>. This innovative puzzle game will challenge players to think in new dimensions as they navigate through a world where gravity is just a suggestion.</p>
+                <p>Stay tuned for more details in the coming weeks as we reveal gameplay mechanics, storyline, and early concept art.</p>`
+    },
+    2: {
+      title: "Dev Blog: Behind the Scenes of Retenta",
+      date: "May 12, 2025",
+      image: "/api/placeholder/400/300",
+      content: `<p>In our latest dev blog post, we're taking you behind the scenes of Retenta's card design process. Learn how we balance gameplay mechanics with visual storytelling to create a memorable experience.</p>
+                <p>We also discuss our approach to representing memories as tangible elements in the game world and how player choices influence the narrative.</p>`
+    },
+    3: {
+      title: "Studio Expansion: Growing Our Team",
+      date: "May 5, 2025",
+      image: "/api/placeholder/400/300",
+      content: `<p>Kind of Whimsical Games is growing! We're excited to welcome two new team members who will be joining us this summer.</p>
+                <p>Our new art director and sound designer will help bring our upcoming projects to life with even more attention to detail and immersive experiences.</p>
+                <p>This expansion marks an exciting new chapter for our studio as we scale up production without losing our signature whimsical touch.</p>`
+    },
+    4: {
+      title: "Upcoming Release: Retenta Beta Testing",
+      date: "April 30, 2025",
+      image: "/api/placeholder/400/300",
+      content: `<p>Mark your calendars! Retenta will be entering closed beta testing next month, and we're looking for players to help us refine the experience.</p>
+                <p>Beta testers will get early access to the first three chapters of the game and have direct input on balancing and gameplay adjustments before the full release.</p>
+                <p>Sign up through our newsletter to be considered for the beta program.</p>`
+    },
+    5: {
+      title: "Event Appearance: Copenhagen Game Festival",
+      date: "April 25, 2025",
+      image: "/api/placeholder/400/300",
+      content: `<p>KOWG will be at the Copenhagen Game Festival this summer! Come visit our booth to play demos of our upcoming titles and chat with the developers.</p>
+                <p>We'll be hosting a panel discussion on narrative design in indie games and giving away exclusive merchandise throughout the weekend.</p>
+                <p>The festival runs July 15-17 at the Bella Center. Hope to see you there!</p>`
+    },
+    6: {
+      title: "Community Spotlight: Fan Art Showcase",
+      date: "April 18, 2025",
+      image: "/api/placeholder/400/300",
+      content: `<p>We're amazed by the creativity of our community! This month's fan art showcase features incredible interpretations of characters from our games.</p>
+                <p>Special thanks to everyone who submitted their work. The winning pieces will be featured in our studio and the artists will receive exclusive KOWG merchandise.</p>
+                <p>Check out all the submissions on our social media channels and stay tuned for the next competition announcement.</p>`
+    }
+  };
+  
+  // Open modal when clicking on news item
+  newsItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const newsId = item.getAttribute('data-news-id');
+      const newsInfo = newsData[newsId];
+      
+      if (newsInfo) {
+        // Populate modal with content
+        document.getElementById('modal-title').textContent = newsInfo.title;
+        document.getElementById('modal-date').textContent = newsInfo.date;
+        document.getElementById('modal-image').src = newsInfo.image;
+        document.getElementById('modal-content').innerHTML = newsInfo.content;
+        
+        // Show modal with animation
+        modalBackdrop.classList.add('active');
+        
+        // Add slight bounce to modal entrance
+        gsap.from(modal, {
+          scale: 0.9,
+          duration: 0.5,
+          ease: "back.out(1.7)"
+        });
+      }
+    });
+  });
+  
+  // Close modal when clicking close button or backdrop
+  closeBtn.addEventListener('click', closeModal);
+  modalBackdrop.addEventListener('click', (e) => {
+    if (e.target === modalBackdrop) {
+      closeModal();
+    }
+  });
+  
+  // Close with ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalBackdrop.classList.contains('active')) {
+      closeModal();
+    }
+  });
+  
+  function closeModal() {
+    gsap.to(modal, {
+      scale: 0.9,
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => {
+        modalBackdrop.classList.remove('active');
+        gsap.set(modal, { scale: 1, opacity: 1 });
+      }
+    });
+  }
+}
+
+// Floating Images Animation
+function initFloatingImages() {
+  const floatingImages = document.querySelectorAll('.floating-image');
+  
+  if (!floatingImages.length) return;
+  
+  floatingImages.forEach((img, index) => {
+    // Set random starting positions around the logo
+    gsap.set(img, {
+      x: 0,
+      y: 0,
+      rotation: Math.random() * 20 - 10
+    });
+    
+    // Create floating animation
+    gsap.to(img, {
+      x: `random(-30, 30)`,
+      y: `random(-30, 30)`,
+      rotation: `random(-15, 15)`,
+      duration: 5 + index,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      delay: index * 0.5
+    });
+  });
+  
+  // Make images follow cursor slightly
+  document.querySelector('.logo-display').addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX / window.innerWidth - 0.5;
+    const mouseY = e.clientY / window.innerHeight - 0.5;
+    
+    floatingImages.forEach((img) => {
+      gsap.to(img, {
+        x: mouseX * 40,
+        y: mouseY * 40,
+        duration: 1,
+        ease: "power1.out",
+        overwrite: "auto"
+      });
+    });
+  });
+}
+
+// Initialize everything when the document is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Run existing initializations
+  
+  // Then run our new ones
+  setTimeout(() => {
+    initNewsMarquee();
+    initNewsModal();
+    initFloatingImages();
+  }, 1000); // Short delay to ensure other animations are settled
 });

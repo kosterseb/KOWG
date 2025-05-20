@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kind of Whimsical Games | KOWG</title>
-  <meta name="description" content="Kinda Whimsical Games (KOWG) - An indie game studio crafting colorful stories and experiences for all ages">
+  <meta name="description"
+    content="Kinda Whimsical Games (KOWG) - An indie game studio crafting colorful stories and experiences for all ages">
   <link rel="shortcut icon" href="img/IMG_0009.png" type="image/x-icon">
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/styles.css">
-  
+
   <!-- GSAP for animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/Flip.min.js"></script>
 </head>
+
 <body>
   <!-- Background Pattern -->
   <div class="background-pattern"></div>
-  
+
   <!-- Header with Navigation -->
   <header class="site-header">
     <div class="logo-container">
       <div class="logo-wrapper">
         <!-- Placeholder for actual logo image -->
-        <img src="img/Kinda_Whimsical_Games _LOGO_TRANSPARENT_COLOR.png" alt="Kinda Whimsical Games Logo" class="logo-svg">
+        <img src="img/Kinda_Whimsical_Games _LOGO_TRANSPARENT_COLOR.png" alt="Kinda Whimsical Games Logo"
+          class="logo-svg">
       </div>
     </div>
     <nav class="header-nav">
@@ -41,16 +45,16 @@
     <!-- Slider Navigation Arrows -->
     <button class="slider-arrow slider-arrow-left" aria-label="Previous slide">
       <svg viewBox="0 0 24 24" width="24" height="24">
-        <path fill="#fff" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        <path fill="#fff" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
       </svg>
     </button>
-    
+
     <button class="slider-arrow slider-arrow-right" aria-label="Next slide">
       <svg viewBox="0 0 24 24" width="24" height="24">
-        <path fill="#fff" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        <path fill="#fff" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
       </svg>
     </button>
-    
+
     <!-- Slides Wrapper -->
     <div class="slider-wrapper">
       <!-- Home Slide -->
@@ -61,159 +65,254 @@
               <!-- SVG logo for animation -->
               <img class="logo-svg" src="img/Kinda_Whimsical_Games _LOGO_TRANSPARENT_COLOR.png" alt="">
             </div>
-            
-            <div class="game-preview">
-              <ul>
-                <li>
-                  <img src="" alt="">
-                </li>
-                <li>
-                  <img src="" alt="">
-                </li>
-                <li>
-                  <img src="" alt="">
-                </li>
-              </ul>
-            </div>
-            
+
             <button class="cta-button flip-trigger">See Our Games</button>
+            <!-- Add this before the closing </section> tag of the home slide (#home) -->
+            <div class="news-marquee-container">
+              <h2 class="news-section-title">Latest News</h2>
+              <div class="news-marquee">
+                <div class="news-container">
+                  <div class="news-item" data-news-id="1">
+                    <div class="news-image">
+                      <img src="/api/placeholder/150/150" alt="News item 1">
+                    </div>
+                    <h3>New Game Announcement</h3>
+                  </div>
+
+                  <div class="news-item" data-news-id="2">
+                    <div class="news-image">
+                      <img src="/api/placeholder/150/150" alt="News item 2">
+                    </div>
+                    <h3>Dev Blog Update</h3>
+                  </div>
+
+                  <div class="news-item" data-news-id="3">
+                    <div class="news-image">
+                      <img src="/api/placeholder/150/150" alt="News item 3">
+                    </div>
+                    <h3>Studio Expansion</h3>
+                  </div>
+
+                  <div class="news-item" data-news-id="4">
+                    <div class="news-image">
+                      <img src="/api/placeholder/150/150" alt="News item 4">
+                    </div>
+                    <h3>Upcoming Release</h3>
+                  </div>
+
+                  <div class="news-item" data-news-id="5">
+                    <div class="news-image">
+                      <img src="/api/placeholder/150/150" alt="News item 5">
+                    </div>
+                    <h3>Event Appearance</h3>
+                  </div>
+
+                  <div class="news-item" data-news-id="6">
+                    <div class="news-image">
+                      <img src="/api/placeholder/150/150" alt="News item 6">
+                    </div>
+                    <h3>Community Spotlight</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add this before the closing </body> tag -->
+            <!-- News Modal -->
+            <div class="news-modal-backdrop">
+              <div class="news-modal">
+                <button class="close-modal">&times;</button>
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h2 id="modal-title">News Title</h2>
+                  </div>
+                  <div class="modal-body">
+                    <div class="modal-image">
+                      <img id="modal-image" src="/api/placeholder/400/300" alt="News Image">
+                    </div>
+                    <div class="modal-text">
+                      <p id="modal-date">May 15, 2025</p>
+                      <div id="modal-content">
+                        <p>News content will appear here.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Images for Logo -->
+            <div class="floating-images-container">
+              <div class="floating-image" id="float-img-1">
+                <img src="img/Unavngivet (7).png" alt="Floating element 1">
+              </div>
+              <div class="floating-image" id="float-img-2">
+                <img src="/api/placeholder/60/60" alt="Floating element 2">
+              </div>
+              <div class="floating-image" id="float-img-3">
+                <img src="img/Unavngivet (11).png" alt="Floating element 3">
+              </div>
+              <div class="floating-image" id="float-img-4">
+                <img src="/api/placeholder/90/90" alt="Floating element 4">
+              </div>
+              <div class="floating-image" id="float-img-5">
+                <img src="/api/placeholder/90/90" alt="Floating element 5">
+              </div>
+              <div class="floating-image" id="float-img-6">
+                <img src="/api/placeholder/90/90" alt="Floating element 6">
+              </div>
+            </div>
           </div>
         </div>
       </section>
-      
+
       <!-- Games Slide -->
       <section id="games" class="slide slide-games">
         <div class="slide-content">
           <h1>Our Games</h1>
-          
+
           <div class="games-grid">
             <div class="game-card" id="game1">
               <div class="card-front">
                 <div class="card-image">
                   <!-- Placeholder for game image -->
-                   <img src="img/Retentalogo.png" alt="">
+                  <img src="img/Retentalogo.png" alt="">
                 </div>
                 <h2>Retenta</h2>
                 <p class="game-status">In Development</p>
               </div>
               <div class="card-back">
                 <h3>Retenta</h3>
-                <p>A card game where memories become power. In Retenta, players collect and strategically play cards representing fragments of forgotten experiences, building a narrative as they compete to recover what was lost.</p>
+                <p>A card game where memories become power. In Retenta, players collect and strategically play cards
+                  representing fragments of forgotten experiences, building a narrative as they compete to recover what
+                  was lost.</p>
                 <a href="#" class="card-link">Learn More</a>
               </div>
             </div>
-            
+
             <div class="game-card" id="game2">
               <div class="card-front">
                 <div class="card-image">
                   <!-- Placeholder for game image -->
-                   <img src="img/detective.png" alt="">
+                  <img src="img/detective.png" alt="">
                 </div>
                 <h2>Project Brothers</h2>
                 <p class="game-status">Concept Phase</p>
               </div>
               <div class="card-back">
                 <h3>Untitled Detective Game</h3>
-                <p>Follow impossible clues through a city where nothing is quite as it seems. Our detective game challenges players to think outside the box, piecing together a mystery where the laws of reality might bend but never break.</p>
+                <p>Follow impossible clues through a city where nothing is quite as it seems. Our detective game
+                  challenges players to think outside the box, piecing together a mystery where the laws of reality
+                  might bend but never break.</p>
                 <a href="#" class="card-link">Learn More</a>
               </div>
             </div>
-            
+
             <div class="game-card" id="game3">
               <div class="card-front">
                 <div class="card-image">
                   <!-- Placeholder for game image -->
-                   <img src="img/projectdcpfront.png" alt="">
+                  <img src="img/projectdcpfront.png" alt="">
                 </div>
                 <h2>Project DCP</h2>
                 <p class="game-status">Early Development</p>
               </div>
               <div class="card-back">
                 <h3>Project DCP</h3>
-                <p>More than just an endless runner - a journey through vibrant landscapes that change as you progress. Simple mechanics belie a deeper story that unfolds with each milestone reached.</p>
+                <p>More than just an endless runner - a journey through vibrant landscapes that change as you progress.
+                  Simple mechanics belie a deeper story that unfolds with each milestone reached.</p>
                 <a href="#" class="card-link">Learn More</a>
               </div>
             </div>
           </div>
         </div>
       </section>
-      
+
       <!-- About Slide -->
       <section id="about" class="slide slide-about">
         <div class="slide-content">
           <h1>The Team Behind KOWG</h1>
-          
+
           <div class="team-members">
             <div class="team-card" id="team1">
               <div class="member-front">
                 <div class="member-image">
                   <!-- Placeholder for Sebastian's image -->
-                   <img src="img/profile-pic.png" alt="">
+                  <img src="img/profile-pic.png" alt="">
                 </div>
                 <h2>Sebastian Aguiar Køster</h2>
-                
+
                 <p>Developer & Builder</p>
               </div>
               <div class="member-back">
                 <h3>Sebastian Aguiar Køster</h3>
-                <p>The code wizard who brings our worlds to life, Sebastian transforms concepts into playable experiences. With a passion for elegant solutions and interactive storytelling, he works tirelessly to ensure every game feels just right.</p>
+                <p>The code wizard who brings our worlds to life, Sebastian transforms concepts into playable
+                  experiences. With a passion for elegant solutions and interactive storytelling, he works tirelessly to
+                  ensure every game feels just right.</p>
               </div>
             </div>
-            
+
             <div class="team-card" id="team2">
               <div class="member-front">
                 <div class="member-image">
                   <!-- Placeholder for Julie's image -->
-                   <img src="img/Julie-Hindkjaer-1-jpg.webp" alt="">
+                  <img src="img/Julie-Hindkjaer-1-jpg.webp" alt="">
                 </div>
                 <h2>Julie Hindkjær</h2>
                 <p>Writer & Concept Artist</p>
               </div>
               <div class="member-back">
                 <h3>Julie Hindkjær</h3>
-                <p>Julie crafts the stories and visuals that give our games their soul. Her artistic vision and narrative talents create the emotional landscapes our players explore, balancing whimsy with depth in everything she touches.</p>
+                <p>Julie crafts the stories and visuals that give our games their soul. Her artistic vision and
+                  narrative talents create the emotional landscapes our players explore, balancing whimsy with depth in
+                  everything she touches.</p>
               </div>
             </div>
           </div>
-          
+
           <div class="studio-philosophy">
             <h2>Our Approach</h2>
-            <p>At Kind of Whimsical Games, we believe in creating experiences that stick with you - games that feel like discovering a hidden treasure in a familiar place. We make games that are accessible to all ages while offering layers of meaning for those who seek them.</p>
-            <p>Working as a duo allows us to stay nimble, passionate, and true to our vision. Every project is a labor of love, handcrafted with attention to detail and a dash of the unexpected.</p>
-            <p>Our name says it all - we're just kinda whimsical, balancing playfulness with purpose in everything we create.</p>
+            <p>At Kind of Whimsical Games, we believe in creating experiences that stick with you - games that feel like
+              discovering a hidden treasure in a familiar place. We make games that are accessible to all ages while
+              offering layers of meaning for those who seek them.</p>
+            <p>Working as a duo allows us to stay nimble, passionate, and true to our vision. Every project is a labor
+              of love, handcrafted with attention to detail and a dash of the unexpected.</p>
+            <p>Our name says it all - we're just kinda whimsical, balancing playfulness with purpose in everything we
+              create.</p>
           </div>
         </div>
       </section>
-      
+
       <!-- Contact Slide -->
       <section id="contact" class="slide slide-contact">
         <div class="slide-content">
           <h1>Say Hello</h1>
-          
+
           <div class="contact-container">
             <div class="contact-form-container">
-              <p>Have a question about our games? Want to collaborate? Just want to say hi? We'd love to hear from you!</p>
-              
+              <p>Have a question about our games? Want to collaborate? Just want to say hi? We'd love to hear from you!
+              </p>
+
               <form class="contact-form">
                 <div class="form-group">
                   <label for="name">Name</label>
                   <input type="text" id="name" name="name" required>
                 </div>
-                
+
                 <div class="form-group">
                   <label for="email">Email</label>
                   <input type="email" id="email" name="email" required>
                 </div>
-                
+
                 <div class="form-group">
                   <label for="message">Your Message</label>
                   <textarea id="message" name="message" rows="5" required></textarea>
                 </div>
-                
+
                 <button type="submit" class="submit-button">Send Message</button>
               </form>
             </div>
-            
+
             <div class="contact-info">
               <div class="contact-card">
                 <div class="card-front contact-front">
@@ -226,10 +325,6 @@
                     <p>
                       <strong>Based in:</strong><br>
                       Copenhagen, Denmark
-                    </p>
-                    <p>
-                      <strong>Working Hours:</strong><br>
-                      9am - 6pm (CET)
                     </p>
                   </div>
                 </div>
@@ -254,7 +349,7 @@
         </div>
       </section>
     </div>
-    
+
     <!-- Pagination Indicator -->
     <div class="pagination-dots">
       <span class="dot active" data-slide="0"></span>
@@ -266,10 +361,11 @@
 
   <!-- Footer -->
   <footer class="site-footer">
-    
+
   </footer>
-  
+
   <!-- JavaScript -->
   <script src="js/scripts.js"></script>
 </body>
+
 </html>
