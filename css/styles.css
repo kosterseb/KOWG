@@ -284,7 +284,7 @@ p {
 
 #float-img-1 {
   top: 10%;
-  left: 18%;
+  right: 20%;
 }
 
 #float-img-1 img {
@@ -292,18 +292,22 @@ p {
 }
 
 #float-img-2 {
-  top: 1%;
-  right: 32%;
+  top: 10%;
+  right: 30%;
 }
 
 #float-img-3 {
-  bottom: 40%;
-  left: 28%;
+  bottom: 50%;
+  right: 30%;
+}
+
+#float-img-3 img {
+  width: 35%;
 }
 
 #float-img-4 {
   bottom: 35%;
-  left: 32%;
+  left: 30%;
 }
 
 #float-img-5 {
@@ -317,8 +321,8 @@ p {
 }
 
 #float-img-7 {
-  top: 7%;
-  left: 38%;
+  top: 5%;
+  left: 40%;
 }
 
 /* Responsive Adjustments */
