@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   loadingTimeline
     .from('.background-pattern', { duration: 1, autoAlpha: 0, ease: 'power2.out' })
-    .from('.logo-wrapper', { duration: 0.8, scale: 0, autoAlpha: 0, rotation: -180, ease: 'back.out(1.7)' }, '-=0.5')
+    .from('.logo-svg3', { duration: 0.8, scale: 0, autoAlpha: 0, rotation: -180, ease: 'back.out(1.7)' }, '-=0.5')
     .from('.nav-links li', { 
       duration: 0.7, 
       autoAlpha: 0, 
