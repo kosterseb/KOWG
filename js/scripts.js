@@ -738,50 +738,68 @@ function initNewsModal() {
   // Define news content
   const newsData = {
     1: {
-      title: "New Game Announcement: Project Horizon",
+      title: "Join our Discord Server!",
       date: "May 18, 2025",
-      image: "/api/placeholder/400/300",
-      content: `<p>We're thrilled to announce our newest project in development: <strong>Project Horizon</strong>. This innovative puzzle game will challenge players to think in new dimensions as they navigate through a world where gravity is just a suggestion.</p>
-                <p>Stay tuned for more details in the coming weeks as we reveal gameplay mechanics, storyline, and early concept art.</p>`
+      image: "img/what-is-discord-1920x1080-c3d90ca45f57.jpg",
+      content: `<p>We're thrilled to announce our new Discord Community: <strong>KOWG Community</strong>. In this community, we will be focusing on sharing our work and include the community in what we are making.</p>
+                <p>Stay tuned for more details and feel free to ask us anything! We are currently looking for passionate developers and gamers alike to build and test!</p>
+                <br>
+                <br>
+                <p>-KOWG</p>`
     },
     2: {
-      title: "Dev Blog: Behind the Scenes of Retenta",
+      title: "Whimsicalog #5: Project DCP",
       date: "May 12, 2025",
-      image: "/api/placeholder/400/300",
-      content: `<p>In our latest dev blog post, we're taking you behind the scenes of Retenta's card design process. Learn how we balance gameplay mechanics with visual storytelling to create a memorable experience.</p>
-                <p>We also discuss our approach to representing memories as tangible elements in the game world and how player choices influence the narrative.</p>`
+      image: "img/projectdcpfront.png",
+      content: `<p>We are hard at work on creating our first games, we want to introduce them gradually as we go, but we are super excited to talk about this IP currently titled: <strong>Project DCP</strong>.</p>
+                <p>We discuss different aspects of our game in our discord and can't wait to show you more as we continue development.</p>
+                <br>
+                <br>
+                <p>-KOWG</p>`
     },
     3: {
-      title: "Studio Expansion: Growing Our Team",
+      title: "Project Brothers Update!",
       date: "May 5, 2025",
-      image: "/api/placeholder/400/300",
-      content: `<p>Kind of Whimsical Games is growing! We're excited to welcome two new team members who will be joining us this summer.</p>
-                <p>Our new art director and sound designer will help bring our upcoming projects to life with even more attention to detail and immersive experiences.</p>
-                <p>This expansion marks an exciting new chapter for our studio as we scale up production without losing our signature whimsical touch.</p>`
+      image: "img/brothersconceptart2.png",
+      content: `<p>Kind of Whimsical Games building up! We're excited to announce that our new IP, project title <strong>Brothers</strong> is in writing phase!.</p>
+                <p>We are currently in the main plot phase and character building. We will share some more concept art soon aswell!</p>
+                <p>This is an exciting opportunity for us to write something, in the more mature direction.</p>
+                <br>
+                <br>
+                <p>-KOWG</p>`
     },
     4: {
-      title: "Upcoming Release: Retenta Beta Testing",
+      title: "New ideas coming to life!",
       date: "April 30, 2025",
-      image: "/api/placeholder/400/300",
-      content: `<p>Mark your calendars! Retenta will be entering closed beta testing next month, and we're looking for players to help us refine the experience.</p>
-                <p>Beta testers will get early access to the first three chapters of the game and have direct input on balancing and gameplay adjustments before the full release.</p>
-                <p>Sign up through our newsletter to be considered for the beta program.</p>`
+      image: "img/brothersconcptart.png",
+      content: `<p>We have been hard at work to bring a new experiment to life. At this moment we a very early in the concept phase.</p>
+                <p>Trying out different themes and settings over the last couple of months, we have settled on the things we feel work well together for the story we want to tell.</p>
+                <p>Stay tuned, we will deliver more news about this IP soon!</p>
+                <br>
+                <br>
+                <p>-KOWG</p>`
     },
     5: {
-      title: "Event Appearance: Copenhagen Game Festival",
+      title: "Whimsicalog #4: Retenta",
       date: "April 25, 2025",
-      image: "/api/placeholder/400/300",
-      content: `<p>KOWG will be at the Copenhagen Game Festival this summer! Come visit our booth to play demos of our upcoming titles and chat with the developers.</p>
-                <p>We'll be hosting a panel discussion on narrative design in indie games and giving away exclusive merchandise throughout the weekend.</p>
-                <p>The festival runs July 15-17 at the Bella Center. Hope to see you there!</p>`
+      image: "img/retentagame.png",
+      content: `<p>We are in the gameplay phase of building the game, right now we are building the different classes that is going to be chosen by the player.</p>
+                <p>The choice of what class will define a campaign or run fundamentally for the player.</p>
+                <p>Right now, we are not ready to show all the classes, but we have a little sneak peek on early build!</p>
+                <br>
+                <br>
+                <p>-KOWG</p>`
     },
     6: {
-      title: "Community Spotlight: Fan Art Showcase",
+      title: "Project DCP",
       date: "April 18, 2025",
-      image: "/api/placeholder/400/300",
-      content: `<p>We're amazed by the creativity of our community! This month's fan art showcase features incredible interpretations of characters from our games.</p>
-                <p>Special thanks to everyone who submitted their work. The winning pieces will be featured in our studio and the artists will receive exclusive KOWG merchandise.</p>
-                <p>Check out all the submissions on our social media channels and stay tuned for the next competition announcement.</p>`
+      image: "img/projectdcpgameplay.png",
+      content: `<p>We are happy and excited to announce our new project!</p>
+                <p>The project name <strong>DCP</strong> is a new game that is going to be a adventure rpg with different aspects of dark fantasy themed madness!</p>
+                <p>Right now we are in a 'Prototype' phase where we will be testing level design, general gameplay and character development. On the same note we are currently on the drawing board to build something special, lore wise.</p>
+                <br>
+                <br>
+                <p>-KOWG</p>`
     }
   };
   
