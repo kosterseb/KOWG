@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
           position: fixed;
           top: 0;
           left: 0;
-          width: 200vw;
+          width: 100vw;
           height: 100vh;
           pointer-events: none;
           z-index: 0;
