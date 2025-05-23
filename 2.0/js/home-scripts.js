@@ -162,9 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const particle = document.createElement('div');
         particle.className = 'particle';
         particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.opacity = Math.random() * 0.25 + 0.05;
+        particle.style.opacity = Math.random() * 0.55 + 0.35;
         
-        const size = Math.random() * 8 + 3;
+        const size = Math.random() * 9 + 4;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
           position: fixed;
           top: 0;
           left: 0;
-          width: 100vw;
+          width: 200vw;
           height: 100vh;
           pointer-events: none;
           z-index: 0;

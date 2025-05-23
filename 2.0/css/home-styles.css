@@ -261,9 +261,9 @@ p {
 
 .logo-svg2 {
   position: absolute;
-  width: 90%;
-  top: 40px;
-  right: 70px;
+  width: 100%;
+  top: 90px;
+  left: 10px;
 }
 
 .hero-actions {
@@ -333,8 +333,8 @@ p {
 
 /* Floating image positions */
 #float-img-1 {
-  top: 10%;
-  right: 20%;
+  top: 25%;
+  left: 30%;
 }
 
 #float-img-1 img {
@@ -342,13 +342,13 @@ p {
 }
 
 #float-img-2 {
-  top: 10%;
-  right: 30%;
+  top: 20%;
+  right: 22%;
 }
 
 #float-img-3 {
   bottom: 50%;
-  right: 30%;
+  left: 20%;
 }
 
 #float-img-3 img {
@@ -356,22 +356,22 @@ p {
 }
 
 #float-img-4 {
-  bottom: 35%;
-  left: 30%;
+  bottom: 30%;
+  left: 23%;
 }
 
 #float-img-5 {
-  bottom: 47%;
-  right: 27%;
+  bottom: 34%;
+  right: 20%;
 }
 
 #float-img-6 {
-  bottom: 35%;
-  right: 28%;
+  bottom: 20%;
+  right: 20%;
 }
 
 #float-img-7 {
-  top: 5%;
+  top: 20%;
   left: 40%;
 }
 
