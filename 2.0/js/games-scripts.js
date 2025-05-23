@@ -164,9 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
           ],
           gallery: [
             'img/retentagame.png',
-            'img/Retentalogo.png',
-            'img/retentagame.png',
-            'img/Retentalogo.png'
+            'img/retentagameplay.png',
+            'img/retenatagameplay2.png',
+            'img/Retentalong 1.png'
           ],
           updates: [
             {
