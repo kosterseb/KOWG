@@ -202,9 +202,11 @@ document.addEventListener('DOMContentLoaded', () => {
             'Atmospheric noir setting with supernatural elements'
           ],
           gallery: [
-            'img/brothersconceptart2.png',
+            'img/brothersconceptart3.png',
             'img/brothersconcptart.png',
             'img/detective.png',
+            'img/brothersconceptart4.png',
+            'img/brothersconceptart5.png',
             'img/brothersconceptart2.png'
           ],
           updates: [
@@ -242,8 +244,8 @@ document.addEventListener('DOMContentLoaded', () => {
           ],
           gallery: [
             'img/projectdcpfront.png',
-            'img/projectdcpgameplay.png',
-            'img/projectdcpfront.png',
+            'img/projectdcpgame.png',
+            'img/projectdcpgame2.png',
             'img/projectdcpgameplay.png'
           ],
           updates: [

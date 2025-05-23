@@ -155,27 +155,6 @@ p {
   transform: scale(1.1);
 }
 
-/* Specific social media colors on hover */
-.social-icon:nth-child(1):hover {
-  border-color: #E4405F;
-  box-shadow: 0 5px 15px rgba(228, 64, 95, 0.3);
-}
-
-.social-icon:nth-child(2):hover {
-  border-color: #5865F2;
-  box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
-}
-
-.social-icon:nth-child(3):hover {
-  border-color: #ff0050;
-  box-shadow: 0 5px 15px rgba(255, 0, 80, 0.3);
-}
-
-.social-icon:nth-child(4):hover {
-  border-color: #0077B5;
-  box-shadow: 0 5px 15px rgba(0, 119, 181, 0.3);
-}
-
 .header-nav {
   flex: 1;
   display: flex;

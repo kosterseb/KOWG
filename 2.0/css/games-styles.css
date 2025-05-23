@@ -597,7 +597,7 @@ p {
 /* Right Page (Content) */
 .book-content {
   right: 0;
-  background: linear-gradient(135deg, #fefefe 0%, #f8f9fa 100%);
+  background: var(--primary-color);
   color: #333;
   border: 3px solid #d4a574;
   border-left: none;
