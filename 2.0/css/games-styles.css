@@ -75,7 +75,7 @@ p {
   margin-bottom: 1rem;
 }
 
-/* Header Navigation - Same as homepage */
+/* Header Navigation */
 .site-header {
   position: fixed;
   top: 0;
@@ -118,7 +118,7 @@ p {
   object-fit: cover;
 }
 
-/* Social Media Icons - Same as homepage */
+/* Social Media Icons */
 .social-media-icons {
   display: flex;
   gap: 0.8rem;
@@ -452,7 +452,7 @@ p {
   margin-bottom: 1rem;
 }
 
-/* Game Modal - Book Opening Animation */
+/* NEW BOOK MODAL - SLIDE REVEAL APPROACH */
 .game-modal-backdrop {
   position: fixed;
   top: 0;
@@ -478,40 +478,39 @@ p {
 /* Book Container */
 .book-container {
   position: relative;
-  width: 85vw;
-  height: 80vh;
-  max-width: 1100px;
+  width: 90vw;
+  height: 85vh;
+  max-width: 1200px;
   max-height: 700px;
-  perspective: 2000px;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 3px solid #d4a574;
 }
 
 .book-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
-  transform-style: preserve-3d;
+  display: flex;
 }
 
-/* Book Pages */
-.book-page {
-  position: absolute;
-  width: 50%;
-  height: 100%;
-  border-radius: 8px;
-  overflow: hidden;
-  backface-visibility: hidden;
-  box-shadow: 0 0 30px rgba(212, 165, 116, 0.3);
-}
-
-/* Left Page (Cover) */
+/* Book Cover - Slides from left */
 .book-cover {
+  position: absolute;
+  top: 0;
   left: 0;
-  transform-origin: right center;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
   color: var(--text-color);
-  border: 3px solid #d4a574;
-  border-right: none;
-  z-index: 2;
+  z-index: 10;
+  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.book-cover.open {
+  transform: translateX(-100%);
 }
 
 .book-cover-content {
@@ -539,8 +538,8 @@ p {
 }
 
 .game-logo {
-  width: 180px;
-  height: 180px;
+  width: 200px;
+  height: 200px;
   margin-bottom: 2rem;
   border-radius: 15px;
   overflow: hidden;
@@ -549,6 +548,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .game-logo img {
@@ -559,54 +559,59 @@ p {
 
 .book-cover h1 {
   font-family: var(--font-heading);
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   color: var(--accent-color);
 }
 
 .book-cover .game-status {
-  font-size: 1.1rem;
-  padding: 0.5rem 1.5rem;
+  font-size: 1.2rem;
+  padding: 0.8rem 2rem;
   background-color: rgba(241, 196, 15, 0.2);
-  border: 1px solid var(--accent-color);
-  border-radius: 25px;
-  margin: 1rem 0;
+  border: 2px solid var(--accent-color);
+  border-radius: 30px;
+  margin: 1.5rem 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .modal-progress {
   width: 100%;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
+  max-width: 300px;
 }
 
 .modal-progress .progress-bar {
-  height: 12px;
+  height: 15px;
   background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .modal-progress .progress-text {
   display: block;
   text-align: center;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   font-weight: bold;
+  font-size: 1.1rem;
 }
 
-/* Right Page (Content) */
+/* Book Content - Always visible behind cover */
 .book-content {
-  right: 0;
-  background: var(--primary-color);
-  color: #333;
-  border: 3px solid #d4a574;
-  border-left: none;
-  z-index: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+  color: #2c3e50;
+  z-index: 5;
 }
 
 .book-content-inner {
   height: 100%;
-  padding: 2.5rem;
+  padding: 3rem;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--accent-color) transparent;
@@ -627,29 +632,38 @@ p {
 
 /* Content Sections */
 .content-section {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.content-section.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .content-section h2 {
   font-family: var(--font-heading);
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: var(--primary-color);
-  margin-bottom: 1rem;
-  border-bottom: 2px solid var(--accent-color);
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid var(--accent-color);
   padding-bottom: 0.5rem;
 }
 
 .content-section h3 {
   font-family: var(--font-heading);
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: var(--primary-dark);
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .content-section p {
-  line-height: 1.7;
-  margin-bottom: 1rem;
-  color: #444;
+  line-height: 1.8;
+  margin-bottom: 1.2rem;
+  color: #34495e;
+  font-size: 1rem;
 }
 
 .content-section ul {
@@ -658,49 +672,50 @@ p {
 }
 
 .content-section li {
-  padding: 0.5rem 0;
-  border-left: 3px solid var(--accent-color);
-  padding-left: 1rem;
-  margin-bottom: 0.5rem;
-  background-color: rgba(241, 196, 15, 0.05);
-  border-radius: 0 5px 5px 0;
+  padding: 0.8rem 0;
+  border-left: 4px solid var(--accent-color);
+  padding-left: 1.5rem;
+  margin-bottom: 0.8rem;
+  background-color: rgba(241, 196, 15, 0.1);
+  border-radius: 0 8px 8px 0;
+  font-weight: 500;
 }
 
 /* Image Gallery */
 .image-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .gallery-image {
   width: 100%;
-  height: 100px;
+  height: 120px;
   object-fit: cover;
-  border-radius: 8px;
-  border: 2px solid #d4a574;
+  border-radius: 10px;
+  border: 3px solid #d4a574;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 
 .gallery-image:hover {
   transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(212, 165, 116, 0.4);
+  box-shadow: 0 8px 25px rgba(212, 165, 116, 0.4);
 }
 
 /* Development Updates */
 .dev-updates {
-  background-color: rgba(22, 160, 133, 0.05);
-  border: 1px solid rgba(22, 160, 133, 0.2);
-  border-radius: 8px;
-  padding: 1rem;
+  background-color: rgba(22, 160, 133, 0.1);
+  border: 2px solid rgba(22, 160, 133, 0.3);
+  border-radius: 10px;
+  padding: 1.5rem;
 }
 
 .update-item {
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(22, 160, 133, 0.1);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(22, 160, 133, 0.2);
 }
 
 .update-item:last-child {
@@ -710,37 +725,39 @@ p {
 }
 
 .update-date {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--primary-color);
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
 }
 
 .update-text {
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 /* Modal Actions */
 .modal-actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 1.5rem;
+  margin-top: 3rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .action-btn {
-  padding: 0.8rem 1.8rem;
+  padding: 1rem 2.5rem;
   border: none;
-  border-radius: 25px;
+  border-radius: 30px;
   font-family: var(--font-heading);
-  font-size: 0.9rem;
+  font-size: 1rem;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 .wishlist-btn {
@@ -759,8 +776,8 @@ p {
 }
 
 .action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 /* Close Button */
@@ -768,10 +785,10 @@ p {
   position: absolute;
   top: 2rem;
   right: 2rem;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   background-color: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   color: white;
   cursor: pointer;
@@ -780,7 +797,7 @@ p {
   justify-content: center;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
-  z-index: 10;
+  z-index: 20;
 }
 
 .close-book-modal:hover {
@@ -790,7 +807,7 @@ p {
   transform: rotate(90deg) scale(1.1);
 }
 
-/* Page Transition Overlay - Same as homepage */
+/* Page Transition Overlay */
 .page-transition-overlay {
   position: fixed;
   top: 0;
@@ -874,6 +891,11 @@ p {
     width: 300px;
     height: 450px;
   }
+  
+  .book-container {
+    width: 95vw;
+    height: 90vh;
+  }
 }
 
 @media (max-width: 768px) {
@@ -922,51 +944,27 @@ p {
     grid-template-columns: 1fr;
   }
   
-  /* Mobile book modal */
   .book-container {
     width: 95vw;
     height: 90vh;
   }
   
-  .book-page {
-    width: 100%;
-  }
-  
-  .book-cover {
-    position: relative;
-    height: 40%;
-    width: 100%;
-  }
-  
-  .book-content {
-    position: relative;
-    height: 60%;
-    width: 100%;
-    top: auto;
-    right: auto;
-  }
-  
-  .book-wrapper {
-    flex-direction: column;
-    display: flex;
-  }
-  
   .book-cover-content {
-    padding: 1.5rem;
+    padding: 2rem;
   }
   
   .game-logo {
-    width: 120px;
-    height: 120px;
-    margin-bottom: 1rem;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 1.5rem;
   }
   
   .book-cover h1 {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
   
   .book-content-inner {
-    padding: 1.5rem;
+    padding: 2rem;
   }
   
   .modal-actions {
@@ -1004,5 +1002,22 @@ p {
   
   .page-subtitle {
     font-size: 1.1rem;
+  }
+  
+  .book-cover-content {
+    padding: 1.5rem;
+  }
+  
+  .game-logo {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .book-cover h1 {
+    font-size: 1.5rem;
+  }
+  
+  .book-content-inner {
+    padding: 1.5rem;
   }
 }
