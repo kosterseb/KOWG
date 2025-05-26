@@ -84,9 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            particle.style.opacity = Math.random() * 0.15 + 0.05;
+            particle.style.opacity = Math.random() * 0.55 + 0.35;
 
-            const size = Math.random() * 6 + 2;
+            const size = Math.random() * 9 + 4;
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
 
@@ -96,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
             particleContainer.appendChild(particle);
 
             const particleAnim = gsap.to(particle, {
-                x: `${Math.random() * 200 - 100}px`,
-                y: `${Math.random() * 200 - 100}px`,
+                x: `${Math.random() * 300 - 150}px`,
+                y: `${Math.random() * 2300 - 150}px`,
                 duration: Math.random() * 30 + 20,
                 repeat: -1,
                 yoyo: true,
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: 'Retenta',
                 status: 'In Development',
                 logo: 'img/Retentalogo.png',
-                progress: 65,
+                progress: 35,
                 description: `
                     <p>A strategic card game where memories become power. In Retenta, players use their memory and strategically play cards representing fragments of forgotten experiences, building a narrative as they compete to recover what was lost.</p>
                     <p>Set in a world where memories can be extracted, stored, and traded, players must carefully manage their deck of memory cards to achieve victory while uncovering the deeper mystery of their character's past.</p>
@@ -187,9 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: 'Project Brothers',
                 status: 'Concept Phase',
                 logo: 'img/detective.png',
-                progress: 25,
+                progress: 15,
                 description: `
-                    <p>Follow impossible clues through a city where nothing is quite as it seems. Our detective game challenges players to think outside the box, piecing together a mystery where the laws of reality might bend but never break.</p>
+                    <p>Follow mysterious clues through a city where nothing is quite as it seems. Our detective game challenges players to think outside the box, piecing together a mystery where the laws of reality might bend but never break.</p>
                     <p>This mature narrative experience focuses on deep character development and moral choices that impact the story's direction. Players must navigate complex relationships while uncovering a conspiracy that threatens the fabric of reality itself.</p>
                     <p>The game features a unique investigation system where player intuition and logical deduction are equally important.</p>
                 `,
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: 'Project DCP',
                 status: 'Early Development',
                 logo: 'img/projectdcpfront.png',
-                progress: 40,
+                progress: 10,
                 description: `
                     <p>More than just an RPG - a journey through vibrant retro landscapes that change as you progress. Simple mechanics belie a deeper story that unfolds with each milestone reached.</p>
                     <p>Combining adventure RPG elements with dark fantasy themes, Project DCP offers both accessible gameplay and rich storytelling. The world reacts to player actions, creating a dynamic experience where no two playthroughs are identical.</p>

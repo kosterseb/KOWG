@@ -84,9 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const particle = document.createElement('div');
       particle.className = 'particle';
       particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      particle.style.opacity = Math.random() * 0.12 + 0.03;
+      particle.style.opacity = Math.random() * 0.55 + 0.35;
       
-      const size = Math.random() * 4 + 2;
+      const size = Math.random() * 9 + 4;
       particle.style.width = `${size}px`;
       particle.style.height = `${size}px`;
       
@@ -96,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
       particleContainer.appendChild(particle);
       
       const particleAnim = gsap.to(particle, {
-        x: `${Math.random() * 150 - 75}px`,
-        y: `${Math.random() * 150 - 75}px`,
+        x: `${Math.random() * 300 - 175}px`,
+        y: `${Math.random() * 400 - 275}px`,
         duration: Math.random() * 35 + 25,
         repeat: -1,
         yoyo: true,
