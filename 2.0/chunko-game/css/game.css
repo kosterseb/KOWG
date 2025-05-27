@@ -1,0 +1,906 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: "Cinzel", serif;
+  background: #1a0f08;
+  color: #f4e4c1;
+}
+
+/* Utility Classes */
+.hidden {
+  display: none !important;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2c1810 0%, #1a0f08 50%, #3d2817 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.loading-castle {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: castle-sway 2s ease-in-out infinite;
+}
+
+@keyframes castle-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+.loading-content h2 {
+  font-size: 1.8rem;
+  color: #f1c40f;
+  margin-bottom: 2rem;
+}
+
+.loading-bar {
+  width: 300px;
+  height: 8px;
+  background: rgba(244, 228, 193, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+}
+
+.loading-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #f1c40f, #1abc9c);
+  border-radius: 4px;
+  animation: loading-fill 3s ease-out forwards;
+}
+
+@keyframes loading-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.loading-text {
+  font-size: 1rem;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* Dialogue Screen */
+.dialogue-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 900;
+}
+
+.medieval-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2c1810 0%, #1a0f08 50%, #3d2817 100%);
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(241, 196, 15, 0.1) 0%, transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(26, 188, 156, 0.1) 0%, transparent 30%);
+}
+
+.chunko-display {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.chunko-character {
+  background: linear-gradient(135deg, #3d2817 0%, #2c1810 100%);
+  border: 3px solid #f1c40f;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.character-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: character-float 3s ease-in-out infinite;
+}
+
+@keyframes character-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.character-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f1c40f;
+}
+
+/* Dialogue Box */
+.dialogue-container {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 800px;
+}
+
+.dialogue-box {
+  background: linear-gradient(135deg, rgba(60, 40, 24, 0.95) 0%, rgba(44, 24, 16, 0.95) 100%);
+  border: 3px solid #f1c40f;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+.dialogue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(241, 196, 15, 0.3);
+}
+
+.speaker-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f1c40f;
+}
+
+.dialogue-type {
+  font-size: 0.9rem;
+  color: #1abc9c;
+  font-family: "IBM Plex Mono", monospace;
+  font-style: italic;
+}
+
+.dialogue-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  min-height: 60px;
+  color: #f4e4c1;
+}
+
+.dialogue-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialogue-hint {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #1abc9c;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.continue-hint {
+  animation: hint-pulse 2s ease-in-out infinite;
+}
+
+@keyframes hint-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.space-key {
+  background: #f1c40f;
+  color: #2c1810;
+  padding: 0.3rem 0.8rem;
+  border-radius: 5px;
+  font-weight: 600;
+  animation: key-bounce 1s ease-in-out infinite;
+}
+
+@keyframes key-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Game Screen */
+.game-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 800;
+}
+
+/* Game UI */
+.game-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(to bottom, rgba(44, 24, 16, 0.9) 0%, rgba(44, 24, 16, 0) 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  z-index: 10;
+}
+
+.ui-left, .ui-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.score-display, .distance-display {
+  background: rgba(60, 40, 24, 0.8);
+  border: 2px solid #f1c40f;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-label, .distance-label {
+  font-size: 0.9rem;
+  color: #f1c40f;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.score-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f4e4c1;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.chunko-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(60, 40, 24, 0.8);
+  border: 2px solid #1abc9c;
+  border-radius: 15px;
+  padding: 0.8rem 1.5rem;
+}
+
+.chunko-avatar {
+  font-size: 2rem;
+  animation: avatar-bob 2s ease-in-out infinite;
+}
+
+@keyframes avatar-bob {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.chunko-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.chunko-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1abc9c;
+}
+
+.health-bar {
+  width: 100px;
+  height: 8px;
+  background: rgba(244, 228, 193, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1abc9c, #f1c40f);
+  border-radius: 4px;
+  width: 100%;
+  transition: width 0.3s ease;
+}
+
+.game-btn {
+  width: 50px;
+  height: 50px;
+  background: rgba(60, 40, 24, 0.8);
+  border: 2px solid #f1c40f;
+  border-radius: 50%;
+  color: #f4e4c1;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-btn:hover {
+  background: rgba(241, 196, 15, 0.2);
+  transform: scale(1.1);
+}
+
+/* UPDATED: Better canvas container for proper scaling */
+.game-canvas-container {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 80px);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #90EE90 70%, #90EE90 100%);
+}
+
+/* UPDATED: Better canvas styling with aspect ratio preservation */
+#game-canvas {
+  display: block;
+  background: transparent;
+  border: 2px solid rgba(244, 228, 193, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  max-width: 100%;
+  max-height: 100%;
+  /* Maintain aspect ratio */
+  object-fit: contain;
+}
+
+.particle-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Game Effects */
+.game-effects {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 15;
+}
+
+.coin-collect-effect, .power-up-effect {
+  position: absolute;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f1c40f;
+  text-shadow: 0 0 10px rgba(241, 196, 15, 0.8);
+  animation: effect-popup 1s ease-out forwards;
+}
+
+@keyframes effect-popup {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -70px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -100px) scale(1);
+  }
+}
+
+/* Controls Help */
+.controls-help {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  gap: 1rem;
+  z-index: 10;
+}
+
+.control-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(60, 40, 24, 0.8);
+  border: 1px solid rgba(244, 228, 193, 0.3);
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.key {
+  background: #f1c40f;
+  color: #2c1810;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  font-weight: 600;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.action {
+  color: #f4e4c1;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* Game Over Screen */
+.game-over-screen, .pause-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 15, 8, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  backdrop-filter: blur(10px);
+}
+
+.game-over-content, .pause-content {
+  text-align: center;
+  background: linear-gradient(135deg, #3d2817 0%, #2c1810 100%);
+  border: 3px solid #f1c40f;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  max-width: 500px;
+  width: 90%;
+}
+
+.game-over-icon, .pause-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.game-over-content h2, .pause-content h2 {
+  font-size: 2rem;
+  color: #f1c40f;
+  margin-bottom: 2rem;
+}
+
+.final-stats {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  background: rgba(60, 40, 24, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(241, 196, 15, 0.3);
+}
+
+.stat-label {
+  color: #f4e4c1;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.stat-value {
+  color: #f1c40f;
+  font-weight: 600;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.chunko-final-quote {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(26, 188, 156, 0.1);
+  border: 2px solid #1abc9c;
+  border-radius: 10px;
+}
+
+.final-joke {
+  font-size: 1rem;
+  font-style: italic;
+  color: #f4e4c1;
+  line-height: 1.6;
+}
+
+.game-over-actions, .pause-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.game-action-btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-family: "Cinzel", serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.game-action-btn.primary {
+  background: linear-gradient(45deg, #f1c40f, #f39c12);
+  color: #2c1810;
+  box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+}
+
+.game-action-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(241, 196, 15, 0.6);
+}
+
+.game-action-btn.secondary {
+  background: transparent;
+  color: #f4e4c1;
+  border: 2px solid #1abc9c;
+}
+
+.game-action-btn.secondary:hover {
+  background: rgba(26, 188, 156, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Sound Toggle */
+.sound-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1200;
+}
+
+.sound-btn {
+  width: 50px;
+  height: 50px;
+  background: rgba(60, 40, 24, 0.8);
+  border: 2px solid #f1c40f;
+  border-radius: 50%;
+  color: #f4e4c1;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sound-btn:hover {
+  background: rgba(241, 196, 15, 0.2);
+  transform: scale(1.1);
+}
+
+/* UPDATED: Enhanced responsive design for better scaling */
+@media (max-width: 1200px) {
+  .game-ui {
+    padding: 0 1rem;
+  }
+  
+  .ui-left, .ui-right {
+    gap: 0.8rem;
+  }
+  
+  .chunko-info {
+    padding: 0.6rem 1.2rem;
+  }
+  
+  .score-display, .distance-display {
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .game-ui {
+    height: 60px;
+    font-size: 0.9rem;
+  }
+  
+  .game-canvas-container {
+    top: 60px;
+    height: calc(100% - 60px);
+  }
+  
+  .chunko-avatar {
+    font-size: 1.5rem;
+  }
+  
+  .controls-help {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .control-item {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.5rem;
+  }
+  
+  .ui-left, .ui-right {
+    gap: 0.6rem;
+  }
+  
+  .score-display, .distance-display {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .game-ui {
+    height: 50px;
+    padding: 0 0.5rem;
+  }
+  
+  .game-canvas-container {
+    top: 50px;
+    height: calc(100% - 50px);
+  }
+  
+  .ui-left, .ui-right {
+    gap: 0.5rem;
+  }
+  
+  .score-display, .distance-display {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .score-label, .distance-label {
+    font-size: 0.7rem;
+  }
+  
+  .score-value {
+    font-size: 0.9rem;
+  }
+  
+  .chunko-info {
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .chunko-title {
+    font-size: 0.8rem;
+  }
+  
+  .chunko-avatar {
+    font-size: 1.3rem;
+  }
+  
+  .health-bar {
+    width: 60px;
+    height: 6px;
+  }
+  
+  .game-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  .controls-help {
+    bottom: 5px;
+    left: 5px;
+    gap: 0.3rem;
+  }
+  
+  .control-item {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.4rem;
+  }
+  
+  .key {
+    padding: 0.1rem 0.3rem;
+    font-size: 0.6rem;
+  }
+  
+  /* Mobile dialogue adjustments */
+  .dialogue-container {
+    width: 95%;
+    bottom: 5%;
+  }
+  
+  .dialogue-box {
+    padding: 1rem;
+  }
+  
+  .dialogue-text {
+    font-size: 1rem;
+    min-height: 40px;
+  }
+  
+  .speaker-name {
+    font-size: 1rem;
+  }
+  
+  .dialogue-type {
+    font-size: 0.8rem;
+  }
+  
+  /* Mobile character display */
+  .chunko-display {
+    top: 15%;
+  }
+  
+  .chunko-character {
+    padding: 1.5rem;
+  }
+  
+  .character-icon {
+    font-size: 3rem;
+  }
+  
+  .character-name {
+    font-size: 1.2rem;
+  }
+  
+  /* Mobile game over screen */
+  .game-over-content, .pause-content {
+    padding: 2rem;
+    max-width: 90%;
+  }
+  
+  .game-over-icon, .pause-icon {
+    font-size: 3rem;
+  }
+  
+  .game-over-content h2, .pause-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .final-stats {
+    gap: 0.8rem;
+  }
+  
+  .stat-item {
+    padding: 0.6rem;
+  }
+  
+  .chunko-final-quote {
+    padding: 1rem;
+  }
+  
+  .final-joke {
+    font-size: 0.9rem;
+  }
+  
+  .game-action-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .game-ui {
+    height: 45px;
+    padding: 0 0.3rem;
+  }
+  
+  .game-canvas-container {
+    top: 45px;
+    height: calc(100% - 45px);
+  }
+  
+  .ui-left, .ui-right {
+    gap: 0.3rem;
+  }
+  
+  .score-display, .distance-display {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+  }
+  
+  .chunko-info {
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .chunko-avatar {
+    font-size: 1.1rem;
+  }
+  
+  .chunko-title {
+    font-size: 0.7rem;
+  }
+  
+  .health-bar {
+    width: 50px;
+    height: 5px;
+  }
+  
+  .game-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+  
+  .controls-help {
+    display: none; /* Hide on very small screens to save space */
+  }
+}
+
+/* UPDATED: Better loading screen responsiveness */
+@media (max-width: 600px) {
+  .loading-content {
+    max-width: 300px;
+    padding: 0 1rem;
+  }
+  
+  .loading-castle {
+    font-size: 3rem;
+  }
+  
+  .loading-content h2 {
+    font-size: 1.4rem;
+  }
+  
+  .loading-bar {
+    width: 250px;
+  }
+}
+
+/* Performance optimizations */
+* {
+  /* Improve rendering performance */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.game-canvas-container,
+#game-canvas {
+  /* Hardware acceleration for smooth animations */
+  transform: translateZ(0);
+  will-change: auto;
+}
+
+/* Prevent canvas blurriness on high-DPI displays */
+#game-canvas {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  image-rendering: crisp-edges;
+}

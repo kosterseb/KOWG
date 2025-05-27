@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chunko the Medieval Feline - Adventure Begins!</title>
+    <link rel="stylesheet" href="css/game.css">
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.17/paper-full.min.js"></script>
+</head>
+<body>
+    <!-- Game Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-castle">🏰</div>
+            <h2>Preparing Medieval Realm...</h2>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p class="loading-text">Chunko sharpens his wit...</p>
+        </div>
+    </div>
+
+    <!-- Opening Dialogue Screen -->
+    <div id="dialogue-screen" class="dialogue-screen hidden">
+        <div class="medieval-backdrop"></div>
+        
+        <!-- Chunko Character Display -->
+        <div class="chunko-display">
+            <div id="chunko-character" class="chunko-character">
+                <!-- Character will be dynamically populated -->
+                <div class="character-icon">🐱⚔️</div>
+                <div class="character-name">Chunko the Knight</div>
+            </div>
+        </div>
+        
+        <!-- Dialogue Box -->
+        <div class="dialogue-container">
+            <div class="dialogue-box">
+                <div class="dialogue-header">
+                    <span class="speaker-name">Sir Chunko</span>
+                    <span class="dialogue-type">Medieval Jest</span>
+                </div>
+                
+                <div class="dialogue-content">
+                    <p id="dialogue-text" class="dialogue-text">
+                        <!-- Joke text will appear here with typewriter effect -->
+                    </p>
+                </div>
+                
+                <div class="dialogue-controls">
+                    <div class="dialogue-hint">
+                        <span class="continue-hint">Press SPACE to begin adventure</span>
+                        <div class="space-key">⎵</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dialogue Effects -->
+        <div class="dialogue-effects">
+            <div class="speech-bubbles"></div>
+            <div class="gesture-effects"></div>
+        </div>
+    </div>
+
+    <!-- Main Game Screen -->
+    <div id="game-screen" class="game-screen hidden">
+        <!-- Game UI Header -->
+        <div class="game-ui">
+            <div class="ui-left">
+                <div class="score-display">
+                    <span class="score-label">🐟 Fish</span>
+                    <span id="fish-score" class="score-value">0</span>
+                </div>
+                <div class="distance-display">
+                    <span class="distance-label">📏 Distance</span>
+                    <span id="distance-score" class="score-value">0m</span>
+                </div>
+            </div>
+            
+            <div class="ui-center">
+                <div id="chunko-info" class="chunko-info">
+                    <div class="chunko-avatar">🐱⚔️</div>
+                    <div class="chunko-status">
+                        <span class="chunko-title">Sir Chunko</span>
+                        <div class="health-bar">
+                            <div class="health-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ui-right">
+                <button id="pause-btn" class="game-btn">⏸️</button>
+                <button id="menu-btn" class="game-btn">🏠</button>
+            </div>
+        </div>
+
+        <!-- Game Canvas Container -->
+        <div class="game-canvas-container">
+            <canvas id="game-canvas" resize></canvas>
+            
+            <!-- Particle Effects Overlay -->
+            <div id="particle-overlay" class="particle-overlay"></div>
+            
+            <!-- Game Effects -->
+            <div class="game-effects">
+                <div id="coin-collect-effect" class="coin-collect-effect hidden">+10 🐟</div>
+                <div id="power-up-effect" class="power-up-effect hidden">POWER UP!</div>
+            </div>
+        </div>
+
+        <!-- Game Controls Help -->
+        <div class="controls-help">
+            <div class="control-item">
+                <span class="key">SPACE</span>
+                <span class="action">Jump</span>
+            </div>
+            <div class="control-item">
+                <span class="key">A/D</span>
+                <span class="action">Move</span>
+            </div>
+            <div class="control-item">
+                <span class="key">S</span>
+                <span class="action">Slide</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="game-over-screen" class="game-over-screen hidden">
+        <div class="game-over-content">
+            <div class="game-over-icon">💀⚔️</div>
+            <h2>Adventure Paused!</h2>
+            <div class="final-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Fish Collected</span>
+                    <span id="final-fish" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Distance Traveled</span>
+                    <span id="final-distance" class="stat-value">0m</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Best Score</span>
+                    <span id="best-score" class="stat-value">0</span>
+                </div>
+            </div>
+            
+            <div class="chunko-final-quote">
+                <p id="final-joke" class="final-joke">
+                    <!-- Final Chunko joke will appear here -->
+                </p>
+            </div>
+            
+            <div class="game-over-actions">
+                <button id="play-again-btn" class="game-action-btn primary">
+                    🔄 Try Again
+                </button>
+                <button id="character-select-btn" class="game-action-btn secondary">
+                    🐱 Choose Different Cat
+                </button>
+                <button id="main-menu-btn" class="game-action-btn secondary">
+                    🏠 Main Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pause Screen -->
+    <div id="pause-screen" class="pause-screen hidden">
+        <div class="pause-content">
+            <div class="pause-icon">⏸️</div>
+            <h2>Game Paused</h2>
+            <p>Take a moment to sharpen thy claws...</p>
+            
+            <div class="pause-actions">
+                <button id="resume-btn" class="game-action-btn primary">
+                    ▶️ Resume Adventure
+                </button>
+                <button id="restart-btn" class="game-action-btn secondary">
+                    🔄 Restart Quest
+                </button>
+                <button id="quit-btn" class="game-action-btn secondary">
+                    🏠 Return to Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sound Toggle -->
+    <div class="sound-toggle">
+        <button id="sound-btn" class="sound-btn">🔊</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/jokes.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
