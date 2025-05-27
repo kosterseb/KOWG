@@ -154,11 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
         linkedin: 'https://linkedin.com/in/sebastian-profile',
         instagram: 'https://instagram.com/sebastian-profile',
         bio: `
-          <p>Sebastian is the technical backbone of Kind of Whimsical Games, bringing years of programming expertise and a passion for elegant code architecture to every project. His journey into game development began with a love for solving complex problems and creating interactive experiences that players can truly connect with.</p>
+          <p>Sebastian is the technical backbone of Kind of Whimsical Games, bringing skills of programming expertise and a passion for elegant code architecture to every project. His journey into game development began with a love for solving complex problems, webdevelopment and creating interactive experiences that players can truly connect with.</p>
           
-          <p>With a deep understanding of multiple programming languages and game engines, Sebastian transforms creative concepts into playable realities. He believes that great code is like great art - it should be both functional and beautiful, efficient yet expressive.</p>
+          <p>With a understanding of multiple programming languages and game engines, Sebastian transforms creative concepts into playable realities. He believes that great code is like great art - it should be both functional and beautiful, efficient yet expressive.</p>
           
-          <p>When he's not coding, Sebastian enjoys exploring new technologies, contributing to open-source projects, and finding inspiration in the intersection of technology and creativity. His approach to development is methodical yet innovative, always seeking the most elegant solution to complex challenges.</p>
+          <p>When he's not coding, Sebastian enjoys exploring new technologies, contributing to projects, and finding inspiration in the intersection of technology and creativity through music production and other artforms. His approach to development is methodical yet innovative, always seeking the most elegant solution to complex challenges.</p>
         `,
         skills: [
           'Unity & Unreal Engine',
@@ -191,12 +191,13 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         ],
         facts: [
-          'Started programming at age 12 with a simple text-based adventure game',
+          'Started programming at age 26 with a simple 3D-based adventure game',
+          'He made this website in a single week as a personal challenge',
           'Can debug code in his sleep (literally has solved problems in dreams)',
-          'Has a collection of over 50 programming books, including first editions of classic computer science texts',
-          'Once optimized a game to run 300% faster during a 48-hour game jam',
+          'Has a collection of programming books, including first editions of classic computer science texts',
+          'Build his first PC at age 12, which sparked his interest in technology',
           'Believes the best code is the code you don\'t have to write',
-          'Enjoys explaining complex technical concepts through simple analogies'
+          'Enjoys creating music in his free time, often using it as inspiration for game soundtracks'
         ]
       },
       julie: {

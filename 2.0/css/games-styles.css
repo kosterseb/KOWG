@@ -604,7 +604,7 @@ p {
   position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, #0a4d3f 100%);
   color: #2c3e50;
   z-index: 5;
 }
@@ -646,7 +646,7 @@ p {
 .content-section h2 {
   font-family: var(--font-heading);
   font-size: 2rem;
-  color: var(--primary-color);
+  color: var(--primary-light);
   margin-bottom: 1.5rem;
   border-bottom: 3px solid var(--accent-color);
   padding-bottom: 0.5rem;
@@ -655,14 +655,14 @@ p {
 .content-section h3 {
   font-family: var(--font-heading);
   font-size: 1.4rem;
-  color: var(--primary-dark);
+  color: var(--primary-light);
   margin-bottom: 1rem;
 }
 
 .content-section p {
   line-height: 1.8;
   margin-bottom: 1.2rem;
-  color: #34495e;
+  color: var(--primary-light);
   font-size: 1rem;
 }
 
@@ -674,6 +674,7 @@ p {
 .content-section li {
   padding: 0.8rem 0;
   border-left: 4px solid var(--accent-color);
+  color: var(--accent-color);
   padding-left: 1.5rem;
   margin-bottom: 0.8rem;
   background-color: rgba(241, 196, 15, 0.1);
@@ -734,6 +735,7 @@ p {
 .update-text {
   font-size: 1rem;
   line-height: 1.6;
+  color: var(--accent-color);
 }
 
 /* Modal Actions */

@@ -1,0 +1,434 @@
+#radial-gradient {
+    display: none;
+}
+
+#canvas:hover {
+    display: block;
+    transition: all 0.5s ease-in-out;
+}
+
+#radial-gradient:hover {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;  
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(rgba(255, 238, 195, 1) 20%, rgba(255, 238, 195, .15) 25%, transparent 60%);
+    filter: blur(12px);
+    transition: all 0.5s ease-in-out;
+  }
+
+  /* Hidden Feature Discovery Styles */
+
+/* Base logo wrapper enhancements */
+.logo-wrapper {
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: visible;
+  }
+
+  /* 2. Update the canvas rule (find and modify existing) */
+#canvas {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;  /* CHANGE: was 300px, now fills wrapper */
+    height: 100% !important; /* CHANGE: was 300px, now fills wrapper */
+    z-index: 1 !important;   /* CHANGE: was 5, now 1 (behind logo) */
+    pointer-events: none !important;
+    border: none !important;
+    border-radius: inherit;  /* ADD THIS: matches wrapper's border radius */
+  }
+  
+  /* 3. Update the logo image rule (find and modify existing) */
+  .logo-svg3 {
+    position: absolute !important;  /* CHANGE: was relative */
+    top: 0 !important;             /* ADD THIS */
+    left: 0 !important;            /* ADD THIS */
+    width: 100% !important;        /* KEEP EXISTING */
+    height: 100% !important;       /* KEEP EXISTING */
+    object-fit: cover !important;  /* KEEP EXISTING */
+    z-index: 10 !important;        /* CHANGE: was 15, now 10 (above canvas) */
+    pointer-events: none;          /* KEEP EXISTING */
+  }
+  
+  /* 4. Update the discovery glow effects z-index (find and modify existing ::before rules) */
+  .logo-wrapper.discovery-level-1::before,
+  .logo-wrapper.discovery-level-2::before,
+  .logo-wrapper.discovery-level-3::before {
+    z-index: 5; /* ADD THIS LINE to all three ::before rules - between canvas and logo */
+    pointer-events: none; /* ADD THIS LINE to all three ::before rules */
+  }
+  
+  /* 5. Update discovery hint z-index (find and modify existing) */
+  .discovery-hint {
+    z-index: 15; /* ADD THIS LINE - above everything */
+    /* Keep all other existing properties */
+  }
+  
+  /* Subtle initial hint - always present but very subtle */
+  .logo-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: inherit;
+    background: linear-gradient(45deg, 
+      transparent, 
+      rgba(241, 196, 15, 0.05), 
+      transparent, 
+      rgba(26, 188, 156, 0.05), 
+      transparent);
+    opacity: 0;
+    transition: all 0.5s ease;
+    pointer-events: none;
+    animation: subtle-pulse 6s ease-in-out infinite;
+  }
+  
+  @keyframes subtle-pulse {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.2; }
+  }
+  
+  /* Discovery Level 1: Initial discovery */
+  .logo-wrapper.discovery-level-1 {
+    transform: scale(1.02);
+  }
+  
+  .logo-wrapper.discovery-level-1::before {
+    opacity: 0.4;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, 
+      rgba(241, 196, 15, 0.3), 
+      rgba(26, 188, 156, 0.2), 
+      rgba(241, 196, 15, 0.3));
+    animation: discovery-glow-1 2s ease-in-out infinite;
+  }
+  
+  @keyframes discovery-glow-1 {
+    0%, 100% { 
+      box-shadow: 0 0 5px rgba(241, 196, 15, 0.3);
+      transform: rotate(0deg);
+    }
+    50% { 
+      box-shadow: 0 0 15px rgba(241, 196, 15, 0.6);
+      transform: rotate(1deg);
+    }
+  }
+  
+  /* Discovery Level 2: Magical awakening */
+  .logo-wrapper.discovery-level-2 {
+    transform: scale(1.05);
+  }
+  
+  .logo-wrapper.discovery-level-2::before {
+    opacity: 0.7;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    background: linear-gradient(45deg, 
+      rgba(241, 196, 15, 0.4), 
+      rgba(26, 188, 156, 0.4), 
+      rgba(255, 255, 255, 0.3),
+      rgba(241, 196, 15, 0.4));
+    animation: discovery-glow-2 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes discovery-glow-2 {
+    0%, 100% { 
+      box-shadow: 0 0 10px rgba(241, 196, 15, 0.5), 0 0 20px rgba(26, 188, 156, 0.3);
+      transform: rotate(0deg) scale(1);
+    }
+    50% { 
+      box-shadow: 0 0 20px rgba(241, 196, 15, 0.8), 0 0 30px rgba(26, 188, 156, 0.6);
+      transform: rotate(-1deg) scale(1.02);
+    }
+  }
+  
+  /* Discovery Level 3: Ready to activate */
+  .logo-wrapper.discovery-level-3 {
+    transform: scale(1.08);
+    cursor: pointer !important;
+  }
+  
+  .logo-wrapper.discovery-level-3::before {
+    opacity: 1;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg, 
+      rgba(241, 196, 15, 0.6), 
+      rgba(26, 188, 156, 0.6), 
+      rgba(255, 255, 255, 0.4),
+      rgba(52, 152, 219, 0.5),
+      rgba(241, 196, 15, 0.6));
+    animation: ready-to-activate 0.8s ease-in-out infinite;
+  }
+  
+  @keyframes ready-to-activate {
+    0%, 100% { 
+      box-shadow: 
+        0 0 15px rgba(241, 196, 15, 0.8), 
+        0 0 25px rgba(26, 188, 156, 0.6),
+        0 0 35px rgba(255, 255, 255, 0.4);
+      transform: rotate(0deg) scale(1);
+    }
+    50% { 
+      box-shadow: 
+        0 0 25px rgba(241, 196, 15, 1), 
+        0 0 35px rgba(26, 188, 156, 0.8),
+        0 0 45px rgba(255, 255, 255, 0.6);
+      transform: rotate(2deg) scale(1.05);
+    }
+  }
+  
+  /* Discovery hint text */
+  .discovery-hint {
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+    animation: hint-shimmer 2s ease-in-out infinite;
+  }
+  
+  @keyframes hint-shimmer {
+    0%, 100% { text-shadow: 0 0 5px rgba(241, 196, 15, 0.5); }
+    50% { text-shadow: 0 0 15px rgba(241, 196, 15, 0.8), 0 0 25px rgba(26, 188, 156, 0.4); }
+  }
+  
+  /* Floating image hints */
+  .floating-image.hint-active {
+    filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.8)) drop-shadow(0 0 20px rgba(26, 188, 156, 0.4));
+    animation: float-hint 2s ease-in-out infinite;
+    z-index: 10;
+  }
+  
+  @keyframes float-hint {
+    0%, 100% { 
+      transform: translateY(0) scale(1) rotate(0deg); 
+      filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.8)) drop-shadow(0 0 20px rgba(26, 188, 156, 0.4));
+    }
+    50% { 
+      transform: translateY(-8px) scale(1.1) rotate(2deg); 
+      filter: drop-shadow(0 0 15px rgba(241, 196, 15, 1)) drop-shadow(0 0 25px rgba(26, 188, 156, 0.6));
+    }
+  }
+  
+  /* Game Portal Overlay */
+  .game-portal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, 
+      rgba(22, 160, 133, 0.95) 0%, 
+      rgba(14, 98, 82, 0.98) 40%, 
+      rgba(22, 160, 133, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: portal-open 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  @keyframes portal-open {
+    0% {
+      opacity: 0;
+      transform: scale(0) rotate(180deg);
+      border-radius: 50%;
+    }
+    50% {
+      opacity: 0.8;
+      border-radius: 25%;
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      border-radius: 0;
+    }
+  }
+  
+  .portal-content {
+    text-align: center;
+    color: white;
+    animation: portal-content-rise 1s ease-out 0.6s both;
+    max-width: 500px;
+    padding: 2rem;
+  }
+  
+  @keyframes portal-content-rise {
+    0% { 
+      opacity: 0; 
+      transform: translateY(50px) scale(0.8); 
+    }
+    100% { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+    }
+  }
+  
+  .portal-content h2 {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, var(--accent-color), #fff, var(--primary-light));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: title-glow 2s ease-in-out infinite;
+  }
+  
+  @keyframes title-glow {
+    0%, 100% { 
+      filter: drop-shadow(0 0 5px rgba(241, 196, 15, 0.5));
+    }
+    50% { 
+      filter: drop-shadow(0 0 15px rgba(241, 196, 15, 0.8));
+    }
+  }
+  
+  .portal-content p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+  }
+  
+  .portal-logo {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 2rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--accent-color);
+    box-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
+    animation: portal-logo-float 3s ease-in-out infinite;
+  }
+  
+  .portal-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  @keyframes portal-logo-float {
+    0%, 100% { 
+      transform: translateY(0) rotate(0deg) scale(1); 
+      box-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
+    }
+    50% { 
+      transform: translateY(-10px) rotate(5deg) scale(1.05); 
+      box-shadow: 0 0 30px rgba(241, 196, 15, 0.8), 0 0 40px rgba(26, 188, 156, 0.4);
+    }
+  }
+  
+  .portal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .enter-game-btn, .close-portal-btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 30px;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 150px;
+  }
+  
+  .enter-game-btn {
+    background: linear-gradient(45deg, var(--accent-color), #f39c12);
+    color: #333;
+    box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+  }
+  
+  .enter-game-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(241, 196, 15, 0.6);
+    background: linear-gradient(45deg, #f39c12, var(--accent-color));
+  }
+  
+  .close-portal-btn {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+  }
+  
+  .close-portal-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .discovery-hint {
+      font-size: 0.7rem;
+      bottom: -30px;
+    }
+    
+    .portal-content {
+      padding: 1rem;
+      margin: 1rem;
+    }
+    
+    .portal-content h2 {
+      font-size: 2rem;
+    }
+    
+    .portal-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .enter-game-btn, .close-portal-btn {
+      width: 100%;
+      max-width: 250px;
+    }
+  }
+  
+  /* Enhanced canvas styling for discovery phases */
+  #canvas {
+    transition: filter 0.3s ease;
+    border-radius: inherit;
+  }
+  
+  .logo-wrapper.discovery-level-2 #canvas,
+  .logo-wrapper.discovery-level-3 #canvas {
+    filter: brightness(1.1) contrast(1.1);
+  }
+  
+  .logo-wrapper.discovery-level-3 #canvas {
+    filter: brightness(1.2) contrast(1.2) saturate(1.1);
+  }
