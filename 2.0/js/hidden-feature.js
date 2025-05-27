@@ -1,9 +1,9 @@
-// Complete Hidden Feature System with Working Explosion Effect
+// Complete Hidden Feature System with WORKING Explosion Effect
 let canvas = document.querySelector("#canvas");
 let ctx = canvas.getContext("2d");
 
-canvas.width = 100;   // Changed from 200 to 100
-canvas.height = 100;  // Changed from 200 to 100
+canvas.width = 100;   
+canvas.height = 100;  
 
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
@@ -12,6 +12,9 @@ let numberOfParticles = 100;
 let colors = ['rgb(255 227 126 / 100%)', 'rgb(255 227 126 / 75%)', 'rgb(255 227 126 / 50%)', 'rgb(255 227 126 / 25%)'];
 let eases = ['Power0.easeOut', 'Power2.easeOut', 'Power3.easeOut'];
 let particles = [];
+
+// Main loop control flag - THIS IS THE KEY FIX!
+let mainLoopActive = true;
 
 // Hidden Feature Variables
 let discoveryLevel = 0;
@@ -200,6 +203,9 @@ function resetDiscoverySequence() {
   circularMotionDetected = false;
   
   updateLogoAppearance();
+  
+  // NEW: Also reset main logo glow when sequence resets
+  updateMainLogoGlow();
 }
 
 function trackMouseMovement(x, y) {
@@ -280,6 +286,29 @@ function updateLogoAppearance() {
   } else {
     logoWrapper.style.cursor = 'default';
   }
+  
+  // NEW: Apply main logo glow effects based on discovery level
+  updateMainLogoGlow();
+}
+
+// NEW: Main logo glow effect function - LIGHTWEIGHT VERSION
+function updateMainLogoGlow() {
+  const logoSvg = document.querySelector('.logo-svg');
+  const logoSvg2 = document.querySelector('.logo-svg2');
+  
+  if (!logoSvg || !logoSvg2) return;
+  
+  // Remove existing glow classes
+  logoSvg.classList.remove('main-logo-glow-level-3');
+  logoSvg2.classList.remove('main-logo-glow-level-3');
+  
+  // Apply LIGHTWEIGHT glow effects ONLY at level 3
+  if (discoveryLevel >= 3) {
+    // Level 3: Both logos get subtle glow - much more performance friendly
+    logoSvg.classList.add('main-logo-glow-level-3');
+    logoSvg2.classList.add('main-logo-glow-level-3');
+    console.log('💫 Main logos activated with lightweight glow - ready for the secret!');
+  }
 }
 
 function showDiscoveryMessage() {
@@ -317,76 +346,81 @@ function activateFloatingImageHints() {
   setTimeout(activateNext, 500);
 }
 
-// FIXED: Enhanced Portal Activation with Working Explosion Effect
+// FIXED: Portal Activation with Working Explosion Effect
 function activateHiddenGame() {
   console.log('🎉 Activating hidden game portal with explosion!');
   
-  // STEP 1: Stop main animation loop IMMEDIATELY (before explosion)
-  console.log('🛑 Stopping main particle loop for explosion');
-  gsap.ticker.remove(particleAnimationLoop);
+  // STEP 1: Stop main animation loop completely
+  console.log('🛑 Stopping main particle loop completely');
+  mainLoopActive = false; // Set flag first
+  gsap.ticker.remove(particleAnimationLoop); // Then remove from ticker
   
-  // STEP 2: Create explosion effect immediately (now it has canvas control)
-  createExplosionEffect();
+  // STEP 2: Clear canvas and particles
+  particles = []; // Clear particle array
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   
-  // STEP 3: Clean up other effects while explosion runs
+  // STEP 3: Wait a frame to ensure main loop has stopped, then start explosion
+  requestAnimationFrame(() => {
+    console.log('🚀 Starting explosion after main loop stop');
+    createCleanExplosionEffect();
+  });
+  
+  // STEP 4: Clean up other effects while explosion runs
   setTimeout(() => {
     cleanupDiscoveryEffects();
-  }, 500); // Clean up halfway through explosion
+  }, 500);
   
-  // STEP 4: Show portal after explosion completes
+  // STEP 5: Show portal after explosion completes
   setTimeout(() => {
     showGamePortal();
-  }, 1500); // Give explosion more time to complete
+  }, 2000); // Give explosion more time
 }
 
-// Create explosion effect
-function createExplosionEffect() {
-  console.log('💥 Starting explosion effect - main loop stopped');
+// Clean explosion function - THE MAIN FIX!
+function createCleanExplosionEffect() {
+  console.log('💥 Starting CLEAN explosion effect');
   
-  // Create explosion particles
   const explosionParticles = [];
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   
-  // Create burst of explosion particles
-  for (let i = 0; i < 50; i++) {
-    const angle = (Math.PI * 2 * i) / 50;
-    const speed = random(50, 150);
-    const particle = {
-      x: centerX,
-      y: centerY,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      radius: random(3, 8),
-      color: ['#f1c40f', '#1abc9c', '#ffffff', '#3498db'][randomInt(0, 3)],
-      alpha: 1,
-      decay: random(0.02, 0.05)
-    };
-    explosionParticles.push(particle);
+  // Create explosion particles in waves
+  for (let wave = 0; wave < 3; wave++) {
+    setTimeout(() => {
+      for (let i = 0; i < 20; i++) {
+        const angle = (Math.PI * 2 * i) / 20 + (wave * 0.3);
+        const speed = 40 + (wave * 20) + Math.random() * 30;
+        
+        const particle = {
+          x: centerX + (Math.random() - 0.5) * 20,
+          y: centerY + (Math.random() - 0.5) * 20,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          radius: 3 + Math.random() * 4 + wave,
+          color: ['#f1c40f', '#1abc9c', '#ffffff', '#3498db', '#e74c3c'][Math.floor(Math.random() * 5)],
+          alpha: 1,
+          decay: 0.02 + Math.random() * 0.02,
+          gravity: wave > 0 ? 0.5 + wave : 0
+        };
+        explosionParticles.push(particle);
+      }
+      console.log(`Wave ${wave + 1} created, total particles: ${explosionParticles.length}`);
+    }, wave * 150);
   }
   
-  // Add some extra sparkle particles
-  for (let i = 0; i < 30; i++) {
-    const angle = random(0, Math.PI * 2);
-    const speed = random(20, 80);
-    const particle = {
-      x: centerX + random(-20, 20),
-      y: centerY + random(-20, 20),
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      radius: random(1, 3),
-      color: '#ffffff',
-      alpha: 1,
-      decay: random(0.03, 0.06)
-    };
-    explosionParticles.push(particle);
-  }
+  let explosionFrameCount = 0;
   
-  console.log(`💥 Created ${explosionParticles.length} explosion particles`);
-  
-  // Explosion animation loop (now has exclusive canvas control)
-  function animateExplosion() {
-    // Clear canvas (no competition from main loop!)
+  function animateCleanExplosion() {
+    explosionFrameCount++;
+    
+    // Ensure main loop is still stopped
+    if (mainLoopActive) {
+      console.log('⚠️ Main loop reactivated during explosion - stopping it again');
+      mainLoopActive = false;
+      gsap.ticker.remove(particleAnimationLoop);
+    }
+    
+    // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     // Update and draw explosion particles
@@ -394,31 +428,45 @@ function createExplosionEffect() {
       const p = explosionParticles[i];
       
       // Update position
-      p.x += p.vx * 0.016; // 60fps timing
+      p.x += p.vx * 0.016;
       p.y += p.vy * 0.016;
       
-      // Add gravity to some particles
-      if (p.radius > 2) {
-        p.vy += 2; // Gravity effect
+      // Apply gravity
+      if (p.gravity > 0) {
+        p.vy += p.gravity;
       }
+      
+      // Air resistance
+      p.vx *= 0.995;
+      p.vy *= 0.995;
       
       // Fade out
       p.alpha -= p.decay;
       
-      // Draw particle with glow
-      ctx.save();
-      ctx.globalAlpha = p.alpha;
-      
-      // Glow effect
-      ctx.shadowColor = p.color;
-      ctx.shadowBlur = 15;
-      
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.fill();
-      
-      ctx.restore();
+      // Draw particle
+      if (p.alpha > 0) {
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        
+        // Glow effect
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 15;
+        
+        // Main particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        
+        // Bright center
+        ctx.shadowBlur = 5;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius * 0.4, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        
+        ctx.restore();
+      }
       
       // Remove dead particles
       if (p.alpha <= 0) {
@@ -426,18 +474,17 @@ function createExplosionEffect() {
       }
     }
     
-    // Continue animation if particles exist
-    if (explosionParticles.length > 0) {
-      requestAnimationFrame(animateExplosion);
+    // Continue animation
+    if (explosionParticles.length > 0 && explosionFrameCount < 300) {
+      requestAnimationFrame(animateCleanExplosion);
     } else {
-      // Clear canvas when explosion is done
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      console.log('💥 Explosion effect completed - canvas cleared');
+      console.log('💥 Clean explosion completed');
     }
   }
   
-  // Start explosion animation (now it won't be interrupted!)
-  animateExplosion();
+  // Start the clean explosion
+  animateCleanExplosion();
 }
 
 // Clean up discovery effects (not particles)
@@ -470,9 +517,17 @@ function cleanupDiscoveryEffects() {
 function showGamePortal() {
   console.log('🌀 Opening game portal');
   
-  // Create epic portal overlay
+  // Create epic portal overlay - keep CSS class for animations!
   const portalOverlay = document.createElement('div');
   portalOverlay.className = 'game-portal-overlay';
+  
+  // Add ONLY the positioning fix, don't override other styles
+  portalOverlay.style.position = 'fixed';
+  portalOverlay.style.top = '0';
+  portalOverlay.style.left = '0';
+  portalOverlay.style.width = '100vw';
+  portalOverlay.style.height = '100vh';
+  
   portalOverlay.innerHTML = `
     <div class="portal-content">
       <div class="portal-logo">
@@ -531,7 +586,7 @@ function closePortal(portalOverlay) {
   });
 }
 
-// Restart system
+// UPDATED: Restart system with proper loop control
 function restartHiddenFeatureSystem() {
   console.log('🔄 Restarting hidden feature system');
   
@@ -552,14 +607,21 @@ function restartHiddenFeatureSystem() {
   particles = [];
   createParticles(canvas.width / 2, canvas.height / 2);
   
-  // Restart main animation loop
+  // Restart main animation loop - THE KEY FIX!
+  mainLoopActive = true; // Re-enable main loop
   gsap.ticker.add(particleAnimationLoop);
   
   console.log('✅ Hidden feature system restarted');
 }
 
-// Named function for particle animation loop so we can control it
+// UPDATED: Main animation loop with flag control
 function particleAnimationLoop() {
+  // Check if main loop should run - THIS IS THE KEY FIX!
+  if (!mainLoopActive) {
+    console.log('🛑 Main loop stopped by flag');
+    return; // Exit immediately if stopped
+  }
+  
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < particles.length; i++) {
     if (particles[i]) {
@@ -584,6 +646,7 @@ function randomInt(min, max) {
 }
 
 // Debug info
+console.log('🎯 Fixed explosion system loaded with proper loop control');
 console.log('Hidden feature system initialized with logo wrapper events');
 console.log('Canvas size:', canvasWidth, 'x', canvasHeight);
 console.log('Logo wrapper size:', logoWrapper?.getBoundingClientRect());
