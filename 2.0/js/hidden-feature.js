@@ -546,9 +546,9 @@ function showGamePortal() {
   document.body.appendChild(portalOverlay);
   
   // Handle portal interactions
+  
   portalOverlay.querySelector('.enter-game-btn').addEventListener('click', () => {
-    alert('🎉 Game coming soon! We\'ll build this together next!');
-    closePortal(portalOverlay);
+    window.location.href = 'chunko-game/index.html';
   });
   
   portalOverlay.querySelector('.close-portal-btn').addEventListener('click', () => {

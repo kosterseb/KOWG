@@ -1,4 +1,4 @@
-// Chunko the Medieval Feline - Main Game Engine (Updated with Better Scaling)
+// Chunko the Medieval Feline - Main Game Engine (Updated with Better Scaling + Obstacles)
 class ChunkoGame {
     constructor() {
       this.gameState = 'loading'; // loading, dialogue, playing, paused, gameOver
@@ -19,10 +19,15 @@ class ChunkoGame {
       this.collectibles = [];
       this.particles = [];
       this.powerUps = [];
+      this.platforms = []; // NEW: Static platforms
+      this.spikes = []; // NEW: Spike traps
       
       // Game physics
       this.gravity = 0.8;
       this.gameSpeed = 3;
+      this.baseGameSpeed = 3; // NEW: Store the original speed
+      this.maxGameSpeed = 8; // NEW: Maximum speed cap
+      this.speedIncreaseRate = 0.001; // NEW: How fast speed increases
       this.groundLevel = 0;
       
       // Viewport management for better scaling
@@ -42,79 +47,55 @@ class ChunkoGame {
     async init() {
       console.log('🏰 Initializing Chunko the Medieval Feline...');
       
-      // Load character selection from menu
       this.loadCharacterSelection();
-      
-      // Setup canvas FIRST (important for proper scaling!)
       this.setupCanvas();
-      
-      // Setup Paper.js for particle effects
       this.setupPaperJS();
-      
-      // Initialize audio system
       this.setupAudio();
-      
-      // Setup event listeners
       this.setupEventListeners();
       
-      // Add resize handler for responsive design
       window.addEventListener('resize', () => this.handleResize());
       
-      // Start loading sequence
       await this.startLoadingSequence();
-      
-      // Show dialogue with medieval joke
       this.showDialogueScreen();
       
       console.log('🎭 Game engine ready!');
     }
   
-    // NEW: Proper canvas scaling setup
     setupCanvas() {
-      // Get the container size
       const container = this.canvas.parentElement;
       const containerWidth = container.offsetWidth;
       const containerHeight = container.offsetHeight;
       
-      // Set a good aspect ratio (16:9 works well for platformers)
       const targetAspectRatio = 16 / 9;
       let canvasWidth, canvasHeight;
       
       if (containerWidth / containerHeight > targetAspectRatio) {
-        // Container is wider - limit by height
         canvasHeight = containerHeight;
         canvasWidth = canvasHeight * targetAspectRatio;
       } else {
-        // Container is taller - limit by width
         canvasWidth = containerWidth;
         canvasHeight = canvasWidth / targetAspectRatio;
       }
       
-      // Set canvas size
       this.canvas.width = canvasWidth;
       this.canvas.height = canvasHeight;
       
-      // Store viewport for game logic
       this.viewport = {
         width: canvasWidth,
         height: canvasHeight,
-        scale: canvasWidth / 1200 // Base scale on 1200px reference width
+        scale: canvasWidth / 1200
       };
       
       console.log(`🎮 Canvas set to: ${canvasWidth}x${canvasHeight}, scale: ${this.viewport.scale}`);
     }
   
-    // NEW: Handle window resize
     handleResize() {
-      // Recalculate canvas size
       this.setupCanvas();
       
-      // Adjust existing game objects to new scale
       if (this.chunko) {
         const { scale } = this.viewport;
         const newChunkoSize = Math.max(40, 60 * scale);
         
-        // Maintain relative positions
         const relativeX = this.chunko.x / this.canvas.width;
         const relativeY = (this.chunko.y + this.chunko.height) / this.groundLevel;
         
@@ -126,14 +107,12 @@ class ChunkoGame {
     }
   
     loadCharacterSelection() {
-      // Get selections from character menu
       this.selectedCharacter = sessionStorage.getItem('chunko-character') || 'knight';
       this.selectedDifficulty = sessionStorage.getItem('chunko-difficulty') || 'knight';
       
       console.log(`🐱 Playing as: ${this.selectedCharacter}`);
       console.log(`⚔️ Difficulty: ${this.selectedDifficulty}`);
       
-      // Set character-specific properties
       this.setCharacterProperties();
     }
   
@@ -167,7 +146,6 @@ class ChunkoGame {
       
       this.characterStats = characterStats[this.selectedCharacter];
       
-      // Apply difficulty modifiers with viewport scaling
       const difficultyModifiers = {
         peasant: { speedMod: 0.8, healthMod: 1.5, scoreMod: 0.8 },
         knight: { speedMod: 1.0, healthMod: 1.0, scoreMod: 1.0 },
@@ -175,20 +153,18 @@ class ChunkoGame {
       };
       
       const modifier = difficultyModifiers[this.selectedDifficulty];
-      // Scale game speed with viewport and difficulty
-      this.gameSpeed = (3 * modifier.speedMod) * Math.max(0.5, this.viewport.scale);
+      this.baseGameSpeed = (3 * modifier.speedMod) * Math.max(0.5, this.viewport.scale); // NEW: Use baseGameSpeed
+      this.gameSpeed = this.baseGameSpeed; // NEW: Start with base speed
       this.characterStats.health *= modifier.healthMod;
       this.scoreMultiplier = modifier.scoreMod;
     }
   
     setupPaperJS() {
-      // Canvas is already sized by setupCanvas()
       paper.setup(this.canvas);
       
       console.log('🎨 Paper.js initialized');
       console.log('📐 Game viewport:', this.viewport.width, 'x', this.viewport.height);
       
-      // Set up the animation loop
       paper.view.onFrame = (event) => {
         if (this.gameState === 'playing') {
           this.gameLoop(event);
@@ -199,7 +175,6 @@ class ChunkoGame {
     setupAudio() {
       this.audioContext = null;
       
-      // Initialize audio on first user interaction
       const initAudio = () => {
         try {
           this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -214,21 +189,17 @@ class ChunkoGame {
     }
   
     setupEventListeners() {
-      // Keyboard controls
       document.addEventListener('keydown', (e) => this.handleKeyDown(e));
       document.addEventListener('keyup', (e) => this.handleKeyUp(e));
       
-      // Button clicks
       document.getElementById('pause-btn')?.addEventListener('click', () => this.pauseGame());
       document.getElementById('menu-btn')?.addEventListener('click', () => this.returnToMenu());
       document.getElementById('sound-btn')?.addEventListener('click', () => this.toggleSound());
       
-      // Game over buttons
       document.getElementById('play-again-btn')?.addEventListener('click', () => this.restartGame());
       document.getElementById('character-select-btn')?.addEventListener('click', () => this.returnToCharacterSelect());
       document.getElementById('main-menu-btn')?.addEventListener('click', () => this.returnToMenu());
       
-      // Pause screen buttons
       document.getElementById('resume-btn')?.addEventListener('click', () => this.resumeGame());
       document.getElementById('restart-btn')?.addEventListener('click', () => this.restartGame());
       document.getElementById('quit-btn')?.addEventListener('click', () => this.returnToMenu());
@@ -237,15 +208,14 @@ class ChunkoGame {
     async startLoadingSequence() {
       console.log('📦 Starting loading sequence...');
       
-      // Show loading screen
       document.getElementById('loading-screen').classList.remove('hidden');
       
-      // Simulate loading time with progress
       const loadingText = document.querySelector('.loading-text');
       const loadingSteps = [
         'Chunko sharpens his wit...',
         'Preparing medieval puns...',
         'Loading fish and obstacles...',
+        'Building platforms and traps...', // NEW
         'Calibrating jump physics...',
         'Summoning particle magic...',
         'Adventure ready!'
@@ -256,7 +226,6 @@ class ChunkoGame {
         await this.wait(500);
       }
       
-      // Hide loading screen
       document.getElementById('loading-screen').classList.add('hidden');
     }
   
@@ -265,17 +234,12 @@ class ChunkoGame {
       
       this.gameState = 'dialogue';
       
-      // Show dialogue screen
       const dialogueScreen = document.getElementById('dialogue-screen');
       dialogueScreen.classList.remove('hidden');
       
-      // Update character display
       this.updateCharacterDisplay();
-      
-      // Get random joke and display it
       this.displayRandomJoke();
       
-      // Animate dialogue entrance
       gsap.fromTo(dialogueScreen, 
         { opacity: 0, scale: 0.9 },
         { opacity: 1, scale: 1, duration: 0.8, ease: "power2.out" }
@@ -293,20 +257,16 @@ class ChunkoGame {
     }
   
     displayRandomJoke() {
-      // Get random joke from jokes database
       const randomJoke = ChunkoJokes.getRandomJoke(this.selectedCharacter, this.selectedDifficulty);
       
       console.log('😸 Selected joke:', randomJoke.joke);
       
-      // Display joke with typewriter effect
       this.typewriterEffect(randomJoke.joke, document.getElementById('dialogue-text'));
       
-      // Play joke sound effect
       setTimeout(() => {
         this.playJokeSound(randomJoke.sound);
       }, 1000);
       
-      // Store joke for potential reuse
       this.currentJoke = randomJoke;
     }
   
@@ -318,7 +278,6 @@ class ChunkoGame {
         if (i < text.length) {
           element.textContent += text.charAt(i);
           
-          // Play typing sound occasionally
           if (i % 3 === 0) {
             this.playTypingSound();
           }
@@ -326,8 +285,6 @@ class ChunkoGame {
           i++;
         } else {
           clearInterval(typeInterval);
-          
-          // Show continue hint when done
           document.querySelector('.continue-hint').style.opacity = '1';
         }
       }, 50);
@@ -396,39 +353,27 @@ class ChunkoGame {
       
       this.gameState = 'playing';
       
-      // Hide dialogue screen
       document.getElementById('dialogue-screen').classList.add('hidden');
-      
-      // Show game screen
       document.getElementById('game-screen').classList.remove('hidden');
       
-      // Initialize game objects
       this.initializeGameObjects();
-      
-      // Update UI
       this.updateUI();
-      
-      // Play start sound
       this.playGameStartSound();
       
       console.log('🏃 Game loop started!');
     }
   
-    // UPDATED: Better scaled game objects initialization
     initializeGameObjects() {
-      // Make sure canvas is properly sized first
       this.setupCanvas();
       
       const { width: canvasWidth, height: canvasHeight, scale } = this.viewport;
       
-      // Better ground level - 70% down gives more sky space
       this.groundLevel = canvasHeight * 0.7;
       
-      // Scale objects based on viewport scale, but with minimum sizes
-      const chunkoSize = Math.max(40, 60 * scale); // Minimum 40px, scales with viewport
+      const chunkoSize = Math.max(40, 60 * scale);
       
       this.chunko = {
-        x: canvasWidth * 0.15, // Move a bit further from edge
+        x: canvasWidth * 0.15,
         y: this.groundLevel - chunkoSize,
         width: chunkoSize,
         height: chunkoSize,
@@ -441,29 +386,95 @@ class ChunkoGame {
         invulnerable: false
       };
       
-      console.log('🐱 Chunko size:', chunkoSize, 'at position:', this.chunko.x, this.chunko.y);
-      console.log('🌍 Ground level:', this.groundLevel, `(${Math.round((this.groundLevel/canvasHeight)*100)}% down)`);
+      console.log('🐱 Chunko initialized:', chunkoSize, 'at', this.chunko.x, this.chunko.y);
+      console.log('🌍 Ground level:', this.groundLevel);
       
       // Clear arrays
       this.obstacles = [];
       this.collectibles = [];
       this.powerUps = [];
       this.enemies = [];
+      this.platforms = []; // NEW
+      this.spikes = []; // NEW
       
-      // Generate content with better scaling
+      // Generate content
       this.generateCollectibles();
       this.generateEnemies();
+      this.generatePlatforms(); // NEW
+      this.generateSpikes(); // NEW
     }
   
-    // UPDATED: Better scaled collectibles
+    // NEW: Generate static platforms
+    generatePlatforms() {
+      const { width: canvasWidth, scale } = this.viewport;
+      const platformWidth = Math.max(80, 120 * scale);
+      const platformHeight = Math.max(15, 25 * scale);
+      
+      // Create several platforms at different heights and positions
+      const platformConfigs = [
+        { x: canvasWidth * 0.3, y: this.groundLevel - 150 },
+        { x: canvasWidth * 0.5, y: this.groundLevel - 100 },
+        { x: canvasWidth * 0.7, y: this.groundLevel - 200 },
+        { x: canvasWidth * 0.9, y: this.groundLevel - 120 },
+        { x: canvasWidth * 1.2, y: this.groundLevel - 180 },
+        { x: canvasWidth * 1.5, y: this.groundLevel - 90 },
+        { x: canvasWidth * 1.8, y: this.groundLevel - 160 }
+      ];
+      
+      platformConfigs.forEach(config => {
+        this.platforms.push({
+          x: config.x,
+          y: config.y,
+          width: platformWidth,
+          height: platformHeight,
+          type: 'static-platform',
+          color: '#8B4513', // Brown medieval stone
+          solid: true
+        });
+      });
+      
+      console.log(`🏗️ Generated ${this.platforms.length} static platforms`);
+    }
+  
+    // NEW: Generate spike traps
+    generateSpikes() {
+      const { width: canvasWidth, scale } = this.viewport;
+      const spikeWidth = Math.max(30, 40 * scale);
+      const spikeHeight = Math.max(20, 30 * scale);
+      
+      // Create spike traps on the ground at various positions
+      const spikePositions = [
+        canvasWidth * 0.4,
+        canvasWidth * 0.8,
+        canvasWidth * 1.1,
+        canvasWidth * 1.4,
+        canvasWidth * 1.7,
+        canvasWidth * 2.0
+      ];
+      
+      spikePositions.forEach(x => {
+        this.spikes.push({
+          x: x,
+          y: this.groundLevel - spikeHeight,
+          width: spikeWidth,
+          height: spikeHeight,
+          type: 'spike-trap',
+          damage: 1,
+          color: '#696969' // Dark gray spikes
+        });
+      });
+      
+      console.log(`⚔️ Generated ${this.spikes.length} spike traps`);
+    }
+  
     generateCollectibles() {
       const { width: canvasWidth, scale } = this.viewport;
-      const fishSize = Math.max(30, 45 * scale); // Minimum 30px, better scaling
+      const fishSize = Math.max(30, 45 * scale);
       
-      for (let i = 0; i < 8; i++) { // Slightly fewer but bigger fish
+      for (let i = 0; i < 8; i++) {
         this.collectibles.push({
-          x: canvasWidth * 0.3 + i * (canvasWidth * 0.15), // Better spacing
-          y: this.groundLevel - fishSize - Math.random() * (this.groundLevel * 0.5), // Stay in upper 50% of sky
+          x: canvasWidth * 0.3 + i * (canvasWidth * 0.15),
+          y: this.groundLevel - fishSize - Math.random() * (this.groundLevel * 0.5),
           width: fishSize,
           height: fishSize,
           type: 'fish',
@@ -473,17 +484,16 @@ class ChunkoGame {
         });
       }
       
-      console.log('🐟 Generated', this.collectibles.length, 'fish with size:', fishSize);
+      console.log(`🐟 Generated ${this.collectibles.length} fish`);
     }
   
-    // UPDATED: Better scaled enemies
     generateEnemies() {
       const { width: canvasWidth, scale } = this.viewport;
-      const enemySize = Math.max(35, 50 * scale); // Minimum 35px, better scaling
+      const enemySize = Math.max(35, 50 * scale);
       
-      for (let i = 0; i < 4; i++) { // Fewer but more visible enemies
+      for (let i = 0; i < 4; i++) {
         this.enemies.push({
-          x: canvasWidth * 0.5 + i * (canvasWidth * 0.25), // Better spacing
+          x: canvasWidth * 0.5 + i * (canvasWidth * 0.25),
           y: this.groundLevel - enemySize,
           width: enemySize,
           height: enemySize,
@@ -494,52 +504,41 @@ class ChunkoGame {
         });
       }
       
-      console.log('🦊 Generated', this.enemies.length, 'enemies with size:', enemySize);
+      console.log(`🦊 Generated ${this.enemies.length} enemies`);
     }
   
     gameLoop(event) {
       if (this.gameState !== 'playing') return;
       
-      // Update physics
       this.updateChunko();
       this.updateCollectibles();
       this.updateObstacles();
       this.updateEnemies();
       this.updateDistance();
+      this.updateGameSpeed(); // NEW: Update speed based on progress
       
-      // Check collisions
       this.checkCollisions();
       
-      // Render everything
       this.render();
-      
-      // Generate new content
       this.generateNewContent();
-      
-      // Update UI
       this.updateUI();
     }
   
-    // UPDATED: Scaled movement
     updateChunko() {
       if (!this.chunko) return;
       
-      // Scale movement speed with viewport
       const moveSpeed = this.characterStats.speed * Math.max(0.8, this.viewport.scale);
       
-      // Horizontal movement
       if (this.chunko.moveLeft) {
         this.chunko.velocityX = -moveSpeed;
       } else if (this.chunko.moveRight) {
         this.chunko.velocityX = moveSpeed;
       } else {
-        this.chunko.velocityX *= 0.8; // Friction
+        this.chunko.velocityX *= 0.8;
       }
       
-      // Apply gravity
       this.chunko.velocityY += this.gravity;
       
-      // Update position
       this.chunko.x += this.chunko.velocityX;
       this.chunko.y += this.chunko.velocityY;
       
@@ -552,8 +551,33 @@ class ChunkoGame {
         this.chunko.onGround = false;
       }
       
-      // Keep Chunko on screen
+      // NEW: Platform collision detection
+      this.checkPlatformCollisions();
+      
       this.chunko.x = Math.max(0, Math.min(this.chunko.x, this.viewport.width - this.chunko.width));
+    }
+  
+    // NEW: Platform collision system
+    checkPlatformCollisions() {
+      this.platforms.forEach(platform => {
+        // Only check collision if Chunko is falling (velocityY > 0) and coming from above
+        if (this.chunko.velocityY > 0 && 
+            this.chunko.x < platform.x + platform.width &&
+            this.chunko.x + this.chunko.width > platform.x &&
+            this.chunko.y + this.chunko.height > platform.y &&
+            this.chunko.y + this.chunko.height < platform.y + platform.height + 15) { // Small tolerance
+          
+          // Land on top of platform
+          this.chunko.y = platform.y - this.chunko.height;
+          this.chunko.velocityY = 0;
+          this.chunko.onGround = true;
+          
+          // Create landing particles
+          this.createPlatformLandParticles(platform);
+          
+          console.log('🏗️ Chunko landed on platform at', platform.x, platform.y);
+        }
+      });
     }
   
     chunkoJump() {
@@ -561,34 +585,25 @@ class ChunkoGame {
         this.chunko.velocityY = -this.characterStats.jumpPower;
         this.chunko.onGround = false;
         
-        // Create jump particle effect
         this.createJumpParticles();
-        
-        // Play jump sound
         this.playJumpSound();
       }
     }
   
     chunkoSlide() {
       if (this.chunko && this.chunko.onGround) {
-        // Slide effect (temporary speed boost + lower hitbox)
         this.chunko.velocityX = this.characterStats.speed * 2;
         
-        // Create slide particles
         this.createSlideParticles();
-        
-        // Play slide sound
         this.playSlideSound();
       }
     }
   
     updateCollectibles() {
       this.collectibles.forEach(collectible => {
-        // Move collectibles left (world scrolling effect)
         collectible.x -= this.gameSpeed;
       });
       
-      // Remove off-screen collectibles
       this.collectibles = this.collectibles.filter(collectible => collectible.x > -50);
     }
   
@@ -598,63 +613,127 @@ class ChunkoGame {
       });
       
       this.obstacles = this.obstacles.filter(obstacle => obstacle.x > -100);
+      
+      // NEW: Update platforms and spikes
+      this.platforms.forEach(platform => {
+        platform.x -= this.gameSpeed;
+      });
+      this.platforms = this.platforms.filter(platform => platform.x > -200);
+      
+      this.spikes.forEach(spike => {
+        spike.x -= this.gameSpeed;
+      });
+      this.spikes = this.spikes.filter(spike => spike.x > -100);
     }
   
     updateDistance() {
       this.score.distance += this.gameSpeed * 0.1;
     }
   
+    // NEW: Progressive speed increase system
+    updateGameSpeed() {
+      // Increase speed based on distance traveled
+      const speedIncrease = this.score.distance * this.speedIncreaseRate;
+      const newSpeed = this.baseGameSpeed + speedIncrease;
+      
+      // Cap the maximum speed
+      this.gameSpeed = Math.min(newSpeed, this.maxGameSpeed);
+      
+      // Log speed changes for debugging (only occasionally)
+      if (Math.floor(this.score.distance) % 100 === 0 && this.score.distance > 0) {
+        console.log(`🚀 Speed increased! Distance: ${Math.floor(this.score.distance)}m, Speed: ${this.gameSpeed.toFixed(2)}`);
+      }
+    }
+  
     updateEnemies() {
       this.enemies.forEach(enemy => {
         if (enemy.alive) {
-          // Move enemies left (world scrolling) + their own movement
           enemy.x -= this.gameSpeed + Math.abs(enemy.velocityX);
           
-          // Simple AI: bounce when reaching ground edges
           if (enemy.y >= this.groundLevel - enemy.height) {
             enemy.y = this.groundLevel - enemy.height;
           }
         }
       });
       
-      // Remove off-screen enemies
       this.enemies = this.enemies.filter(enemy => enemy.x > -100);
     }
   
     checkCollisions() {
-      // Check fish collection
+      // Fish collection
       this.collectibles.forEach(collectible => {
         if (!collectible.collected && this.isColliding(this.chunko, collectible)) {
           this.collectFish(collectible);
         }
       });
       
-      // Check enemy collisions
+      // Enemy collisions
       this.enemies.forEach(enemy => {
         if (enemy.alive && !this.chunko.invulnerable && this.isColliding(this.chunko, enemy)) {
           this.handleEnemyCollision(enemy);
         }
       });
+      
+      // NEW: Spike trap collisions
+      this.checkSpikeCollisions();
+    }
+  
+    // NEW: Spike collision detection
+    checkSpikeCollisions() {
+      this.spikes.forEach(spike => {
+        if (!this.chunko.invulnerable && this.isColliding(this.chunko, spike)) {
+          this.handleSpikeCollision(spike);
+        }
+      });
+    }
+  
+    // NEW: Handle spike damage
+    handleSpikeCollision(spike) {
+      console.log('⚔️ Chunko hit spikes!');
+      
+      // Take damage
+      this.chunko.health = Math.max(0, this.chunko.health - spike.damage);
+      this.chunko.invulnerable = true;
+      
+      // Knockback from spikes
+      this.chunko.velocityX = this.chunko.x < spike.x ? -8 : 8; // Push away from spike
+      this.chunko.velocityY = -5; // Small jump
+      
+      // Visual and audio feedback
+      this.createSpikeHitEffect(spike);
+      this.playDamageSound();
+      
+      // Remove invulnerability after 1.5 seconds (longer for spikes)
+      setTimeout(() => {
+        if (this.chunko) {
+          this.chunko.invulnerable = false;
+          console.log('🛡️ Spike invulnerability removed');
+        }
+      }, 1500);
+      
+      console.log('💔 Chunko health after spikes:', this.chunko.health);
+      
+      // Check game over
+      if (this.chunko.health <= 0) {
+        console.log('💀 Game over from spikes!');
+        setTimeout(() => this.gameOver(), 100);
+      }
     }
   
     handleEnemyCollision(enemy) {
       console.log('💥 Enemy collision detected!');
       
-      // Prevent multiple collision handling
       if (this.chunko.invulnerable) {
         console.log('🛡️ Chunko is invulnerable, ignoring collision');
         return;
       }
       
-      // Check if Chunko is jumping on enemy (from above)
       if (this.chunko.velocityY > 0 && this.chunko.y < enemy.y - 10) {
-        // Defeat enemy by jumping on it
         console.log('🦊 Defeating enemy by jumping on it!');
         enemy.alive = false;
-        this.chunko.velocityY = -8; // Bounce off enemy
-        this.score.fish += Math.floor(25 * this.scoreMultiplier); // Bonus points
+        this.chunko.velocityY = -8;
+        this.score.fish += Math.floor(25 * this.scoreMultiplier);
         
-        // Create enemy defeat particles (safe version)
         try {
           this.createEnemyDefeatBurst(enemy.x + enemy.width/2, enemy.y + enemy.height/2);
         } catch (e) {
@@ -664,18 +743,15 @@ class ChunkoGame {
         this.showCollectionEffect('+25 🏆');
         this.playEnemyDefeatSound();
         
-        console.log('🦊 Fox defeated! Bonus points! New score:', this.score.fish);
+        console.log('🦊 Fox defeated! New score:', this.score.fish);
       } else {
-        // Take damage
         console.log('💔 Chunko taking damage!');
-        this.chunko.health = Math.max(0, this.chunko.health - 1); // Ensure health doesn't go negative
+        this.chunko.health = Math.max(0, this.chunko.health - 1);
         this.chunko.invulnerable = true;
         
-        // Knockback (reduced to prevent freezing)
-        this.chunko.velocityX = -5; // Reduced knockback
+        this.chunko.velocityX = -5;
         this.chunko.velocityY = -3;
         
-        // Create damage effect (safe version)
         try {
           this.createDamageEffect();
         } catch (e) {
@@ -684,9 +760,8 @@ class ChunkoGame {
         
         this.playDamageSound();
         
-        // Remove invulnerability after 1 second
         setTimeout(() => {
-          if (this.chunko) { // Safety check
+          if (this.chunko) {
             this.chunko.invulnerable = false;
             console.log('🛡️ Invulnerability removed');
           }
@@ -694,39 +769,11 @@ class ChunkoGame {
         
         console.log('💔 Chunko health now:', this.chunko.health);
         
-        // Check game over
         if (this.chunko.health <= 0) {
           console.log('💀 Game over triggered');
-          setTimeout(() => this.gameOver(), 100); // Small delay to prevent freezing
+          setTimeout(() => this.gameOver(), 100);
         }
       }
-    }
-  
-    createEnemyDefeatBurst(x, y) {
-      const defeatPoint = new paper.Point(x, y);
-      
-      this.burst(defeatPoint, {
-        numParticles: 20,
-        colors: ['#FF6B35', '#F7931E', '#FFD23F'],
-        particleSize: 6,
-        moveRange: 70
-      });
-    }
-  
-    createDamageEffect() {
-      if (!this.chunko) return;
-      
-      const damagePoint = new paper.Point(
-        this.chunko.x + this.chunko.width/2, 
-        this.chunko.y + this.chunko.height/2
-      );
-      
-      this.burst(damagePoint, {
-        numParticles: 15,
-        colors: ['#E74C3C', '#C0392B', '#fff'],
-        particleSize: 4,
-        moveRange: 50
-      });
     }
   
     isColliding(rect1, rect2) {
@@ -740,21 +787,19 @@ class ChunkoGame {
       fish.collected = true;
       this.score.fish += Math.floor(10 * this.scoreMultiplier);
       
-      // Create fish collection particle burst
       this.createFishCollectionBurst(fish.x + fish.width/2, fish.y + fish.height/2);
-      
-      // Show collection effect
       this.showCollectionEffect('+' + Math.floor(10 * this.scoreMultiplier) + ' 🐟');
-      
-      // Play collection sound
       this.playFishCollectSound();
       
       console.log('🐟 Fish collected! Score:', this.score.fish);
     }
   
     generateNewContent() {
+      // NEW: Generate content faster at higher speeds (more challenge)
+      const spawnRateMultiplier = 1 + (this.gameSpeed - this.baseGameSpeed) * 0.3;
+      
       // Generate new fish occasionally
-      if (Math.random() < 0.02) {
+      if (Math.random() < 0.02 * spawnRateMultiplier) {
         const fishSize = Math.max(30, 45 * this.viewport.scale);
         this.collectibles.push({
           x: this.viewport.width + 100,
@@ -769,7 +814,7 @@ class ChunkoGame {
       }
       
       // Generate new enemies occasionally
-      if (Math.random() < 0.008) {
+      if (Math.random() < 0.008 * spawnRateMultiplier) {
         const enemySize = Math.max(35, 50 * this.viewport.scale);
         this.enemies.push({
           x: this.viewport.width + 150,
@@ -782,44 +827,65 @@ class ChunkoGame {
           image: 'img/FOX aka RØVEN_Transparent_Color.png'
         });
       }
+      
+      // NEW: Generate new platforms occasionally
+      if (Math.random() < 0.01 * spawnRateMultiplier) {
+        const platformWidth = Math.max(80, 120 * this.viewport.scale);
+        const platformHeight = Math.max(15, 25 * this.viewport.scale);
+        
+        this.platforms.push({
+          x: this.viewport.width + 200,
+          y: this.groundLevel - 80 - Math.random() * 150,
+          width: platformWidth,
+          height: platformHeight,
+          type: 'static-platform',
+          color: '#8B4513',
+          solid: true
+        });
+      }
+      
+      // NEW: Generate new spikes occasionally (more frequent at higher speeds)
+      if (Math.random() < 0.005 * spawnRateMultiplier) {
+        const spikeWidth = Math.max(30, 40 * this.viewport.scale);
+        const spikeHeight = Math.max(20, 30 * this.viewport.scale);
+        
+        this.spikes.push({
+          x: this.viewport.width + 300,
+          y: this.groundLevel - spikeHeight,
+          width: spikeWidth,
+          height: spikeHeight,
+          type: 'spike-trap',
+          damage: 1,
+          color: '#696969'
+        });
+      }
     }
   
     render() {
-      // Clear canvas
       paper.project.clear();
       
-      // Draw background elements with more space
       this.drawBackground();
-      
-      // Draw Chunko (with actual image)
+      this.drawPlatforms(); // NEW
+      this.drawSpikes(); // NEW
       this.drawChunko();
-      
-      // Draw collectibles (fish images)
       this.drawCollectibles();
-      
-      // Draw enemies (fox images)
       this.drawEnemies();
-      
-      // Draw obstacles
       this.drawObstacles();
     }
   
     drawBackground() {
-      // Simple blue sky
       const sky = new paper.Path.Rectangle({
         point: [0, 0],
         size: [this.viewport.width, this.groundLevel],
         fillColor: '#87CEEB'
       });
       
-      // Simple green ground
       const ground = new paper.Path.Rectangle({
         point: [0, this.groundLevel],
         size: [this.viewport.width, this.viewport.height - this.groundLevel],
         fillColor: '#90EE90'
       });
       
-      // Ground line
       const groundLine = new paper.Path.Line({
         from: [0, this.groundLevel],
         to: [this.viewport.width, this.groundLevel],
@@ -828,7 +894,80 @@ class ChunkoGame {
       });
     }
   
-    // UPDATED: Better proportional Chunko drawing
+    // NEW: Draw static platforms
+    drawPlatforms() {
+      this.platforms.forEach(platform => {
+        // Create platform base
+        const platformRect = new paper.Path.Rectangle({
+          point: [platform.x, platform.y],
+          size: [platform.width, platform.height],
+          fillColor: platform.color,
+          strokeColor: '#654321',
+          strokeWidth: 2
+        });
+        
+        // Add medieval stone texture lines
+        for (let i = 1; i < 3; i++) {
+          const stoneLine = new paper.Path.Line({
+            from: [platform.x, platform.y + (platform.height / 3) * i],
+            to: [platform.x + platform.width, platform.y + (platform.height / 3) * i],
+            strokeColor: '#654321',
+            strokeWidth: 1,
+            opacity: 0.5
+          });
+        }
+        
+        // Add highlight on top for 3D effect
+        const highlight = new paper.Path.Line({
+          from: [platform.x, platform.y],
+          to: [platform.x + platform.width, platform.y],
+          strokeColor: '#A0522D',
+          strokeWidth: 3
+        });
+      });
+    }
+  
+    // NEW: Draw spike traps
+    drawSpikes() {
+      this.spikes.forEach(spike => {
+        const numSpikes = Math.floor(spike.width / 8); // Spike density
+        const spikeWidth = spike.width / numSpikes;
+        
+        for (let i = 0; i < numSpikes; i++) {
+          const spikeX = spike.x + i * spikeWidth;
+          
+          // Create triangular spike
+          const spikeTriangle = new paper.Path([
+            new paper.Point(spikeX, spike.y + spike.height),
+            new paper.Point(spikeX + spikeWidth/2, spike.y),
+            new paper.Point(spikeX + spikeWidth, spike.y + spike.height)
+          ]);
+          
+          spikeTriangle.fillColor = spike.color;
+          spikeTriangle.strokeColor = '#2F4F4F';
+          spikeTriangle.strokeWidth = 1;
+          
+          // Add danger glow effect
+          const glowSpike = new paper.Path([
+            new paper.Point(spikeX, spike.y + spike.height),
+            new paper.Point(spikeX + spikeWidth/2, spike.y),
+            new paper.Point(spikeX + spikeWidth, spike.y + spike.height)
+          ]);
+          
+          glowSpike.strokeColor = '#FF4500';
+          glowSpike.strokeWidth = 2;
+          glowSpike.opacity = 0.3 + Math.sin(Date.now() * 0.01) * 0.2; // Pulsing effect
+        }
+        
+        // Add warning base
+        const base = new paper.Path.Rectangle({
+          point: [spike.x, spike.y + spike.height - 3],
+          size: [spike.width, 3],
+          fillColor: '#8B0000'
+        });
+      });
+    }
+  
     drawChunko() {
       if (!this.chunko) return;
       
@@ -836,16 +975,14 @@ class ChunkoGame {
       const centerY = this.chunko.y + this.chunko.height/2;
       const radius = this.chunko.width/2;
       
-      // More proportional cat with better visibility
       const chunkoBody = new paper.Shape.Circle({
         center: [centerX, centerY],
         radius: radius,
         fillColor: '#FFD700',
         strokeColor: '#FF8C00',
-        strokeWidth: Math.max(2, radius * 0.1) // Scale stroke width
+        strokeWidth: Math.max(2, radius * 0.1)
       });
       
-      // Proportional ears
       const earSize = radius * 0.6;
       const earOffset = radius * 0.6;
       
@@ -867,7 +1004,6 @@ class ChunkoGame {
         strokeWidth: Math.max(1, earSize * 0.1)
       });
       
-      // Proportional eyes
       const eyeSize = radius * 0.15;
       const eyeOffset = radius * 0.4;
       
@@ -883,7 +1019,6 @@ class ChunkoGame {
         fillColor: '#000'
       });
       
-      // Invulnerability effect
       if (this.chunko.invulnerable && Math.floor(Date.now() / 100) % 2) {
         [chunkoBody, leftEar, rightEar, leftEye, rightEye].forEach(shape => {
           shape.opacity = 0.5;
@@ -891,7 +1026,6 @@ class ChunkoGame {
       }
     }
   
-    // UPDATED: Better scaled collectibles drawing
     drawCollectibles() {
       this.collectibles.forEach((collectible, index) => {
         if (!collectible.collected) {
@@ -900,16 +1034,14 @@ class ChunkoGame {
           const fishWidth = collectible.width;
           const fishHeight = collectible.height * 0.7;
           
-          // Make fish much more visible with proper scaling
           const fishBody = new paper.Shape.Ellipse({
             center: [centerX, centerY],
             size: [fishWidth, fishHeight],
-            fillColor: '#00FFFF', // Bright cyan
-            strokeColor: '#008B8B', // Dark cyan outline
-            strokeWidth: Math.max(2, fishWidth * 0.08) // Scale stroke
+            fillColor: '#00FFFF',
+            strokeColor: '#008B8B',
+            strokeWidth: Math.max(2, fishWidth * 0.08)
           });
           
-          // Proportional tail
           const tailSize = fishWidth * 0.4;
           const tail = new paper.Path.RegularPolygon({
             center: [collectible.x + collectible.width + tailSize/2, centerY],
@@ -920,7 +1052,6 @@ class ChunkoGame {
             strokeWidth: Math.max(1, tailSize * 0.1)
           });
           
-          // Gentle floating animation
           const floatOffset = Math.sin(Date.now() * 0.003 + collectible.x * 0.01) * 5;
           fishBody.position.y += floatOffset;
           tail.position.y += floatOffset;
@@ -928,7 +1059,6 @@ class ChunkoGame {
       });
     }
   
-    // UPDATED: Better scaled enemies drawing
     drawEnemies() {
       this.enemies.forEach(enemy => {
         if (enemy.alive) {
@@ -936,7 +1066,6 @@ class ChunkoGame {
           const centerY = enemy.y + enemy.height/2;
           const radius = enemy.width/2;
           
-          // Better fox representation with proper scaling
           const foxBody = new paper.Shape.Ellipse({
             center: [centerX, centerY],
             size: [enemy.width, enemy.height * 0.8],
@@ -945,7 +1074,6 @@ class ChunkoGame {
             strokeWidth: Math.max(2, radius * 0.1)
           });
           
-          // Proportional tail
           const tailRadius = radius * 0.6;
           const tail = new paper.Shape.Circle({
             center: [enemy.x + enemy.width + tailRadius, centerY],
@@ -955,7 +1083,6 @@ class ChunkoGame {
             strokeWidth: Math.max(1, tailRadius * 0.1)
           });
           
-          // Proportional ears
           const earSize = radius * 0.3;
           const earOffset = radius * 0.6;
           
@@ -990,7 +1117,36 @@ class ChunkoGame {
       });
     }
   
-    // PARTICLE EFFECTS SYSTEM (Your burst inspiration!)
+    // NEW: Platform landing particle effect
+    createPlatformLandParticles(platform) {
+      const landPoint = new paper.Point(
+        platform.x + platform.width/2, 
+        platform.y
+      );
+      
+      this.burst(landPoint, {
+        numParticles: 8,
+        colors: ['#8B4513', '#A0522D', '#DEB887'],
+        particleSize: 2,
+        moveRange: 20
+      });
+    }
+  
+    // NEW: Spike hit effect
+    createSpikeHitEffect(spike) {
+      const hitPoint = new paper.Point(
+        spike.x + spike.width/2, 
+        spike.y + spike.height/2
+      );
+      
+      this.burst(hitPoint, {
+        numParticles: 12,
+        colors: ['#FF4500', '#FF6347', '#DC143C'],
+        particleSize: 3,
+        moveRange: 30
+      });
+    }
+  
     createJumpParticles() {
       if (!this.chunko) return;
       
@@ -1034,7 +1190,33 @@ class ChunkoGame {
       });
     }
   
-    // Enhanced burst function based on your inspiration
+    createEnemyDefeatBurst(x, y) {
+      const defeatPoint = new paper.Point(x, y);
+      
+      this.burst(defeatPoint, {
+        numParticles: 20,
+        colors: ['#FF6B35', '#F7931E', '#FFD23F'],
+        particleSize: 6,
+        moveRange: 70
+      });
+    }
+  
+    createDamageEffect() {
+      if (!this.chunko) return;
+      
+      const damagePoint = new paper.Point(
+        this.chunko.x + this.chunko.width/2, 
+        this.chunko.y + this.chunko.height/2
+      );
+      
+      this.burst(damagePoint, {
+        numParticles: 15,
+        colors: ['#E74C3C', '#C0392B', '#fff'],
+        particleSize: 4,
+        moveRange: 50
+      });
+    }
+  
     burst(point, options = {}) {
       const {
         numParticles = 32,
@@ -1055,14 +1237,12 @@ class ChunkoGame {
         particles.push(particle);
       }
       
-      // Animate particles
       particles.forEach((particle, i) => {
         const angle = (Math.PI * 2 * i) / numParticles + Math.random() * 0.5;
         const distance = moveRange + Math.random() * 40;
         const targetX = point.x + Math.cos(angle) * distance;
         const targetY = point.y + Math.sin(angle) * distance;
         
-        // Use GSAP for smooth animation
         gsap.to(particle.position, {
           x: targetX,
           y: targetY,
@@ -1095,15 +1275,53 @@ class ChunkoGame {
       document.getElementById('fish-score').textContent = this.score.fish;
       document.getElementById('distance-score').textContent = Math.floor(this.score.distance) + 'm';
       
-      // Update health bar
       const healthFill = document.querySelector('.health-fill');
       if (this.chunko && healthFill) {
         const healthPercent = (this.chunko.health / this.characterStats.health) * 100;
         healthFill.style.width = healthPercent + '%';
       }
+      
+      // NEW: Add speed indicator to UI
+      this.updateSpeedIndicator();
     }
   
-    // SOUND SYSTEM - Enhanced with enemy sounds
+    // NEW: Show current speed to player
+    updateSpeedIndicator() {
+      let speedDisplay = document.getElementById('speed-display');
+      if (!speedDisplay) {
+        speedDisplay = document.createElement('div');
+        speedDisplay.id = 'speed-display';
+        speedDisplay.style.cssText = `
+          position: absolute;
+          top: 90px;
+          right: 20px;
+          background: rgba(60, 40, 24, 0.8);
+          border: 2px solid #f1c40f;
+          border-radius: 10px;
+          padding: 0.5rem 1rem;
+          color: #f4e4c1;
+          font-family: 'Cinzel', serif;
+          font-size: 0.9rem;
+          z-index: 15;
+        `;
+        document.querySelector('.game-screen').appendChild(speedDisplay);
+      }
+      
+      const speedPercent = Math.round(((this.gameSpeed - this.baseGameSpeed) / (this.maxGameSpeed - this.baseGameSpeed)) * 100);
+      const speedColor = speedPercent > 80 ? '#e74c3c' : speedPercent > 50 ? '#f39c12' : '#27ae60';
+      
+      speedDisplay.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span>🚀 Speed:</span>
+          <div style="background: rgba(244, 228, 193, 0.3); width: 60px; height: 8px; border-radius: 4px; overflow: hidden;">
+            <div style="background: ${speedColor}; width: ${speedPercent}%; height: 100%; border-radius: 4px; transition: width 0.3s ease;"></div>
+          </div>
+          <span style="color: ${speedColor};">${speedPercent}%</span>
+        </div>
+      `;
+    }
+  
+    // Sound effects
     playJokeSound(soundType) {
       if (JokeSounds[soundType]) {
         JokeSounds[soundType]();
@@ -1138,7 +1356,7 @@ class ChunkoGame {
       console.log('🔊 *Magical Chime* + *Satisfied Purr*');
     }
   
-    // GAME STATE MANAGEMENT
+    // Game state management
     pauseGame() {
       this.gameState = 'paused';
       document.getElementById('pause-screen').classList.remove('hidden');
@@ -1150,15 +1368,19 @@ class ChunkoGame {
     }
   
     restartGame() {
-      // Reset scores
       this.score.fish = 0;
       this.score.distance = 0;
+      this.gameSpeed = this.baseGameSpeed; // NEW: Reset speed to base
       
-      // Hide screens
       document.getElementById('game-over-screen').classList.add('hidden');
       document.getElementById('pause-screen').classList.add('hidden');
       
-      // Restart dialogue
+      // NEW: Remove speed indicator when restarting
+      const speedDisplay = document.getElementById('speed-display');
+      if (speedDisplay) {
+        speedDisplay.remove();
+      }
+      
       this.showDialogueScreen();
     }
   
@@ -1167,23 +1389,19 @@ class ChunkoGame {
       
       this.gameState = 'gameOver';
       
-      // Update best score
       const totalScore = this.score.fish + Math.floor(this.score.distance);
       if (totalScore > this.score.best) {
         this.score.best = totalScore;
         localStorage.setItem('chunko-best-score', this.score.best);
       }
       
-      // Show final stats
       document.getElementById('final-fish').textContent = this.score.fish;
       document.getElementById('final-distance').textContent = Math.floor(this.score.distance) + 'm';
       document.getElementById('best-score').textContent = this.score.best;
       
-      // Show final joke
       const gameOverJoke = ChunkoJokes.special.gameOver[0];
       document.getElementById('final-joke').textContent = gameOverJoke.joke;
       
-      // Show game over screen
       document.getElementById('game-over-screen').classList.remove('hidden');
     }
   
@@ -1198,19 +1416,23 @@ class ChunkoGame {
     toggleSound() {
       this.audioEnabled = !this.audioEnabled;
       const soundBtn = document.getElementById('sound-btn');
-      soundBtn.textContent = this.audioEnabled ? '🔊' : '🔇';
+      if (soundBtn) {
+        soundBtn.textContent = this.audioEnabled ? '🔊' : '🔇';
+      }
     }
   
-    // UTILITY FUNCTIONS
     wait(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
   }
   
-  // Initialize game when page loads
   document.addEventListener('DOMContentLoaded', () => {
     console.log('🏰 Starting Chunko the Medieval Feline Game!');
+    console.log('🏗️ Obstacles system initialized');
+    console.log('⚔️ Platforms and spikes ready');
     
-    // Create game instance
     window.chunkoGame = new ChunkoGame();
+    
+    console.log('🎮 Game instance created successfully');
+    console.log('🚀 Ready to begin medieval cat adventure!');
   });
