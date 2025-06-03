@@ -1,4 +1,4 @@
-// About Page JavaScript - FIXED MODAL VERSION
+// About Page JavaScript 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize GSAP
   gsap.config({
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(style);
   }
   
-  // COMPLETELY FIXED TEAM MODAL SYSTEM
+  // TEAM MODAL SYSTEM
   function initTeamModals() {
     const teamCards = document.querySelectorAll('.team-card');
     const learnMoreBtns = document.querySelectorAll('.learn-more-btn');
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
     
-    // FIXED: Reset modal content completely
+    // Reset modal content completely
     function resetModalContent() {
       console.log('Resetting modal content...');
       
@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Modal content reset complete');
     }
     
-    // FIXED: Open modal with proper reset and animation
+    // Open modal with proper reset and animation
     function openTeamModal(memberId) {
       const member = teamData[memberId];
       if (!member || isModalOpen) {
@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Modal animation started for:', member.name);
     }
     
-    // FIXED: Close modal with proper cleanup
+    // Close modal with proper cleanup
     function closeTeamModal() {
       if (!isModalOpen) {
         console.log('Modal close blocked - not open');
@@ -463,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     
-    console.log('FIXED team modals initialized successfully');
+    console.log('Team modals initialized successfully');
   }
   
   // Page transition functionality

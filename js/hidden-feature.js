@@ -13,7 +13,7 @@ let colors = ['rgb(255 227 126 / 100%)', 'rgb(255 227 126 / 75%)', 'rgb(255 227 
 let eases = ['Power0.easeOut', 'Power2.easeOut', 'Power3.easeOut'];
 let particles = [];
 
-// Main loop control flag - THIS IS THE KEY FIX!
+// Main loop control flag
 let mainLoopActive = true;
 
 // Hidden Feature Variables
@@ -307,7 +307,7 @@ function updateMainLogoGlow() {
     // Level 3: Both logos get subtle glow - much more performance friendly
     logoSvg.classList.add('main-logo-glow-level-3');
     logoSvg2.classList.add('main-logo-glow-level-3');
-    console.log('💫 Main logos activated with lightweight glow - ready for the secret!');
+    console.log('Main logos activated with lightweight glow - ready for the secret!');
   }
 }
 
@@ -346,12 +346,12 @@ function activateFloatingImageHints() {
   setTimeout(activateNext, 500);
 }
 
-// FIXED: Portal Activation with Working Explosion Effect
+// Portal Activation with Working Explosion Effect
 function activateHiddenGame() {
-  console.log('🎉 Activating hidden game portal with explosion!');
+  console.log('Activating hidden game portal with explosion!');
   
   // STEP 1: Stop main animation loop completely
-  console.log('🛑 Stopping main particle loop completely');
+  console.log('Stopping main particle loop completely');
   mainLoopActive = false; // Set flag first
   gsap.ticker.remove(particleAnimationLoop); // Then remove from ticker
   
@@ -361,7 +361,7 @@ function activateHiddenGame() {
   
   // STEP 3: Wait a frame to ensure main loop has stopped, then start explosion
   requestAnimationFrame(() => {
-    console.log('🚀 Starting explosion after main loop stop');
+    console.log('Starting explosion after main loop stop');
     createCleanExplosionEffect();
   });
   
@@ -376,9 +376,9 @@ function activateHiddenGame() {
   }, 2000); // Give explosion more time
 }
 
-// Clean explosion function - THE MAIN FIX!
+// Clean explosion function
 function createCleanExplosionEffect() {
-  console.log('💥 Starting CLEAN explosion effect');
+  console.log('Starting CLEAN explosion effect');
   
   const explosionParticles = [];
   const centerX = canvas.width / 2;
@@ -479,7 +479,7 @@ function createCleanExplosionEffect() {
       requestAnimationFrame(animateCleanExplosion);
     } else {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      console.log('💥 Clean explosion completed');
+      console.log('Clean explosion completed');
     }
   }
   
@@ -510,18 +510,18 @@ function cleanupDiscoveryEffects() {
     img.classList.remove('hint-active');
   });
   
-  console.log('✅ Discovery effects cleaned up');
+  console.log('Discovery effects cleaned up');
 }
 
 // Show game portal
 function showGamePortal() {
-  console.log('🌀 Opening game portal');
+  console.log('Opening game portal');
   
   // Create epic portal overlay - keep CSS class for animations!
   const portalOverlay = document.createElement('div');
   portalOverlay.className = 'game-portal-overlay';
   
-  // Add ONLY the positioning fix, don't override other styles
+  // Add ONLY the positioning, don't override other styles
   portalOverlay.style.position = 'fixed';
   portalOverlay.style.top = '0';
   portalOverlay.style.left = '0';
@@ -588,7 +588,7 @@ function closePortal(portalOverlay) {
 
 // UPDATED: Restart system with proper loop control
 function restartHiddenFeatureSystem() {
-  console.log('🔄 Restarting hidden feature system');
+  console.log('Restarting hidden feature system');
   
   // Reset all variables
   discoveryLevel = 0;
@@ -607,18 +607,18 @@ function restartHiddenFeatureSystem() {
   particles = [];
   createParticles(canvas.width / 2, canvas.height / 2);
   
-  // Restart main animation loop - THE KEY FIX!
+  // Restart main animation loop
   mainLoopActive = true; // Re-enable main loop
   gsap.ticker.add(particleAnimationLoop);
   
-  console.log('✅ Hidden feature system restarted');
+  console.log('Hidden feature system restarted');
 }
 
 // UPDATED: Main animation loop with flag control
 function particleAnimationLoop() {
-  // Check if main loop should run - THIS IS THE KEY FIX!
+  // Check if main loop should run
   if (!mainLoopActive) {
-    console.log('🛑 Main loop stopped by flag');
+    console.log('Main loop stopped by flag');
     return; // Exit immediately if stopped
   }
   
@@ -646,7 +646,7 @@ function randomInt(min, max) {
 }
 
 // Debug info
-console.log('🎯 Fixed explosion system loaded with proper loop control');
+console.log('Explosion system loaded with proper loop control');
 console.log('Hidden feature system initialized with logo wrapper events');
 console.log('Canvas size:', canvasWidth, 'x', canvasHeight);
 console.log('Logo wrapper size:', logoWrapper?.getBoundingClientRect());
