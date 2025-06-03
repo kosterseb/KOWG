@@ -151,8 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
         name: 'Sebastian Aguiar Køster',
         role: 'Developer & Builder',
         image: 'img/profile-pic.png',
-        linkedin: 'https://linkedin.com/in/sebastian-profile',
-        instagram: 'https://instagram.com/sebastian-profile',
+        linkedin: 'https://www.linkedin.com/in/sebastian-køster-34802524b/',
+        instagram: 'https://www.instagram.com/kosterkoster_/',
         bio: `
           <p>Sebastian is the technical backbone of Kind of Whimsical Games, bringing skills of programming expertise and a passion for elegant code architecture to every project. His journey into game development began with a love for solving complex problems, webdevelopment and creating interactive experiences that players can truly connect with.</p>
           
@@ -204,8 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
         name: 'Julie Hindkjær',
         role: 'Writer & Concept Artist',
         image: 'img/Julie-Hindkjaer-1-jpg.webp',
-        linkedin: 'https://linkedin.com/in/julie-profile',
-        instagram: 'https://instagram.com/julie-profile',
+        linkedin: 'https://www.linkedin.com/in/juliehindkjaer/?originalSubdomain=dk',
+        instagram: 'https://www.instagram.com/julespoe/',
         bio: `
           <p>Julie is the creative heart of Kind of Whimsical Games, weaving stories and crafting visuals that bring emotional depth to every project. Her background in literature and visual arts creates a unique perspective that bridges narrative and aesthetic design, ensuring that every game tells a compelling story through both words and imagery.</p>
           
