@@ -181,7 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         date: 'March 2025',
                         text: 'Initial prototype under development. Getting feedback from playtesting sessions.'
                     }
-                ]
+                ],
+                hasDemo: false
             },
             brothers: {
                 title: 'Project Brothers',
@@ -222,7 +223,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         date: 'March 2025',
                         text: 'Initial concept phase. Exploring investigation mechanics and story structure.'
                     }
-                ]
+                ],
+                hasDemo: false
             },
             dcp: {
                 title: 'Project DCP',
@@ -262,11 +264,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         text: 'Project greenlit. Beginning development of core systems and art pipeline.'
                     }
                 ],
-                hasDemo: true
+                hasDemo: false
             }
         };
 
-        // NEW: Simple and reliable book opening function
+        
         function openGameModal(gameId) {
             const game = gameData[gameId];
             if (!game) return;
