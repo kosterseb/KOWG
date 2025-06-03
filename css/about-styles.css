@@ -453,6 +453,20 @@ p {
   display: block;
 }
 
+.value-icon img {
+width: 100%;
+}
+
+.value-icon-last {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.value-icon-last img {
+  width: 43%;
+}
+
 .value-card h3 {
   color: var(--accent-color);
   margin-bottom: 1rem;

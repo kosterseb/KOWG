@@ -447,6 +447,10 @@ p {
   margin-bottom: 1rem;
 }
 
+.philosophy-icon img {
+  width: 65%;
+}
+
 .philosophy-card h3 {
   color: var(--accent-color);
   margin-bottom: 1rem;

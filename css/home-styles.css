@@ -588,8 +588,8 @@ p {
 
 /* Floating image positions */
 #float-img-1 {
-  top: 25%;
-  left: 30%;
+  top: 23%;
+  left: 28%;
 }
 
 #float-img-1 img {
@@ -597,13 +597,13 @@ p {
 }
 
 #float-img-2 {
-  top: 20%;
-  right: 22%;
+  top: 22%;
+  right: 20%;
 }
 
 #float-img-3 {
   bottom: 50%;
-  left: 20%;
+  left: 17%;
 }
 
 #float-img-3 img {
@@ -612,18 +612,18 @@ p {
 
 #float-img-4 {
   bottom: 30%;
-  left: 23%;
+  left: 21%;
 }
 
 #float-img-5 {
   bottom: 40%;
-  left: 65%;
+  left: 63%;
 }
 
 #float-img-5 img {
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
-  width: 40%;
+  width: 30%;
 }
 
 #float-img-6 {
@@ -632,14 +632,14 @@ p {
 }
 
 #float-img-7 {
-  top: 20%;
+  top: 15%;
   left: 40%;
 }
 
 /* News Section */
 .news-section {
   padding: 4rem 2rem;
-  max-width: 1600px;
+  max-width: 1500px;
   margin: 0 auto;
   width: 100%;
 }

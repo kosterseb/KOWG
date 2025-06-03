@@ -531,7 +531,7 @@ function showGamePortal() {
   portalOverlay.innerHTML = `
     <div class="portal-content">
       <div class="portal-logo">
-        <img src="img/Katten.png" alt="Secret Portal">
+        <img src="img/kowg_upper_logo.png" alt="Secret Portal">
       </div>
       <h2>🎮 Secret Discovered! 🎮</h2>
       <p>You've unlocked the hidden realm of KOWG!</p>
