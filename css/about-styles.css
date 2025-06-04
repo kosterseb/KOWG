@@ -1119,7 +1119,7 @@ width: 100%;
   
   .site-header {
     justify-content: flex-end;
-    padding: 1rem 2rem 1rem 1rem; /* More padding on the right for corner positioning */
+    padding: 1rem 2rem 1rem 1rem;
     align-items: center;
   }
 }
@@ -1152,15 +1152,6 @@ width: 100%;
     padding: 0.8rem 1rem 0.8rem 1rem;
   }
 }
-
-/* =============================================================================
-   MOBILE LOGO STYLES FOR BURGER MENU
-   Add this CSS to ALL your burger menu sections in:
-   - home-styles.css
-   - games-styles.css  
-   - about-styles.css
-   - contact-styles.css
-   ============================================================================= */
 
 /* Mobile Logo in Burger Menu */
 .mobile-logo-container {
@@ -1236,11 +1227,6 @@ width: 100%;
     margin-bottom: 1.5rem;
   }
 }
-
-/* =============================================================================
-   ENHANCED CSS FOR SPECTACULAR BURGER MENU ANIMATIONS
-   Add this to your existing burger menu CSS in ALL pages
-   ============================================================================= */
 
 /* Enhanced Decorative Elements */
 .mobile-nav-decoration {
@@ -1526,7 +1512,7 @@ width: 100%;
 
 @media (max-width: 480px) {
   .mobile-logo-wrapper {
-    width: 180px; /* Your preferred size */
+    width: 180px;
     height: 180px;
   }
   
@@ -1569,22 +1555,22 @@ width: 100%;
 
 /* Smaller phones - Burger menu */
 @media (max-width: 375px) {
-  /* Mobile Navigation Menu Fixes */
+  /* Mobile Navigation Menu */
   .mobile-nav-link {
-    font-size: 1.4rem !important; /* Smaller text */
-    letter-spacing: 1px; /* Less spacing */
-    padding: 0.8rem 1.5rem; /* Smaller padding */
+    font-size: 1.4rem !important;
+    letter-spacing: 1px;
+    padding: 0.8rem 1.5rem;
   }
   
   .mobile-nav-links li {
-    margin: 1rem 0; /* Less margin between items */
+    margin: 1rem 0;
   }
   
-  /* Mobile Logo - Much smaller for iPhone SE */
+  /* Mobile Logo */
   .mobile-logo-wrapper {
     width: 80px !important;
     height: 80px !important;
-    border: 2px solid var(--accent-color) !important; /* Thinner border */
+    border: 2px solid var(--accent-color) !important;
   }
   
   .mobile-logo-container {

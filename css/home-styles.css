@@ -96,7 +96,7 @@ p {
   gap: 1.5rem;
 }
 
-/* CLEAN LOGO WRAPPER - No conflicting styles */
+/* CLEAN LOGO WRAPPER */
 .logo-wrapper {
   width: 100px;
   height: 100px;
@@ -196,10 +196,6 @@ p {
 .nav-link.active {
   color: var(--accent-color);
 }
-
-/* =============================================================================
-   ENHANCED BURGER MENU - MATCHING ABOUT-STYLES.CSS
-   ============================================================================= */
 
 /* Whimsical Burger Menu - Hidden by default */
 .burger-menu {
@@ -577,10 +573,6 @@ p {
 .mobile-logo-wrapper:hover .mobile-logo-img {
   transform: scale(1.1) rotate(2deg);
 }
-
-/* =============================================================================
-   END OF ENHANCED BURGER MENU SECTION
-   ============================================================================= */
 
 /* Main Content */
 .home-content {
@@ -1222,10 +1214,6 @@ p {
   opacity: 0.8;
 }
 
-/* =============================================================================
-   RESPONSIVE DESIGN
-   ============================================================================= */
-
 @media (max-width: 1200px) {
   .logo-display {
     width: 900px;
@@ -1236,7 +1224,7 @@ p {
   }
 }
 
-/* Mobile Logo Override - Clean approach */
+/* Mobile Logo Override */
 @media screen and (max-width: 968px) {
   /* Show burger menu, hide desktop nav */
   .burger-menu {
@@ -1481,14 +1469,14 @@ p {
   }
   
   .mobile-nav-links li {
-    margin: 1rem 0; /* Less margin between items */
+    margin: 1rem 0; 
   }
   
-  /* Mobile Logo - Much smaller for iPhone SE */
+  /* Mobile Logo */
   .mobile-logo-wrapper {
     width: 80px !important;
     height: 80px !important;
-    border: 2px solid var(--accent-color) !important; /* Thinner border */
+    border: 2px solid var(--accent-color) !important; 
   }
   
   .mobile-logo-container {
@@ -1516,8 +1504,8 @@ p {
     height: 2px !important;
   }
   
-  /* Hero Section Fixes */
+  /* Hero Section */
   .home-hero {
-    padding: 4rem 0.8rem 2rem !important; /* Less side padding */
+    padding: 4rem 0.8rem 2rem !important;
   }
 }
