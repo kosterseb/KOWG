@@ -1,4 +1,4 @@
-// Complete Homepage JavaScript with Improved News Slider
+// Homepage JavaScript
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize GSAP
   gsap.config({
@@ -31,14 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     onComplete: () => {
       initNewsModal();
       setTimeout(() => {
-        initImprovedNewsSlider(); // Updated function name
+        initImprovedNewsSlider();
       }, 500);
     }
   });
   
   loadingTimeline
     .set('.background-pattern', { autoAlpha: 1 })
-    .to({}, { duration: 0.8 }) // Pause for particles
+    .to({}, { duration: 0.8 })
     .from('.logo-svg3', { 
       duration: 0.8, 
       scale: 0, 

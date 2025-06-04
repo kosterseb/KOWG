@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   loadingTimeline
     .set('.background-pattern', { autoAlpha: 1 })
-    .to({}, { duration: 0.5 }) // Brief pause for particles
+    .to({}, { duration: 0.5 }) 
     .from('.logo-svg3', { 
       duration: 0.8, 
       scale: 0, 
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(particleContainer);
     
     const colors = ['#1abc9c', '#f1c40f', '#ecf0f1'];
-    const particleCount = 20; // Even fewer particles
+    const particleCount = 20; 
     
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
@@ -360,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Step 3: Show modal backdrop
       modalBackdrop.classList.add('active');
       
-      // Step 4: Animate in with fresh timeline (using .to() not .from())
+      // Step 4: Animate in with fresh timeline
       const openTimeline = gsap.timeline();
       
       openTimeline

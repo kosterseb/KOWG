@@ -1,8 +1,7 @@
-// Whimsical Burger Menu System for KOWG - WITH SPECTACULAR ANIMATIONS
-// This file can be included on all pages for consistent mobile navigation
+
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🍔 Initializing whimsical burger menu system with spectacular animations');
+    console.log('Initializing whimsical burger menu system with spectacular animations');
     
     // Initialize burger menu
     initBurgerMenu();
@@ -125,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Add mobile nav overlay to body
       document.body.appendChild(mobileNavOverlay);
       
-      console.log('✅ Burger menu HTML created with enhanced animation structure');
+      console.log('Burger menu HTML created with enhanced animation structure');
     }
     
     function setupBurgerMenuEvents() {
@@ -189,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
           animateMenuClose();
         }
         
-        console.log(`🍔 Menu ${open ? 'opened' : 'closed'} with spectacular animations`);
+        console.log(`Menu ${open ? 'opened' : 'closed'} with spectacular animations`);
       }
       
       // 🎭 SPECTACULAR OPENING ANIMATION
@@ -356,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 0.2);
       }
       
-      // 🎭 SPECTACULAR CLOSING ANIMATION
+      // SPECTACULAR CLOSING ANIMATION
       function animateMenuClose() {
         closeTimeline = gsap.timeline();
         
@@ -432,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 0.2);
       }
       
-      console.log('✅ Spectacular burger menu animations setup complete');
+      console.log('Spectacular burger menu animations setup complete');
     }
     
     // Enhanced hover effects for burger menu
@@ -555,5 +554,5 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     
-    console.log('🎯 Spectacular whimsical burger menu system fully initialized');
+    console.log('Spectacular whimsical burger menu system fully initialized');
   });

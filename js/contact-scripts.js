@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadingTimeline
         .set('.background-pattern', { autoAlpha: 1 })
-        .to({}, { duration: 0.5 }) // Brief pause for particles
+        .to({}, { duration: 0.5 }) 
         .from('.logo-svg3', {
             duration: 0.8,
             scale: 0,

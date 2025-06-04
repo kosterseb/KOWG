@@ -1,4 +1,4 @@
-// Complete Hidden Feature System with WORKING Explosion Effect
+// Complete Hidden Feature System
 let canvas = document.querySelector("#canvas");
 let ctx = canvas.getContext("2d");
 
@@ -204,7 +204,7 @@ function resetDiscoverySequence() {
   
   updateLogoAppearance();
   
-  // NEW: Also reset main logo glow when sequence resets
+  // Also reset main logo glow when sequence resets
   updateMainLogoGlow();
 }
 
@@ -255,7 +255,7 @@ function detectCircularMotion() {
   
   if (Math.abs(totalRotation) > threshold && !circularMotionDetected) {
     circularMotionDetected = true;
-    console.log('🎉 Circular motion detected!');
+    console.log('Circular motion detected!');
     
     if (discoveryLevel >= 1) {
       advanceDiscovery();
@@ -287,11 +287,11 @@ function updateLogoAppearance() {
     logoWrapper.style.cursor = 'default';
   }
   
-  // NEW: Apply main logo glow effects based on discovery level
+  // Apply main logo glow effects based on discovery level
   updateMainLogoGlow();
 }
 
-// NEW: Main logo glow effect function - LIGHTWEIGHT VERSION
+// Main logo glow effect function
 function updateMainLogoGlow() {
   const logoSvg = document.querySelector('.logo-svg');
   const logoSvg2 = document.querySelector('.logo-svg2');
@@ -302,7 +302,7 @@ function updateMainLogoGlow() {
   logoSvg.classList.remove('main-logo-glow-level-3');
   logoSvg2.classList.remove('main-logo-glow-level-3');
   
-  // Apply LIGHTWEIGHT glow effects ONLY at level 3
+  // Apply glow effects ONLY at level 3
   if (discoveryLevel >= 3) {
     // Level 3: Both logos get subtle glow - much more performance friendly
     logoSvg.classList.add('main-logo-glow-level-3');
@@ -314,9 +314,9 @@ function updateMainLogoGlow() {
 function showDiscoveryMessage() {
   const messages = [
     '',
-    'Something magical is stirring...',
-    'The power grows stronger...',
-    'Click to unlock the secret!'
+    'Something is stirring...',
+    'Power grows stronger...',
+    'Click to unlock!'
   ];
   
   // Create or update hint element
@@ -489,7 +489,7 @@ function createCleanExplosionEffect() {
 
 // Clean up discovery effects (not particles)
 function cleanupDiscoveryEffects() {
-  console.log('🧹 Cleaning up discovery effects');
+  console.log('Cleaning up discovery effects');
   
   // Clear all normal particles (but don't interfere with explosion)
   particles = [];
