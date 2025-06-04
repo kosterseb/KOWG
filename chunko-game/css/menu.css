@@ -375,6 +375,11 @@ label {
   font-family: "IBM Plex Mono", monospace;
 }
 
+.credits a {
+text-decoration: none;
+color: #f4e4c1;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .game-title h1 {

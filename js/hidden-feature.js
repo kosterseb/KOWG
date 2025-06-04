@@ -548,7 +548,8 @@ function showGamePortal() {
   // Handle portal interactions
   
   portalOverlay.querySelector('.enter-game-btn').addEventListener('click', () => {
-    window.location.href = 'chunko-game/index.html';
+    window.open('chunko-game/index.html', '_blank');
+    console.log('Button clicked!')
   });
   
   portalOverlay.querySelector('.close-portal-btn').addEventListener('click', () => {

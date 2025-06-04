@@ -1566,3 +1566,54 @@ width: 100%;
     transition: none;
   }
 }
+
+/* Smaller phones - Burger menu */
+@media (max-width: 375px) {
+  /* Mobile Navigation Menu Fixes */
+  .mobile-nav-link {
+    font-size: 1.4rem !important; /* Smaller text */
+    letter-spacing: 1px; /* Less spacing */
+    padding: 0.8rem 1.5rem; /* Smaller padding */
+  }
+  
+  .mobile-nav-links li {
+    margin: 1rem 0; /* Less margin between items */
+  }
+  
+  /* Mobile Logo - Much smaller for iPhone SE */
+  .mobile-logo-wrapper {
+    width: 80px !important;
+    height: 80px !important;
+    border: 2px solid var(--accent-color) !important; /* Thinner border */
+  }
+  
+  .mobile-logo-container {
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Social Icons - Smaller */
+  .mobile-social-icons .social-icon {
+    width: 35px !important;
+    height: 35px !important;
+  }
+  
+  .mobile-social-icons {
+    gap: 0.8rem !important;
+    margin-top: 2rem !important;
+  }
+  
+  /* Burger Menu - Smaller */
+  .burger-menu {
+    padding: 0.2rem !important;
+  }
+  
+  .burger-line {
+    width: 22px !important;
+    height: 2px !important;
+  }
+  
+  /* Hero Section Fixes */
+  .home-hero {
+    padding: 4rem 0.8rem 2rem !important; /* Less side padding */
+  }
+}

@@ -1,4 +1,4 @@
-// Clean Homepage JavaScript with News Slider
+// Complete Homepage JavaScript with Improved News Slider
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize GSAP
   gsap.config({
@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Animation variables
   let logoAnimations = [];
   let floatingAnimations = [];
-  let sliderInterval = null;
   
   // Set initial states
   gsap.set('.floating-image', { 
@@ -32,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     onComplete: () => {
       initNewsModal();
       setTimeout(() => {
-        initNewsSlider(); // Changed from initNewsMarquee to initNewsSlider
+        initImprovedNewsSlider(); // Updated function name
       }, 500);
     }
   });
@@ -205,80 +204,114 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(style);
   }
   
-  // News slider initialization (replaces marquee)
-  function initNewsSlider() {
+  // IMPROVED NEWS SLIDER - Much cleaner and more reliable
+  function initImprovedNewsSlider() {
     const newsContainer = document.querySelector('.news-container');
+    const newsSection = document.querySelector('.news-marquee-container');
     
-    if (!newsContainer) return;
+    if (!newsContainer || !newsSection) {
+      console.warn('News slider elements not found');
+      return;
+    }
     
     const newsItems = document.querySelectorAll('.news-item');
-    if (newsItems.length === 0) return;
+    if (newsItems.length === 0) {
+      console.warn('No news items found');
+      return;
+    }
     
-    console.log('🎠 Initializing news slider');
+    console.log('🎠 Initializing improved news slider');
     
-    // Remove any existing cloned items from marquee
-    const existingClones = document.querySelectorAll('.news-item-clone');
-    existingClones.forEach(clone => clone.remove());
-    
-    // Slider variables
+    // Slider state
     let currentSlide = 0;
-    let isAutoPlaying = true;
-    let autoPlayInterval;
-    const slidesToShow = calculateSlidesToShow();
-    const maxSlide = Math.max(0, newsItems.length - slidesToShow);
+    let autoPlayInterval = null;
+    let isUserInteracting = false;
     
-    // Calculate how many slides to show based on container width
-    function calculateSlidesToShow() {
-      const containerWidth = newsContainer.parentElement.offsetWidth;
-      const itemWidth = 180 + 24; // item width + gap
-      return Math.floor(containerWidth / itemWidth);
+    // Configuration
+    const config = {
+      itemWidth: 180,
+      gap: 24,
+      autoPlayDelay: 4000,
+      transitionDuration: 500
+    };
+    
+    // Calculate visible slides based on container width
+    function calculateVisibleSlides() {
+      const containerWidth = newsSection.offsetWidth - 48; // Account for padding
+      const slideWidth = config.itemWidth + config.gap;
+      return Math.floor(containerWidth / slideWidth);
     }
     
-    // Set up slider structure
-    function setupSlider() {
-      // Reset container styles for slider
-      newsContainer.style.cssText = `
-        display: flex;
-        gap: 1.5rem;
-        transition: transform 0.5s ease-in-out;
-        transform: translateX(0);
-      `;
+    // Get maximum slide index
+    function getMaxSlide() {
+      const visibleSlides = calculateVisibleSlides();
+      const maxSlide = Math.max(0, newsItems.length - visibleSlides - 2); // Subtract 2 to fix bounds
+      console.log(`Max slide calculated: ${maxSlide} (visible: ${visibleSlides}, total: ${newsItems.length})`);
+      return maxSlide;
+    }
+    
+    // Update slider position smoothly
+    function updateSliderPosition(animate = true) {
+      const translateX = -(currentSlide * (config.itemWidth + config.gap));
       
-      console.log(`📊 Slider setup: ${slidesToShow} slides visible, max slide: ${maxSlide}`);
-    }
-    
-    // Update slider position
-    function updateSliderPosition() {
-      const translateX = -(currentSlide * (180 + 24)); // item width + gap
+      if (animate) {
+        newsContainer.style.transition = `transform ${config.transitionDuration}ms ease-in-out`;
+      } else {
+        newsContainer.style.transition = 'none';
+      }
+      
       newsContainer.style.transform = `translateX(${translateX}px)`;
       
-      console.log(`🔄 Moved to slide ${currentSlide}`);
+      // Update dots if they exist
+      updateDots();
+      
+      console.log(`📍 Moved to slide ${currentSlide}`);
     }
     
-    // Go to next slide
+    // Navigation functions
     function nextSlide() {
+      const maxSlide = getMaxSlide();
+      
       if (currentSlide < maxSlide) {
         currentSlide++;
       } else {
         currentSlide = 0; // Loop back to start
       }
+      
       updateSliderPosition();
     }
     
-    // Go to previous slide
     function prevSlide() {
+      const maxSlide = getMaxSlide();
+      
       if (currentSlide > 0) {
         currentSlide--;
       } else {
         currentSlide = maxSlide; // Loop to end
       }
+      
+      updateSliderPosition();
+    }
+    
+    function goToSlide(slideIndex) {
+      const maxSlide = getMaxSlide();
+      currentSlide = Math.max(0, Math.min(slideIndex, maxSlide));
       updateSliderPosition();
     }
     
     // Auto-play functionality
     function startAutoPlay() {
-      if (maxSlide > 0) { // Only auto-play if there are slides to move
-        autoPlayInterval = setInterval(nextSlide, 4000); // Change every 4 seconds
+      if (autoPlayInterval) stopAutoPlay();
+      
+      const maxSlide = getMaxSlide();
+      if (maxSlide > 0 && !isUserInteracting) {
+        autoPlayInterval = setInterval(() => {
+          if (!isUserInteracting) {
+            nextSlide();
+          }
+        }, config.autoPlayDelay);
+        
+        console.log('▶️ Auto-play started');
       }
     }
     
@@ -286,16 +319,37 @@ document.addEventListener('DOMContentLoaded', () => {
       if (autoPlayInterval) {
         clearInterval(autoPlayInterval);
         autoPlayInterval = null;
+        console.log('⏸️ Auto-play stopped');
       }
     }
     
-    // Add navigation controls
-    function addSliderControls() {
-      const newsSection = document.querySelector('.news-marquee-container');
-      if (!newsSection) return;
+    // User interaction handlers
+    function handleUserInteraction() {
+      isUserInteracting = true;
+      stopAutoPlay();
       
-      // Only add controls if we have slides to navigate
-      if (maxSlide === 0) return;
+      // Resume auto-play after 3 seconds of no interaction
+      setTimeout(() => {
+        isUserInteracting = false;
+        startAutoPlay();
+      }, 3000);
+    }
+    
+    // Create navigation controls
+    function createControls() {
+      const maxSlide = getMaxSlide();
+      
+      // Only create controls if we need them
+      if (maxSlide === 0) {
+        console.log('All slides visible, no controls needed');
+        return;
+      }
+      
+      // Remove existing controls
+      const existingControls = newsSection.querySelector('.slider-controls');
+      if (existingControls) {
+        existingControls.remove();
+      }
       
       const controlsHtml = `
         <div class="slider-controls">
@@ -307,82 +361,176 @@ document.addEventListener('DOMContentLoaded', () => {
       
       newsSection.insertAdjacentHTML('beforeend', controlsHtml);
       
-      // Add dots
-      const dotsContainer = document.querySelector('.slider-dots');
+      // Create dots
+      const dotsContainer = newsSection.querySelector('.slider-dots');
       for (let i = 0; i <= maxSlide; i++) {
         const dot = document.createElement('span');
         dot.className = `slider-dot ${i === 0 ? 'active' : ''}`;
-        dot.addEventListener('click', () => goToSlide(i));
+        dot.addEventListener('click', () => {
+          goToSlide(i);
+          handleUserInteraction();
+        });
         dotsContainer.appendChild(dot);
       }
       
-      // Add button event listeners
-      document.querySelector('.slider-prev').addEventListener('click', () => {
+      // Button event listeners
+      const prevBtn = newsSection.querySelector('.slider-prev');
+      const nextBtn = newsSection.querySelector('.slider-next');
+      
+      prevBtn.addEventListener('click', () => {
         prevSlide();
-        updateDots();
-        stopAutoPlay();
-        setTimeout(startAutoPlay, 2000); // Resume auto-play after 2 seconds
+        handleUserInteraction();
       });
       
-      document.querySelector('.slider-next').addEventListener('click', () => {
+      nextBtn.addEventListener('click', () => {
         nextSlide();
-        updateDots();
-        stopAutoPlay();
-        setTimeout(startAutoPlay, 2000);
+        handleUserInteraction();
       });
-    }
-    
-    // Go to specific slide
-    function goToSlide(slideIndex) {
-      currentSlide = slideIndex;
-      updateSliderPosition();
-      updateDots();
-      stopAutoPlay();
-      setTimeout(startAutoPlay, 2000);
+      
+      console.log('🎮 Controls created');
     }
     
     // Update dot indicators
     function updateDots() {
-      const dots = document.querySelectorAll('.slider-dot');
+      const dots = newsSection.querySelectorAll('.slider-dot');
       dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentSlide);
       });
     }
     
-    // Pause on hover
+    // Handle mouse interactions for pause/resume
     function addHoverControls() {
       newsContainer.addEventListener('mouseenter', () => {
-        if (isAutoPlaying) stopAutoPlay();
+        isUserInteracting = true;
+        stopAutoPlay();
       });
       
       newsContainer.addEventListener('mouseleave', () => {
-        if (isAutoPlaying && maxSlide > 0) startAutoPlay();
+        isUserInteracting = false;
+        startAutoPlay();
       });
+    }
+    
+    // Setup initial styles
+    function setupSliderStyles() {
+      newsContainer.style.cssText = `
+        display: flex;
+        gap: ${config.gap}px;
+        transition: transform ${config.transitionDuration}ms ease-in-out;
+        transform: translateX(0);
+      `;
     }
     
     // Handle window resize
     function handleResize() {
-      const newSlidesToShow = calculateSlidesToShow();
-      if (newSlidesToShow !== slidesToShow) {
-        // Reinitialize if layout changed significantly
-        stopAutoPlay();
-        initNewsSlider();
-      }
+      // Debounce resize events
+      clearTimeout(handleResize.timeout);
+      handleResize.timeout = setTimeout(() => {
+        const maxSlide = getMaxSlide();
+        
+        // Ensure current slide is still valid
+        if (currentSlide > maxSlide) {
+          currentSlide = maxSlide;
+        }
+        
+        // Update position without animation during resize
+        updateSliderPosition(false);
+        
+        // Recreate controls if needed
+        createControls();
+        
+        console.log('🔄 Slider resized');
+      }, 250);
     }
     
-    // Initialize slider
-    setupSlider();
-    addSliderControls();
-    addHoverControls();
-    startAutoPlay();
+    // Initialize keyboard navigation
+    function addKeyboardControls() {
+      document.addEventListener('keydown', (e) => {
+        // Only handle if the news section is in view
+        const rect = newsSection.getBoundingClientRect();
+        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (!isInView) return;
+        
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          prevSlide();
+          handleUserInteraction();
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          nextSlide();
+          handleUserInteraction();
+        }
+      });
+    }
     
-    // Store interval reference for cleanup
-    sliderInterval = autoPlayInterval;
+    // Touch/swipe support for mobile
+    function addTouchControls() {
+      let startX = 0;
+      let endX = 0;
+      
+      newsContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isUserInteracting = true;
+        stopAutoPlay();
+      });
+      
+      newsContainer.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        
+        const diffX = startX - endX;
+        const threshold = 50; // Minimum swipe distance
+        
+        if (Math.abs(diffX) > threshold) {
+          if (diffX > 0) {
+            nextSlide(); // Swipe left - next slide
+          } else {
+            prevSlide(); // Swipe right - previous slide
+          }
+        }
+        
+        handleUserInteraction();
+      });
+    }
     
-    // Add resize listener
-    window.addEventListener('resize', handleResize);
+    // Public API for manual control
+    window.newsSlider = {
+      next: nextSlide,
+      prev: prevSlide,
+      goTo: goToSlide,
+      play: startAutoPlay,
+      pause: stopAutoPlay,
+      getCurrentSlide: () => currentSlide,
+      getMaxSlide: getMaxSlide
+    };
     
-    console.log('✅ News slider initialized successfully');
+    // Initialize everything
+    function init() {
+      setupSliderStyles();
+      createControls();
+      addHoverControls();
+      addKeyboardControls();
+      addTouchControls();
+      updateSliderPosition(false);
+      startAutoPlay();
+      
+      // Add resize listener
+      window.addEventListener('resize', handleResize);
+      
+      console.log('✅ News slider initialized successfully');
+      console.log(`📊 Visible slides: ${calculateVisibleSlides()}, Max slide: ${getMaxSlide()}`);
+    }
+    
+    // Start initialization
+    init();
+    
+    // Return cleanup function
+    return function cleanup() {
+      stopAutoPlay();
+      window.removeEventListener('resize', handleResize);
+      delete window.newsSlider;
+      console.log('🧹 News slider cleaned up');
+    };
   }
   
   // News modal functionality
@@ -556,7 +704,6 @@ document.addEventListener('DOMContentLoaded', () => {
       floatingAnimations.forEach(anim => {
         if (anim && anim.pause) anim.pause();
       });
-      if (sliderInterval) clearInterval(sliderInterval);
     } else {
       logoAnimations.forEach(anim => {
         if (anim && anim.resume) anim.resume();
@@ -564,14 +711,11 @@ document.addEventListener('DOMContentLoaded', () => {
       floatingAnimations.forEach(anim => {
         if (anim && anim.resume) anim.resume();
       });
-      // Slider will auto-restart on mouse interaction
     }
   });
 });
 
 // Whimsical Burger Menu System for KOWG
-// This file can be included on all pages for consistent mobile navigation
-
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🍔 Initializing whimsical burger menu system');
     
