@@ -132,4 +132,20 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
       display: none;
     }
   }
+
+  @media (max-width: 440px) {
+    ul {
+      gap: 0;
+    }
+
+    nav a {
+      padding-inline: 0.4rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+    }
+
+    .brand img {
+      width: 40px;
+    }
+  }
 </style>

@@ -1,11 +1,8 @@
 ---
 import { Image } from 'astro:assets';
-import { site, socialLabels, type SocialKey } from '../site';
+import { site } from '../site';
 import gnome from '../assets/art/gnome-bard.png';
 
-const socials = (Object.keys(site.socials) as SocialKey[])
-  .filter((k) => site.socials[k])
-  .map((k) => ({ label: socialLabels[k], url: site.socials[k] }));
 const year = new Date().getFullYear();
 ---
 
@@ -14,22 +11,9 @@ const year = new Date().getFullYear();
     <path d="M0 24 H1440 V12 C1320 2 1200 18 1060 10 C920 2 800 18 660 10 C520 2 400 18 260 11 C150 5 70 14 0 9 Z"></path>
   </svg>
   <div class="wrap row">
-    <div class="sign">
-      <p class="display name">Kinda Whimsical Games</p>
-      <p class="tag">Drawn by hand, built by two.</p>
-    </div>
-    <ul>
-      <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-      {
-        socials.map((s) => (
-          <li>
-            <a href={s.url} rel="me noopener" target="_blank">
-              {s.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+    <p class="display name">Kinda Whimsical Games</p>
+    <p>Copenhagen, Denmark</p>
+    <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
     <p class="small">© {year}</p>
   </div>
   <Image class="fish" src={gnome} alt="" width={160} densities={[1, 2]} />
@@ -39,7 +23,7 @@ const year = new Date().getFullYear();
   .site-footer {
     position: relative;
     margin-top: var(--space-xl);
-    padding-block: var(--space-l);
+    padding-block: 2rem;
     background: var(--plum);
     color: var(--chalk);
   }
@@ -56,31 +40,26 @@ const year = new Date().getFullYear();
   .row {
     display: flex;
     flex-wrap: wrap;
-    align-items: start;
-    justify-content: space-between;
-    gap: var(--space-m);
+    align-items: baseline;
+    gap: 0.5rem 2.5rem;
+    padding-right: 140px;
   }
 
-  .name {
-    font-size: 1.1rem;
+  .row p {
+    margin: 0;
+    font-size: var(--step--1);
   }
 
-  .tag,
+  .row .name {
+    font-size: 1rem;
+  }
+
   .small {
     color: color-mix(in oklab, var(--chalk) 70%, var(--plum));
   }
 
   .small {
     font-size: var(--step--1);
-  }
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.25rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
   }
 
   a {
@@ -101,6 +80,12 @@ const year = new Date().getFullYear();
   }
 
   @media (max-width: 640px) {
+    .row {
+      flex-direction: column;
+      gap: 0.35rem;
+      padding-right: 90px;
+    }
+
     .fish {
       width: 84px;
       top: -40px;
