@@ -1,0 +1,124 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('news', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+interface Props {
+  post: CollectionEntry<'news'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, date, summary, image, imageAlt, sticker } = post.data;
+const game = post.data.game ? await getEntry(post.data.game) : undefined;
+const accent = game?.data.color ?? '#F5B48C';
+
+const art = import.meta.glob<{ default: ImageMetadata }>('../../assets/art/*.png', { eager: true });
+const stickerImg = sticker ? art[`../../assets/art/${sticker}.png`]?.default : undefined;
+const dateLabel = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Base title={title} description={summary} image={image}>
+  <article class="wrap post" style={`--accent:${accent}`}>
+    <a class="back" href="/news/">All news</a>
+    <header>
+      <p class="meta">
+        <time datetime={date.toISOString()}>{dateLabel}</time>
+        {game && <a href={`/games/${game.id}/`}>{game.data.title}</a>}
+      </p>
+      <h1>{title}</h1>
+      <p class="lede">{summary}</p>
+    </header>
+    {
+      image ? (
+        <img class="cover" src={image} alt={imageAlt ?? ''} />
+      ) : (
+        stickerImg && <Image class="sticker" src={stickerImg} alt="" width={240} densities={[1, 2]} />
+      )
+    }
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post {
+    --accent-ink: color-mix(in oklab, var(--accent) 55%, #2a1f3d);
+    position: relative;
+    display: grid;
+    gap: var(--space-l);
+    max-width: 760px;
+    padding-block: clamp(2rem, 6vw, 4rem) var(--space-l);
+  }
+
+  header {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .back {
+    font-weight: 600;
+    font-size: var(--step--1);
+    color: var(--ink-dim);
+    justify-self: start;
+  }
+
+  .meta {
+    display: flex;
+    gap: 0.75rem;
+    font-size: var(--step--1);
+    font-weight: 650;
+    color: var(--ink-dim);
+  }
+
+  .meta a {
+    color: var(--accent-ink);
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 1.4rem + 3.5vw, 3.8rem);
+  }
+
+  .cover {
+    width: 100%;
+    border: 3px solid var(--ink);
+    border-radius: var(--wobble-radius);
+    box-shadow: 10px 10px 0 var(--accent);
+  }
+
+  .sticker {
+    position: absolute;
+    top: 1.5rem;
+    right: -4rem;
+    width: 170px;
+    rotate: 8deg;
+    animation: wiggle 0.8s ease-in-out 0.3s;
+  }
+
+  .prose {
+    font-size: 1.15rem;
+  }
+
+  .prose :global(ul) {
+    padding-left: 1.2rem;
+  }
+
+  .prose :global(li + li) {
+    margin-top: 0.4rem;
+  }
+
+  @media (max-width: 1000px) {
+    .sticker {
+      position: static;
+      width: 130px;
+      order: -1;
+    }
+  }
+</style>

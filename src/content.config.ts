@@ -1,4 +1,4 @@
-import { defineCollection } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
@@ -31,4 +31,21 @@ const games = defineCollection({
   }),
 });
 
-export const collections = { games };
+const news = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    summary: z.string(),
+    /** Optional cover image in public/, e.g. /media/news/devlog-1.jpg */
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    /** Drawing from src/assets/art used when there is no image. */
+    sticker: z.string().optional(),
+    /** Link the post to a game (file name in src/content/games) to borrow its colour. */
+    game: reference('games').optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { games, news };

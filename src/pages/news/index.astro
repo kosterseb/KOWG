@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import NewsCard from '../../components/NewsCard.astro';
+
+const posts = (await getCollection('news', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<Base title="News" description="Updates, devlogs and clips from Kinda Whimsical Games.">
+  <header class="wrap intro">
+    <h1>News</h1>
+    <p class="lede">Updates, devlogs and first looks at what we're making.</p>
+  </header>
+  <div class="wrap grid">
+    {posts.map((post, i) => <NewsCard post={post} index={i} />)}
+  </div>
+</Base>
+
+<style>
+  .intro {
+    display: grid;
+    gap: var(--space-m);
+    padding-block: clamp(2rem, 6vw, 4.5rem) var(--space-l);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: clamp(2.5rem, 4vw, 3.5rem) clamp(1.75rem, 3vw, 2.5rem);
+    padding-top: 1rem;
+  }
+</style>

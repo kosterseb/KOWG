@@ -3,9 +3,9 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ClipFrame from '../components/ClipFrame.astro';
+import NewsCard from '../components/NewsCard.astro';
+import { site } from '../site';
 import logo from '../assets/art/logo-full.png';
-import sebastian from '../assets/team/sebastian.png';
-import julie from '../assets/team/julie.png';
 import fox from '../assets/art/fox.png';
 import cat from '../assets/art/cat.png';
 import wizard from '../assets/art/wizard.png';
@@ -17,6 +17,10 @@ import card from '../assets/art/card-arrow.png';
 import catKnight from '../assets/art/cat-knight.png';
 
 const games = (await getCollection('games', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+const news = (await getCollection('news', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+const hv = site.heroVideo;
 
 // Characters floating around the logo. x/y are % of the hero, w is width in px,
 // d is parallax depth, m marks the few that stay on small screens.
@@ -55,7 +59,17 @@ const floaters = [
     })();
   </script>
 
-  <section class="hero" id="hero" aria-labelledby="hero-title">
+  <section class="hero" id="hero" aria-labelledby="hero-title" style={`--wash:${hv.wash}`}>
+    {
+      hv.mp4 && (
+        <div class="hero-video" aria-hidden="true">
+          <video data-loop muted loop playsinline preload="metadata" poster={hv.poster || undefined}>
+            {hv.webm && <source src={hv.webm} type="video/webm" />}
+            <source src={hv.mp4} type="video/mp4" />
+          </video>
+        </div>
+      )
+    }
     <div class="floaters" aria-hidden="true">
       {
         floaters.map((f, i) => (
@@ -81,7 +95,7 @@ const floaters = [
         loading="eager"
         fetchpriority="high"
       />
-      <h1 id="hero-title" class="hero-title">Small games, drawn by&nbsp;hand</h1>
+      <h1 id="hero-title" class="hero-title">Odd little worlds, made with crayons and&nbsp;code</h1>
       <div class="btn-row hero-cta">
         <a class="btn" href="/games/">See our games</a>
         <a class="btn btn--ghost" href="/about/">Meet the studio</a>
@@ -89,44 +103,45 @@ const floaters = [
     </div>
   </section>
 
-  <section class="section wrap" aria-labelledby="games-title">
-    <div class="section-head">
-      <h2 id="games-title">On the drawing board</h2>
-      <a href="/games/">All {games.length} games</a>
-    </div>
-    <ul class="grid">
-      {
-        games.map((game, i) => (
-          <li
-            style={`--accent:${game.data.color}; --reveal-delay:${(i % 3) * 0.08}s; --reveal-tilt:${i % 2 ? 2 : -2}deg`}
-            data-reveal
-          >
-            <a class="card" href={`/games/${game.id}/`}>
-              <ClipFrame game={game} tilt={i % 2 ? 0.6 : -0.6} stickerSide={i % 2 ? 'left' : 'right'} />
-              <div class="card-text">
-                <h3>{game.data.title}</h3>
-                <p class="muted">{game.data.tagline}</p>
-                <p class="status">{game.data.status}</p>
-              </div>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+  {
+    news.length > 0 && (
+      <section class="section wrap news" aria-labelledby="news-title">
+        <div class="section-head">
+          <h2 id="news-title">Latest news</h2>
+          <a href="/news/">All news</a>
+        </div>
+        <div class="news-grid">
+          {news.map((post, i) => <NewsCard post={post} index={i} />)}
+        </div>
+      </section>
+    )
+  }
 
-  <section class="section wrap studio" aria-labelledby="studio-title" data-reveal>
-    <div class="faces">
-      <Image src={sebastian} alt="Sebastian" width={180} densities={[1, 2]} />
-      <Image src={julie} alt="Julie" width={180} densities={[1, 2]} />
-    </div>
-    <div>
-      <h2 id="studio-title">Two people, a lot of sketchbooks</h2>
-      <p class="lede">
-        We're a two-person studio in Copenhagen. Julie writes and draws, Sebastian programs and builds, and between us
-        we make the art, the code, the stories and the music.
-      </p>
-      <p><a class="btn btn--ghost" href="/about/">More about us</a></p>
+  <section class="section games" aria-labelledby="games-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="games-title">Our games</h2>
+        <a href="/games/">See them all</a>
+      </div>
+      <ul class="grid">
+        {
+          games.map((game, i) => (
+            <li
+              style={`--accent:${game.data.color}; --reveal-delay:${(i % 3) * 0.08}s; --reveal-tilt:${i % 2 ? 2 : -2}deg`}
+              data-reveal
+            >
+              <a class="card" href={`/games/${game.id}/`}>
+                <ClipFrame game={game} tilt={i % 2 ? 0.6 : -0.6} stickerSide={i % 2 ? 'left' : 'right'} />
+                <div class="card-text">
+                  <h3>{game.data.title}</h3>
+                  <p class="muted">{game.data.tagline}</p>
+                  <p class="status">{game.data.status}</p>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 </Base>
@@ -271,6 +286,26 @@ const floaters = [
     }
   }
 
+  .hero-video {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Paper wash over the video so the logo and text stay readable */
+  .hero-video::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--paper);
+    opacity: var(--wash);
+  }
+
   .floaters {
     position: absolute;
     inset: 0;
@@ -353,52 +388,30 @@ const floaters = [
     color: var(--accent-ink);
   }
 
-  /* ---------- Studio ---------- */
-  .studio {
+  /* ---------- News ---------- */
+  .news {
+    padding-top: var(--space-l);
+  }
+
+  .news-grid {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: center;
-    gap: clamp(2rem, 6vw, 5rem);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: clamp(2.5rem, 4vw, 3.5rem) clamp(1.75rem, 3vw, 2.5rem);
+    padding-top: 0.5rem;
   }
 
-  .studio > div:last-child {
-    display: grid;
-    gap: var(--space-m);
-    justify-items: start;
+  /* Games sit on a slightly darker sheet at the bottom of the page */
+  .games {
+    background: var(--paper-2);
+    margin-top: var(--space-l);
+    clip-path: polygon(0 18px, 12% 6px, 30% 16px, 48% 4px, 66% 14px, 84% 2px, 100% 12px, 100% 100%, 0 100%);
   }
 
-  .faces {
-    display: flex;
-  }
-
-  .faces img {
-    width: clamp(110px, 15vw, 160px);
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid var(--ink);
-    box-shadow: 4px 5px 0 var(--peach);
-    transition: transform 0.35s var(--bounce);
-  }
-
-  .faces img:first-child {
-    rotate: -4deg;
-  }
-
-  .faces img + img {
-    margin-left: -1.4rem;
-    rotate: 5deg;
-  }
-
-  .faces img:hover {
-    transform: translateY(-8px) scale(1.05);
+  :global(main:has(> .games:last-child) + .site-footer) {
+    margin-top: 0;
   }
 
   @media (max-width: 820px) {
-    .studio {
-      grid-template-columns: 1fr;
-    }
-
     .floater:not(.keep-mobile) {
       display: none;
     }

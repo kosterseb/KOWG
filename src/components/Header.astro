@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import duo from '../assets/art/duo.png';
 
 const links = [
+  { href: '/news/', label: 'News' },
   { href: '/games/', label: 'Games' },
   { href: '/about/', label: 'Studio' },
   { href: '/contact/', label: 'Contact' },
@@ -15,7 +16,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
   <div class="wrap bar">
     <a class="brand" href="/" aria-label="Kinda Whimsical Games, home">
       <Image src={duo} alt="" width={52} densities={[1, 2]} loading="eager" />
-      <span>Kinda Whimsical<br />Games</span>
+      <span>Kinda Whimsical Games</span>
     </a>
     <nav aria-label="Main">
       <ul>
@@ -70,13 +71,15 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
     font-family: var(--font-display);
     font-variation-settings: 'SOFT' 100, 'WONK' 1;
     font-weight: 750;
-    font-size: 0.95rem;
-    line-height: 1.02;
+    font-size: 1.05rem;
+    line-height: 1;
+    white-space: nowrap;
     letter-spacing: 0.02em;
     text-transform: uppercase;
   }
 
   .brand img {
+    flex-shrink: 0;
     width: 46px;
     height: auto;
   }
@@ -124,7 +127,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
     clip-path: inset(0 0 0 0);
   }
 
-  @media (max-width: 520px) {
+  @media (max-width: 760px) {
     .brand span {
       display: none;
     }
