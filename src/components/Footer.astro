@@ -1,15 +1,14 @@
 ---
 import { Image } from 'astro:assets';
 import { site } from '../site';
+import Waves from './Waves.astro';
 import gnome from '../assets/art/gnome-bard.png';
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <svg class="edge" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 24 H1440 V12 C1320 2 1200 18 1060 10 C920 2 800 18 660 10 C520 2 400 18 260 11 C150 5 70 14 0 9 Z"></path>
-  </svg>
+  <Waves edge="top" />
   <div class="wrap row">
     <p class="display name">Kinda Whimsical Games</p>
     <p>Copenhagen, Denmark</p>
@@ -26,15 +25,6 @@ const year = new Date().getFullYear();
     padding-block: 2rem;
     background: var(--plum);
     color: var(--chalk);
-  }
-
-  .edge {
-    position: absolute;
-    left: 0;
-    bottom: 100%;
-    width: 100%;
-    height: 18px;
-    fill: var(--plum);
   }
 
   .row {
@@ -67,6 +57,7 @@ const year = new Date().getFullYear();
   }
 
   .fish {
+    z-index: 1;
     position: absolute;
     right: 4%;
     top: -52px;

@@ -1,6 +1,14 @@
 ---
 import { Image } from 'astro:assets';
 import duo from '../assets/art/duo.png';
+import Waves from './Waves.astro';
+
+interface Props {
+  /** Hide the bar until the visitor scrolls (used on the home page). */
+  autoHide?: boolean;
+}
+
+const { autoHide = false } = Astro.props;
 
 const links = [
   { href: '/news/', label: 'News' },
@@ -12,7 +20,7 @@ const path = Astro.url.pathname;
 const isCurrent = (href: string) => path === href || path.startsWith(href);
 ---
 
-<header class="site-header">
+<header class="site-header" data-autohide={autoHide ? '' : undefined}>
   <div class="wrap bar">
     <a class="brand" href="/" aria-label="Kinda Whimsical Games, home">
       <Image src={duo} alt="" width={52} densities={[1, 2]} loading="eager" />
@@ -32,17 +40,30 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
       </ul>
     </nav>
   </div>
-  <svg class="edge" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 0 H1440 V10 C1300 22 1180 4 1040 13 C900 22 820 6 680 14 C540 22 420 5 280 12 C160 18 80 8 0 14 Z"></path>
-  </svg>
+  <Waves edge="bottom" />
 </header>
 
 <style>
   .site-header {
     position: relative;
-    z-index: 10;
+    z-index: 50;
     background: var(--plum);
     color: var(--chalk);
+  }
+
+  /* Home page: the bar waits above the screen and drops in once you scroll */
+  .site-header[data-autohide] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(calc(-100% - 36px));
+    transition: transform 0.55s var(--bounce);
+  }
+
+  .site-header[data-autohide].is-shown,
+  .site-header[data-autohide]:focus-within {
+    transform: none;
   }
 
   .bar {
@@ -51,15 +72,6 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
     justify-content: space-between;
     gap: 1rem;
     padding-block: 0.85rem 0.6rem;
-  }
-
-  .edge {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    width: 100%;
-    height: 18px;
-    fill: var(--plum);
   }
 
   .brand {
@@ -149,3 +161,19 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
     }
   }
 </style>
+
+<script>
+  let stop: AbortController | undefined;
+
+  function initAutoHide() {
+    stop?.abort();
+    const header = document.querySelector<HTMLElement>('.site-header[data-autohide]');
+    if (!header) return;
+    stop = new AbortController();
+    const update = () => header.classList.toggle('is-shown', window.scrollY > 90);
+    update();
+    window.addEventListener('scroll', update, { passive: true, signal: stop.signal });
+  }
+
+  document.addEventListener('astro:page-load', initAutoHide);
+</script>

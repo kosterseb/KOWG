@@ -1,0 +1,94 @@
+---
+/**
+ * Hand-drawn wavy edge made of three layers of purple that drift sideways at different speeds.
+ * `edge="bottom"` hangs below a block (header, curtain); `edge="top"` sits on top of one (footer).
+ */
+interface Props {
+  edge?: 'top' | 'bottom';
+  class?: string;
+}
+
+const { edge = 'bottom', class: className } = Astro.props;
+
+// One seamless tile: starts and ends at the same height so it can repeat forever.
+const tile = (fill: string) =>
+  `url("data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 24' preserveAspectRatio='none'><path fill='${fill}' d='M0 0H720V12C640 22 560 4 470 13C390 21 320 6 230 14C150 21 70 5 0 12Z'/></svg>`,
+  )}")`;
+
+const layers = [
+  { fill: '#5a4383', size: 980, h: 42, dur: 30, dir: 1, glow: true }, // back: lightest violet
+  { fill: '#40305f', size: 660, h: 33, dur: 19, dir: -1, glow: true }, // middle
+  { fill: '#2a1f3d', size: 760, h: 22, dur: 24, dir: 1, glow: false }, // front: matches the bar
+];
+---
+
+<div class:list={['waves', edge, className]} aria-hidden="true">
+  {
+    layers.map((l) => (
+      <span
+        class:list={['layer', { glow: l.glow }]}
+        style={`--img:${tile(l.fill)}; --size:${l.size}px; --h:${l.h}px; --dur:${l.dur}s; --dir:${l.dir}`}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .waves {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .waves.bottom {
+    top: calc(100% - 1px);
+  }
+
+  /* Footer: same waves, flipped to rise up from the block */
+  .waves.top {
+    bottom: calc(100% - 1px);
+    transform: scaleY(-1);
+  }
+
+  .layer {
+    position: absolute;
+    top: 0;
+    left: calc(var(--size) * -1);
+    width: calc(100% + var(--size) * 2);
+    height: var(--h);
+    background: var(--img) repeat-x left top / var(--size) 100%;
+    animation: drift var(--dur) linear infinite;
+    animation-direction: var(--dirname, normal);
+    will-change: transform;
+  }
+
+  .layer[style*='--dir:-1'] {
+    --dirname: reverse;
+  }
+
+  /* The back layers slowly shift through nearby purples as they pass */
+  .layer.glow {
+    animation:
+      drift var(--dur) linear infinite var(--dirname, normal),
+      tint 11s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift {
+    to {
+      transform: translateX(var(--size));
+    }
+  }
+
+  @keyframes tint {
+    from {
+      filter: hue-rotate(-14deg) brightness(0.95);
+    }
+    to {
+      filter: hue-rotate(16deg) brightness(1.12);
+    }
+  }
+</style>
