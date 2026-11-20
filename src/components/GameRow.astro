@@ -13,7 +13,7 @@ const { title, tagline, status, genres, color, links } = game.data;
 const href = `/games/${game.id}/`;
 ---
 
-<article class:list={['row', { flip }]} style={`--accent:${color}`}>
+<article class:list={['row', { flip }]} style={`--accent:${color}`} data-reveal>
   <a class="media-link" href={href} aria-label={`${title}: ${tagline}`} tabindex="-1">
     <ClipFrame game={game} tilt={flip ? 0.8 : -0.8} stickerSide={flip ? 'left' : 'right'} eager={index === 0} />
   </a>
@@ -53,13 +53,17 @@ const href = `/games/${game.id}/`;
     justify-items: start;
   }
 
+  .row {
+    --accent-ink: color-mix(in oklab, var(--accent) 55%, #2a1f3d);
+  }
+
   h2 a {
-    color: var(--chalk);
+    color: var(--ink);
     text-decoration: none;
   }
 
   h2 a:hover {
-    color: var(--accent);
+    color: var(--accent-ink);
   }
 
   .status {
@@ -68,7 +72,7 @@ const href = `/games/${game.id}/`;
     gap: 0.5rem;
     font-weight: 650;
     font-size: var(--step--1);
-    color: var(--accent);
+    color: var(--accent-ink);
   }
 
   .dot {
@@ -76,6 +80,7 @@ const href = `/games/${game.id}/`;
     height: 0.6rem;
     border-radius: 50%;
     background: var(--accent);
+    border: 1.5px solid var(--ink);
   }
 
   .btn-row {

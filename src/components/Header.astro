@@ -14,8 +14,8 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="/" aria-label="Kinda Whimsical Games, home">
-      <Image src={duo} alt="" width={56} height={Math.round((56 * duo.height) / duo.width)} loading="eager" densities={[1, 2]} />
-      <span>Kinda Whimsical <br />Games</span>
+      <Image src={duo} alt="" width={52} densities={[1, 2]} loading="eager" />
+      <span>Kinda Whimsical<br />Games</span>
     </a>
     <nav aria-label="Main">
       <ul>
@@ -31,11 +31,17 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
       </ul>
     </nav>
   </div>
+  <svg class="edge" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 0 H1440 V10 C1300 22 1180 4 1040 13 C900 22 820 6 680 14 C540 22 420 5 280 12 C160 18 80 8 0 14 Z"></path>
+  </svg>
 </header>
 
 <style>
   .site-header {
-    padding-block: 1rem;
+    position: relative;
+    z-index: 10;
+    background: var(--plum);
+    color: var(--chalk);
   }
 
   .bar {
@@ -43,6 +49,16 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    padding-block: 0.85rem 0.6rem;
+  }
+
+  .edge {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    height: 18px;
+    fill: var(--plum);
   }
 
   .brand {
@@ -53,24 +69,25 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
     text-decoration: none;
     font-family: var(--font-display);
     font-variation-settings: 'SOFT' 100, 'WONK' 1;
-    font-weight: 650;
-    font-size: 1.05rem;
-    line-height: 1.05;
+    font-weight: 750;
+    font-size: 0.95rem;
+    line-height: 1.02;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 
   .brand img {
-    width: 48px;
+    width: 46px;
     height: auto;
-    transition: transform 0.2s ease;
   }
 
   .brand:hover img {
-    transform: rotate(-8deg);
+    animation: wiggle 0.5s ease-in-out;
   }
 
   ul {
     display: flex;
-    gap: clamp(0.25rem, 2vw, 1.5rem);
+    gap: clamp(0.1rem, 2vw, 1.25rem);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -79,26 +96,32 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
   nav a {
     position: relative;
     display: block;
-    padding: 0.4rem 0.5rem;
+    padding: 0.5rem 0.55rem;
     color: var(--chalk);
-    font-weight: 600;
+    font-weight: 750;
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     text-decoration: none;
   }
 
-  nav a:hover {
-    color: var(--peach);
-  }
-
-  /* Hand-drawn underline for the current page */
-  nav a[aria-current='page']::after {
+  /* Hand-drawn squiggle that draws itself in */
+  nav a::after {
     content: '';
     position: absolute;
-    left: 0.35rem;
-    right: 0.35rem;
-    bottom: 0.1rem;
-    height: 6px;
+    left: 0.4rem;
+    right: 0.4rem;
+    bottom: 0.05rem;
+    height: 7px;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C 20 1, 45 7, 60 3 S 90 2, 98 5' fill='none' stroke='%23f5b48c' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E")
-      center / 100% 100% no-repeat;
+      left center / 100% 100% no-repeat;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.35s ease;
+  }
+
+  nav a:hover::after,
+  nav a[aria-current='page']::after {
+    clip-path: inset(0 0 0 0);
   }
 
   @media (max-width: 520px) {

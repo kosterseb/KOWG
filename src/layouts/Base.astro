@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../site';
@@ -26,7 +27,7 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" content="#241a35" />
+    <meta name="theme-color" content="#2a1f3d" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={fullTitle} />
@@ -34,6 +35,7 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <meta property="og:url" content={canonical} />
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta name="twitter:card" content="summary_large_image" />
+    <ClientRouter fallback="swap" />
   </head>
   <body>
     <!-- Shared SVG filter: gives outlines a hand-drawn wobble -->
@@ -44,28 +46,54 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
       </filter>
     </svg>
     <a class="skip visually-hidden" href="#main">Skip to content</a>
+    <slot name="overlay" />
     <Header />
-    <main id="main">
+    <main id="main" transition:animate="fade">
       <slot />
     </main>
     <Footer />
     <script>
-      // Silent loop clips only play while they're on screen, and never for reduced-motion users.
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const clips = document.querySelectorAll<HTMLVideoElement>('video[data-loop]');
-      if (!reduce && 'IntersectionObserver' in window) {
-        const io = new IntersectionObserver(
-          (entries) => {
+      const reduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let observers: IntersectionObserver[] = [];
+
+      function setup() {
+        observers.forEach((o) => o.disconnect());
+        observers = [];
+        if (!('IntersectionObserver' in window)) return;
+
+        // Silent loop clips only play while on screen, and never for reduced-motion users.
+        if (!reduce()) {
+          const clips = new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                const v = e.target as HTMLVideoElement;
+                if (e.isIntersecting) v.play().catch(() => {});
+                else v.pause();
+              }
+            },
+            { threshold: 0.25 },
+          );
+          document.querySelectorAll('video[data-loop]').forEach((v) => clips.observe(v));
+          observers.push(clips);
+        }
+
+        // Reveal [data-reveal] blocks as they scroll in.
+        const reveal = new IntersectionObserver(
+          (entries, obs) => {
             for (const e of entries) {
-              const v = e.target as HTMLVideoElement;
-              if (e.isIntersecting) v.play().catch(() => {});
-              else v.pause();
+              if (e.isIntersecting) {
+                e.target.classList.add('is-in');
+                obs.unobserve(e.target);
+              }
             }
           },
-          { threshold: 0.25 },
+          { threshold: 0.15, rootMargin: '0px 0px -40px 0px' },
         );
-        clips.forEach((v) => io.observe(v));
+        document.querySelectorAll('[data-reveal]').forEach((el) => reveal.observe(el));
+        observers.push(reveal);
       }
+
+      document.addEventListener('astro:page-load', setup);
     </script>
     <style>
       .skip:focus {
@@ -78,7 +106,7 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
         z-index: 200;
         padding: 0.6rem 1rem;
         background: var(--peach);
-        color: var(--plum-900);
+        color: var(--ink);
         border-radius: 8px;
       }
     </style>

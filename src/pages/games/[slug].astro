@@ -22,14 +22,14 @@ const next = all[(i + 1) % all.length];
 ---
 
 <Base title={title} description={`${title}: ${tagline}`} image={poster}>
-  <article style={`--accent:${color}`}>
+  <article style={`--accent:${color}`} class="game">
     <header class="wrap head">
       <a class="back" href="/games/">All games</a>
       <h1>{title}</h1>
       <p class="lede">{tagline}</p>
     </header>
 
-    <div class="wrap hero-clip">
+    <div class="wrap hero-clip" data-reveal>
       <ClipFrame game={game} tilt={-0.5} eager />
     </div>
 
@@ -120,6 +120,10 @@ const next = all[(i + 1) % all.length];
 </Base>
 
 <style>
+  .game {
+    --accent-ink: color-mix(in oklab, var(--accent) 55%, #2a1f3d);
+  }
+
   .head {
     display: grid;
     gap: 0.9rem;
@@ -128,15 +132,24 @@ const next = all[(i + 1) % all.length];
   }
 
   .head h1 {
-    color: var(--accent);
-    font-size: clamp(3rem, 1.5rem + 6vw, 6.5rem);
-    font-weight: 750;
+    font-size: clamp(2.8rem, 1.4rem + 6vw, 6.5rem);
+    font-weight: 800;
+    color: var(--ink);
+    text-shadow: 0.06em 0.06em 0 var(--accent);
+    animation: title-in 0.7s var(--bounce) both;
+  }
+
+  @keyframes title-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px) rotate(-2deg);
+    }
   }
 
   .back {
     font-weight: 600;
     font-size: var(--step--1);
-    color: var(--chalk-dim);
+    color: var(--ink-dim);
   }
 
   .hero-clip {
@@ -167,13 +180,13 @@ const next = all[(i + 1) % all.length];
     align-content: start;
     margin: 0;
     padding: 1.5rem;
-    border: 2px dashed var(--plum-700);
+    border: 2px dashed var(--line);
     border-radius: var(--wobble-radius);
   }
 
   dt {
     font-size: var(--step--1);
-    color: var(--chalk-dim);
+    color: var(--ink-dim);
   }
 
   dd {
@@ -182,7 +195,7 @@ const next = all[(i + 1) % all.length];
   }
 
   dd.status {
-    color: var(--accent);
+    color: var(--accent-ink);
   }
 
   .block {
@@ -195,7 +208,7 @@ const next = all[(i + 1) % all.length];
     aspect-ratio: 16 / 9;
     overflow: hidden;
     border-radius: var(--wobble-radius);
-    background: var(--plum-800);
+    background: var(--paper-2);
   }
 
   .video iframe {
@@ -214,6 +227,7 @@ const next = all[(i + 1) % all.length];
   }
 
   .gallery img {
+    border: 2.5px solid var(--ink);
     width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
@@ -231,7 +245,9 @@ const next = all[(i + 1) % all.length];
     font-variation-settings: 'SOFT' 100, 'WONK' 1;
     font-weight: 700;
     font-size: var(--step-3);
-    color: var(--accent);
+    text-transform: uppercase;
+    color: var(--ink);
+    text-shadow: 0.06em 0.06em 0 var(--accent);
     text-decoration: none;
     justify-self: start;
   }

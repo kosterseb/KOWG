@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import { site, socialLabels, type SocialKey } from '../site';
+import gnome from '../assets/art/gnome-bard.png';
 
 const socials = (Object.keys(site.socials) as SocialKey[])
   .filter((k) => site.socials[k])
@@ -8,11 +10,14 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
+  <svg class="edge" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 24 H1440 V12 C1320 2 1200 18 1060 10 C920 2 800 18 660 10 C520 2 400 18 260 11 C150 5 70 14 0 9 Z"></path>
+  </svg>
   <div class="wrap row">
-    <p>
-      <strong>{site.name}</strong><br />
-      <span class="muted">Drawn by hand, built by two.</span>
-    </p>
+    <div class="sign">
+      <p class="display name">Kinda Whimsical Games</p>
+      <p class="tag">Drawn by hand, built by two.</p>
+    </div>
     <ul>
       <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
       {
@@ -25,15 +30,27 @@ const year = new Date().getFullYear();
         ))
       }
     </ul>
-    <p class="muted small">© {year}</p>
+    <p class="small">© {year}</p>
   </div>
+  <Image class="fish" src={gnome} alt="" width={160} densities={[1, 2]} />
 </footer>
 
 <style>
   .site-footer {
+    position: relative;
     margin-top: var(--space-xl);
     padding-block: var(--space-l);
-    border-top: 2px dashed var(--plum-700);
+    background: var(--plum);
+    color: var(--chalk);
+  }
+
+  .edge {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    width: 100%;
+    height: 18px;
+    fill: var(--plum);
   }
 
   .row {
@@ -42,6 +59,19 @@ const year = new Date().getFullYear();
     align-items: start;
     justify-content: space-between;
     gap: var(--space-m);
+  }
+
+  .name {
+    font-size: 1.1rem;
+  }
+
+  .tag,
+  .small {
+    color: color-mix(in oklab, var(--chalk) 70%, var(--plum));
+  }
+
+  .small {
+    font-size: var(--step--1);
   }
 
   ul {
@@ -53,7 +83,27 @@ const year = new Date().getFullYear();
     list-style: none;
   }
 
-  .small {
-    font-size: var(--step--1);
+  a {
+    color: var(--chalk);
+  }
+
+  .fish {
+    position: absolute;
+    right: 4%;
+    top: -52px;
+    width: 120px;
+    transform: rotate(-12deg);
+    transition: transform 0.4s var(--bounce);
+  }
+
+  .site-footer:hover .fish {
+    transform: rotate(-4deg) translateY(-10px);
+  }
+
+  @media (max-width: 640px) {
+    .fish {
+      width: 84px;
+      top: -40px;
+    }
   }
 </style>

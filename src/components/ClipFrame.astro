@@ -56,8 +56,21 @@ const webm = isVideo && clip?.endsWith('.mp4') ? clip.replace(/\.mp4$/i, '.webm'
 
 <style>
   .frame {
+    --accent-ink: color-mix(in oklab, var(--accent) 55%, #2a1f3d);
     position: relative;
     transform: rotate(var(--tilt));
+  }
+
+  /* Offset colour block behind the clip, like a slightly misprinted sticker */
+  .frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    translate: 12px 12px;
+    background: var(--accent);
+    border-radius: var(--wobble-radius);
+    filter: url(#crayon);
+    transition: translate 0.35s var(--bounce);
   }
 
   .media {
@@ -65,7 +78,7 @@ const webm = isVideo && clip?.endsWith('.mp4') ? clip.replace(/\.mp4$/i, '.webm'
     aspect-ratio: 16 / 9;
     overflow: hidden;
     border-radius: var(--wobble-radius);
-    background: var(--plum-800);
+    background: var(--paper-2);
     container-type: inline-size;
   }
 
@@ -76,12 +89,12 @@ const webm = isVideo && clip?.endsWith('.mp4') ? clip.replace(/\.mp4$/i, '.webm'
     object-fit: cover;
   }
 
-  /* The crayon outline, drawn on top and distorted so it never looks ruler-straight */
+  /* Inked outline, distorted so it never looks ruler-straight */
   .frame::after {
     content: '';
     position: absolute;
-    inset: -7px;
-    border: 3px solid var(--accent);
+    inset: -4px;
+    border: 3px solid var(--ink);
     border-radius: var(--wobble-radius);
     filter: url(#crayon);
     pointer-events: none;
@@ -92,27 +105,28 @@ const webm = isVideo && clip?.endsWith('.mp4') ? clip.replace(/\.mp4$/i, '.webm'
     inset: 0;
     display: grid;
     place-content: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
     text-align: center;
     background:
-      radial-gradient(circle at 30% 25%, color-mix(in oklab, var(--accent) 38%, transparent), transparent 60%),
-      repeating-linear-gradient(-35deg, transparent 0 14px, color-mix(in oklab, var(--accent) 9%, transparent) 14px 16px),
-      var(--plum-800);
+      repeating-linear-gradient(-35deg, transparent 0 14px, color-mix(in oklab, var(--accent) 28%, transparent) 14px 17px),
+      color-mix(in oklab, var(--accent) 22%, var(--paper));
   }
 
   .ph-title {
     font-family: var(--font-display);
     font-variation-settings: 'SOFT' 100, 'WONK' 1;
-    font-weight: 750;
-    font-size: clamp(1.6rem, 12cqi, 5rem);
-    padding-inline: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(1.4rem, 10cqi, 4.4rem);
     line-height: 1;
-    color: var(--accent);
+    padding-inline: 1rem;
+    color: var(--accent-ink);
   }
 
   .ph-note {
     font-size: var(--step--1);
-    color: var(--chalk-dim);
+    font-weight: 650;
+    color: var(--ink-dim);
   }
 
   .sticker {
@@ -121,8 +135,8 @@ const webm = isVideo && clip?.endsWith('.mp4') ? clip.replace(/\.mp4$/i, '.webm'
     width: clamp(90px, 22%, 170px);
     height: auto;
     bottom: -14%;
-    filter: drop-shadow(0 6px 10px rgb(20 12 30 / 0.45));
-    transition: transform 0.25s ease;
+    filter: drop-shadow(2px 5px 0 rgb(42 31 61 / 0.18));
+    transition: transform 0.35s var(--bounce);
     pointer-events: none;
   }
 
@@ -136,13 +150,18 @@ const webm = isVideo && clip?.endsWith('.mp4') ? clip.replace(/\.mp4$/i, '.webm'
     transform: rotate(-6deg);
   }
 
+  :global(a:hover) > .frame::before,
+  :global(a:focus-visible) > .frame::before {
+    translate: 18px 16px;
+  }
+
   :global(a:hover) > .frame .sticker.right,
   :global(a:focus-visible) > .frame .sticker.right {
-    transform: rotate(-2deg) translateY(-8px);
+    transform: rotate(-4deg) translateY(-14px) scale(1.06);
   }
 
   :global(a:hover) > .frame .sticker.left,
   :global(a:focus-visible) > .frame .sticker.left {
-    transform: rotate(2deg) translateY(-8px);
+    transform: rotate(4deg) translateY(-14px) scale(1.06);
   }
 </style>
