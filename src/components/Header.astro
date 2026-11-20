@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+import duo from '../assets/art/duo.png';
+
+const links = [
+  { href: '/games/', label: 'Games' },
+  { href: '/about/', label: 'Studio' },
+  { href: '/contact/', label: 'Contact' },
+];
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="Kinda Whimsical Games, home">
+      <Image src={duo} alt="" width={56} height={Math.round((56 * duo.height) / duo.width)} loading="eager" densities={[1, 2]} />
+      <span>Kinda Whimsical <br />Games</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    padding-block: 1rem;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--chalk);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    font-weight: 650;
+    font-size: 1.05rem;
+    line-height: 1.05;
+  }
+
+  .brand img {
+    width: 48px;
+    height: auto;
+    transition: transform 0.2s ease;
+  }
+
+  .brand:hover img {
+    transform: rotate(-8deg);
+  }
+
+  ul {
+    display: flex;
+    gap: clamp(0.25rem, 2vw, 1.5rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  nav a {
+    position: relative;
+    display: block;
+    padding: 0.4rem 0.5rem;
+    color: var(--chalk);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--peach);
+  }
+
+  /* Hand-drawn underline for the current page */
+  nav a[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 0.35rem;
+    right: 0.35rem;
+    bottom: 0.1rem;
+    height: 6px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C 20 1, 45 7, 60 3 S 90 2, 98 5' fill='none' stroke='%23f5b48c' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / 100% 100% no-repeat;
+  }
+
+  @media (max-width: 520px) {
+    .brand span {
+      display: none;
+    }
+  }
+</style>

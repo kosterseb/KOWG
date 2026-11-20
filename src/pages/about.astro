@@ -1,0 +1,204 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import sebastian from '../assets/team/sebastian.png';
+import julie from '../assets/team/julie.png';
+import catKnight from '../assets/art/cat-knight.png';
+import fox from '../assets/art/fox.png';
+import polar from '../assets/art/polar-bear.png';
+import gnome from '../assets/art/gnome-bard.png';
+import brawler from '../assets/art/brawler.png';
+
+const people = [
+  {
+    name: 'Julie Hindkjær',
+    role: 'Writer and concept artist',
+    photo: julie,
+    sticker: catKnight,
+    bio: [
+      'Julie gives our games their characters and their stories. Most of the creatures on this site started in one of her sketchbooks.',
+      'She cares about the kind of story that stays with you after you put the controller down, and about the small details that make a world feel lived in.',
+    ],
+    links: [
+      { label: 'Instagram', url: 'https://www.instagram.com/julespoe/' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/juliehindkjaer/' },
+    ],
+  },
+  {
+    name: 'Sebastian Aguiar Køster',
+    role: 'Developer and builder',
+    photo: sebastian,
+    sticker: polar,
+    bio: [
+      'Sebastian turns the sketches into things you can play: engines, game systems, servers and the tools around them. He also writes the music.',
+      'He likes building games he would want to play himself, and he usually has a few too many of them going at once.',
+    ],
+    links: [
+      { label: 'Instagram', url: 'https://www.instagram.com/kosterkoster_/' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/sebastian-k%C3%B8ster-34802524b/' },
+    ],
+  },
+];
+---
+
+<Base title="Studio" description="Kinda Whimsical Games is Julie and Sebastian, a two-person indie studio in Copenhagen.">
+  <header class="wrap intro">
+    <h1>Two of us, in Copenhagen</h1>
+    <p class="lede">
+      Kinda Whimsical Games is Julie and Sebastian, partners in life and in making things. We draw everything by hand
+      first, then figure out how to make it move.
+    </p>
+  </header>
+
+  <section class="wrap people" aria-label="The team">
+    {
+      people.map((p, i) => (
+        <article class="person">
+          <div class="portrait">
+            <Image src={p.photo} alt={`Portrait of ${p.name}`} width={360} />
+            <Image class:list={['sticker', { left: i % 2 }]} src={p.sticker} alt="" width={200} />
+          </div>
+          <div class="info">
+            <h2>{p.name}</h2>
+            <p class="role">{p.role}</p>
+            {p.bio.map((para) => <p>{para}</p>)}
+            <ul class="links">
+              {p.links.map((l) => (
+                <li>
+                  <a href={l.url} target="_blank" rel="noopener">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="wrap section how" aria-labelledby="how-title">
+    <h2 id="how-title">How we work</h2>
+    <div class="cols">
+      <div>
+        <Image src={gnome} alt="" width={180} />
+        <h3>Paper first</h3>
+        <p class="muted">Characters, places and menus start as pencil and crayon drawings, and we try to keep that feel all the way into the game.</p>
+      </div>
+      <div>
+        <Image src={brawler} alt="" width={180} />
+        <h3>Small and stubborn</h3>
+        <p class="muted">Two people means no meetings about meetings. We pick the ideas we can't stop thinking about and keep at them.</p>
+      </div>
+      <div>
+        <Image src={fox} alt="" width={180} />
+        <h3>Built in the open</h3>
+        <p class="muted">We share clips and builds early. If you want to play something before it's finished, get in touch.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    display: grid;
+    gap: var(--space-m);
+    padding-block: clamp(2rem, 6vw, 4.5rem) var(--space-l);
+  }
+
+  .people {
+    display: grid;
+    gap: clamp(4rem, 8vw, 7rem);
+    padding-block: var(--space-l);
+  }
+
+  .person {
+    display: grid;
+    grid-template-columns: minmax(180px, 320px) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .portrait {
+    position: relative;
+  }
+
+  .portrait > img:first-child {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 47% 53% 50% 50% / 52% 48% 52% 48%;
+    border: 4px solid var(--plum-700);
+  }
+
+  .sticker {
+    position: absolute;
+    width: 42%;
+    height: auto;
+    right: -12%;
+    bottom: -8%;
+    transform: rotate(8deg);
+    filter: drop-shadow(0 6px 10px rgb(20 12 30 / 0.45));
+  }
+
+  .sticker.left {
+    right: auto;
+    left: -12%;
+    transform: rotate(-8deg);
+  }
+
+  .info {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .info p + p {
+    margin-top: 0;
+  }
+
+  .role {
+    color: var(--peach);
+    font-weight: 650;
+  }
+
+  .links {
+    display: flex;
+    gap: 1.25rem;
+    margin: 0.4rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .how h2 {
+    margin-bottom: var(--space-l);
+  }
+
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: var(--space-l);
+  }
+
+  .cols > div {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+  }
+
+  .cols img {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 720px) {
+    .person {
+      grid-template-columns: 1fr;
+    }
+
+    .portrait {
+      max-width: 260px;
+    }
+  }
+</style>

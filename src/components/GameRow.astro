@@ -1,0 +1,95 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ClipFrame from './ClipFrame.astro';
+
+interface Props {
+  game: CollectionEntry<'games'>;
+  index: number;
+}
+
+const { game, index } = Astro.props;
+const flip = index % 2 === 1;
+const { title, tagline, status, genres, color, links } = game.data;
+const href = `/games/${game.id}/`;
+---
+
+<article class:list={['row', { flip }]} style={`--accent:${color}`}>
+  <a class="media-link" href={href} aria-label={`${title}: ${tagline}`} tabindex="-1">
+    <ClipFrame game={game} tilt={flip ? 0.8 : -0.8} stickerSide={flip ? 'left' : 'right'} eager={index === 0} />
+  </a>
+  <div class="text">
+    <p class="status"><span class="dot" aria-hidden="true"></span>{status}</p>
+    <h2><a href={href}>{title}</a></h2>
+    <p class="lede">{tagline}</p>
+    <ul class="chips" aria-label="Genres">
+      {genres.map((g) => <li class="chip">{g}</li>)}
+    </ul>
+    <div class="btn-row">
+      <a class="btn btn--ghost" href={href}>About {title}</a>
+      {links[0] && <a class="btn" href={links[0].url} target="_blank" rel="noopener">{links[0].label}</a>}
+    </div>
+  </div>
+</article>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .row.flip .media-link {
+    order: 2;
+  }
+
+  .media-link {
+    display: block;
+  }
+
+  .text {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+  }
+
+  h2 a {
+    color: var(--chalk);
+    text-decoration: none;
+  }
+
+  h2 a:hover {
+    color: var(--accent);
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 650;
+    font-size: var(--step--1);
+    color: var(--accent);
+  }
+
+  .dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .btn-row {
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 820px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .row.flip .media-link {
+      order: 0;
+    }
+  }
+</style>

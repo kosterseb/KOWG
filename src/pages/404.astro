@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import detective from '../assets/art/eye-detective.png';
+---
+
+<Base title="Page not found">
+  <section class="wrap lost">
+    <Image src={detective} alt="" width={260} />
+    <div>
+      <h1>Nothing here</h1>
+      <p class="lede">Our detective looked everywhere. This page has moved or never existed.</p>
+      <p><a class="btn" href="/">Go to the homepage</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-l);
+    padding-block: var(--space-xl);
+  }
+
+  .lost > div {
+    display: grid;
+    gap: var(--space-m);
+    flex: 1 1 320px;
+  }
+
+  .lost img {
+    width: 220px;
+  }
+</style>
