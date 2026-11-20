@@ -17,9 +17,9 @@ const tile = (fill: string) =>
   )}")`;
 
 const layers = [
-  { fill: '#5a4383', size: 980, h: 42, dur: 30, dir: 1, glow: true }, // back: lightest violet
-  { fill: '#40305f', size: 660, h: 33, dur: 19, dir: -1, glow: true }, // middle
-  { fill: '#2a1f3d', size: 760, h: 22, dur: 24, dir: 1, glow: false }, // front: matches the bar
+  { fill: '#5a4383', size: 980, h: 42, dur: 30, dir: 1 }, // back: lightest violet
+  { fill: '#40305f', size: 660, h: 33, dur: 19, dir: -1 }, // middle
+  { fill: '#2a1f3d', size: 760, h: 22, dur: 24, dir: 1 }, // front: matches the bar
 ];
 ---
 
@@ -27,7 +27,7 @@ const layers = [
   {
     layers.map((l) => (
       <span
-        class:list={['layer', { glow: l.glow }]}
+        class="layer"
         style={`--img:${tile(l.fill)}; --size:${l.size}px; --h:${l.h}px; --dur:${l.dur}s; --dir:${l.dir}`}
       />
     ))
@@ -61,7 +61,7 @@ const layers = [
     width: calc(100% + var(--size) * 2);
     height: var(--h);
     background: var(--img) repeat-x left top / var(--size) 100%;
-    animation: drift var(--dur) linear infinite;
+    animation: wave-drift var(--dur) linear infinite;
     animation-direction: var(--dirname, normal);
     will-change: transform;
   }
@@ -70,25 +70,9 @@ const layers = [
     --dirname: reverse;
   }
 
-  /* The back layers slowly shift through nearby purples as they pass */
-  .layer.glow {
-    animation:
-      drift var(--dur) linear infinite var(--dirname, normal),
-      tint 11s ease-in-out infinite alternate;
-  }
-
-  @keyframes drift {
+  @keyframes wave-drift {
     to {
       transform: translateX(var(--size));
-    }
-  }
-
-  @keyframes tint {
-    from {
-      filter: hue-rotate(-14deg) brightness(0.95);
-    }
-    to {
-      filter: hue-rotate(16deg) brightness(1.12);
     }
   }
 </style>
