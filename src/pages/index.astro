@@ -411,7 +411,7 @@ const loadingText = 'Loading whimsy';
   }
 
   .card {
-    --accent-ink: color-mix(in oklab, var(--accent) 55%, #2a1f3d);
+    --accent-ink: color-mix(in oklab, var(--accent) 55%, var(--accent-mix, #2a1f3d));
     display: grid;
     gap: 1.9rem;
     color: inherit;

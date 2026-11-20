@@ -2,11 +2,17 @@
 title: Bindwheel
 tagline: Bind spirits, build a crew, outsmart everyone.
 status: Prototype
-order: 5
+order: 3
 genres: [Tactics, Roguelite, PvP]
 platforms: [Browser, Windows, Mac, Mobile]
 color: '#8FCBF2'
 sticker: card-arrow
+theme: grove
+clip: /media/games/bindwheel/loop.mp4
+poster: /media/games/bindwheel/loop.jpg
+footage:
+  - { src: /media/games/bindwheel/reactions.mp4, poster: /media/games/bindwheel/reactions.jpg, alt: Picking a reaction to block an incoming Flame Lash }
+  - { src: /media/games/bindwheel/title.mp4, poster: /media/games/bindwheel/title.jpg, alt: The Bindwheel spinning back into the title screen }
 ---
 
 A tactics game about a crew of three bound spirits: a front-liner, a damage dealer and a healer. Pick their gear and their upgrade cards, then fight it out automatically or call every move yourself.

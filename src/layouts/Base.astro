@@ -11,9 +11,11 @@ interface Props {
   image?: string;
   /** Hide the nav bar until the visitor scrolls. */
   autoHideNav?: boolean;
+  /** Game page backdrop, see the themes in global.css. */
+  theme?: string;
 }
 
-const { title, description = site.description, image, autoHideNav = false } = Astro.props;
+const { title, description = site.description, image, autoHideNav = false, theme } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : site.name;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = image ? new URL(image, Astro.site) : undefined;
@@ -39,7 +41,7 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <meta name="twitter:card" content="summary_large_image" />
     <ClientRouter fallback="swap" />
   </head>
-  <body>
+  <body data-theme={theme}>
     <!-- Shared SVG filter: gives outlines a hand-drawn wobble -->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
       <filter id="crayon" x="-5%" y="-5%" width="110%" height="110%">

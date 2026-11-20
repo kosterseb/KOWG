@@ -7,6 +7,7 @@ genres: [Action RPG, Arena, Racing]
 platforms: [Windows, Mac]
 color: '#F08A5D'
 sticker: wizard
+draft: true
 ---
 
 A top-down action game built on our own engine, with meadows, dunes, snow and water that change with the weather and the time of day.

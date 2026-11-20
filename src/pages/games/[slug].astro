@@ -21,7 +21,7 @@ const i = all.findIndex((g) => g.id === game.id);
 const next = all[(i + 1) % all.length];
 ---
 
-<Base title={title} description={`${title}: ${tagline}`} image={poster}>
+<Base title={title} description={`${title}: ${tagline}`} image={poster} theme={game.data.theme}>
   <article style={`--accent:${color}`} class="game">
     <header class="wrap head">
       <a class="back" href="/games/">All games</a>
@@ -140,7 +140,7 @@ const next = all[(i + 1) % all.length];
 
 <style>
   .game {
-    --accent-ink: color-mix(in oklab, var(--accent) 55%, #2a1f3d);
+    --accent-ink: color-mix(in oklab, var(--accent) 55%, var(--accent-mix, #2a1f3d));
   }
 
   .head {
@@ -238,7 +238,7 @@ const next = all[(i + 1) % all.length];
 
   .footage {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
     gap: 2.5rem 2rem;
     margin: 0;
     padding: 0;

@@ -50,7 +50,7 @@ const dateLabel = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'lon
 
 <style>
   .post {
-    --accent-ink: color-mix(in oklab, var(--accent) 55%, #2a1f3d);
+    --accent-ink: color-mix(in oklab, var(--accent) 55%, var(--accent-mix, #2a1f3d));
     position: relative;
     display: grid;
     gap: var(--space-l);

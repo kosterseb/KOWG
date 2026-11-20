@@ -29,6 +29,8 @@ const games = defineCollection({
     footage: z.array(z.object({ src: z.string(), poster: z.string().optional(), alt: z.string() })).default([]),
     /** Play / download / wishlist buttons. */
     links: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
+    /** Background style for this game's page. */
+    theme: z.enum(['dunes', 'pond', 'casino', 'grove', 'void', 'lamplight']).optional(),
     draft: z.boolean().default(false),
   }),
 });

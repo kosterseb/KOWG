@@ -162,7 +162,7 @@ a:hover {
   font: 750 var(--step--1) / 1 var(--font-body);
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--btn-fg, #2a1f3d);
   background: var(--btn-bg);
   border: 2.5px solid var(--ink);
   border-radius: 999px 900px 999px 950px / 950px 999px 900px 999px;
@@ -186,6 +186,7 @@ a:hover {
 
 .btn--ghost {
   --btn-bg: var(--paper);
+  --btn-fg: var(--ink);
 }
 
 .btn-row {
@@ -273,4 +274,102 @@ a:hover {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* ---------- Game page themes ----------
+   Set with `theme:` in a game's markdown. Each one swaps the paper and ink
+   for colours and a backdrop that match the game. */
+body[data-theme] {
+  --line: color-mix(in oklab, var(--ink) 24%, var(--paper));
+  background-color: var(--paper);
+  background-attachment: fixed;
+}
+
+/* Grain: warm sand with faint dune contour lines */
+body[data-theme='dunes'] {
+  --paper: #f1dcb4;
+  --paper-2: #e6c995;
+  --ink: #3a2816;
+  --ink-dim: #6e5434;
+  --accent-mix: #3a2816;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='220' viewBox='0 0 600 220'%3E%3Cg fill='none' stroke='%23c99b5c' stroke-opacity='.28' stroke-width='1.5'%3E%3Cpath d='M0 40 C120 10 220 70 330 42 S520 8 600 40'/%3E%3Cpath d='M0 95 C140 62 240 128 360 96 S530 70 600 95'/%3E%3Cpath d='M0 150 C110 122 250 182 350 150 S540 118 600 150'/%3E%3Cpath d='M0 200 C130 176 230 226 340 202 S520 172 600 200'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(180deg, #f6e6c6 0%, #edd2a2 55%, #e2bd84 100%);
+}
+
+/* Pondoragon: calm pond water with ripples and lily pads */
+body[data-theme='pond'] {
+  --paper: #d4ebe2;
+  --paper-2: #bfe0d4;
+  --ink: #17332f;
+  --ink-dim: #3f625c;
+  --accent-mix: #17332f;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cg fill='none' stroke='%237fb7a6' stroke-opacity='.35' stroke-width='1.5'%3E%3Ccircle cx='90' cy='110' r='26'/%3E%3Ccircle cx='90' cy='110' r='44'/%3E%3Ccircle cx='320' cy='290' r='18'/%3E%3Ccircle cx='320' cy='290' r='34'/%3E%3Ccircle cx='320' cy='290' r='52'/%3E%3C/g%3E%3Cg fill='%237fae7c' fill-opacity='.22'%3E%3Cpath d='M250 80a22 22 0 1 0 22 22h-22z'/%3E%3Cpath d='M110 330a16 16 0 1 0 16 16h-16z'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 30% 20%, #e3f3ec 0%, transparent 60%),
+    linear-gradient(180deg, #d9efe6 0%, #b7ddd0 100%);
+}
+
+/* Siphon Steel: a dim card-room table under one green lamp */
+body[data-theme='casino'] {
+  --paper: #101a12;
+  --paper-2: #18261a;
+  --ink: #ece4c8;
+  --ink-dim: #a7ae94;
+  --accent-mix: #ffffff;
+  color-scheme: dark;
+  background-image:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgb(120 190 90 / 0.22), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .35 0 0 0 0 .2 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 50% 60%, #15241a 0%, #0a110b 100%);
+}
+
+/* Bindwheel: mossy forest floor with little flowers */
+body[data-theme='grove'] {
+  --paper: #18261b;
+  --paper-2: #213324;
+  --ink: #eef1dc;
+  --ink-dim: #aab79d;
+  --accent-mix: #ffffff;
+  color-scheme: dark;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill-opacity='.55'%3E%3Ccircle cx='40' cy='60' r='2.5' fill='%23e98bb0'/%3E%3Ccircle cx='190' cy='30' r='2' fill='%23f1d36b'/%3E%3Ccircle cx='250' cy='170' r='2.5' fill='%2390c6ea'/%3E%3Ccircle cx='110' cy='220' r='2' fill='%23e98bb0'/%3E%3Ccircle cx='60' cy='280' r='2.5' fill='%23f1d36b'/%3E%3C/g%3E%3Cg fill='%2348703f' fill-opacity='.35'%3E%3Cellipse cx='150' cy='120' rx='9' ry='4' transform='rotate(-30 150 120)'/%3E%3Cellipse cx='270' cy='60' rx='8' ry='3.5' transform='rotate(25 270 60)'/%3E%3Cellipse cx='20' cy='170' rx='9' ry='4' transform='rotate(40 20 170)'/%3E%3Cellipse cx='210' cy='260' rx='8' ry='3.5' transform='rotate(-15 210 260)'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 50% 30%, #23382a 0%, #101a12 100%);
+}
+
+/* ODDS: deep space, scattered stars */
+body[data-theme='void'] {
+  --paper: #0c0c16;
+  --paper-2: #161626;
+  --ink: #ebe9f7;
+  --ink-dim: #a3a1bf;
+  --accent-mix: #ffffff;
+  color-scheme: dark;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='340'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='20' cy='40' r='1' opacity='.8'/%3E%3Ccircle cx='140' cy='18' r='.7' opacity='.6'/%3E%3Ccircle cx='300' cy='70' r='1.2' opacity='.9'/%3E%3Ccircle cx='80' cy='150' r='.6' opacity='.5'/%3E%3Ccircle cx='220' cy='130' r='.9' opacity='.7'/%3E%3Ccircle cx='330' cy='220' r='.6' opacity='.5'/%3E%3Ccircle cx='160' cy='250' r='1.1' opacity='.8'/%3E%3Ccircle cx='40' cy='300' r='.8' opacity='.6'/%3E%3Ccircle cx='260' cy='320' r='.7' opacity='.6'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 70% 10%, rgb(120 90 220 / 0.18), transparent 55%),
+    radial-gradient(ellipse at 15% 80%, rgb(230 120 60 / 0.12), transparent 50%),
+    #0a0a13;
+}
+
+/* Scalp: a dark room lit by a single warm lamp */
+body[data-theme='lamplight'] {
+  --paper: #17110d;
+  --paper-2: #221913;
+  --ink: #f2e7d6;
+  --ink-dim: #b5a58e;
+  --accent-mix: #ffffff;
+  color-scheme: dark;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 75% 15%, rgb(255 190 110 / 0.16), transparent 70%),
+    radial-gradient(ellipse at 50% 50%, #1d1610 0%, #0e0a07 100%);
+}
+
+/* Dark themes: keep the paper grain from muddying the background */
+body[data-theme='casino']::before,
+body[data-theme='grove']::before,
+body[data-theme='void']::before,
+body[data-theme='lamplight']::before {
+  mix-blend-mode: overlay;
+  opacity: 0.12;
 }

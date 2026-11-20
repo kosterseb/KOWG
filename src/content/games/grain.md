@@ -12,6 +12,7 @@ poster: /media/games/grain/loop.jpg
 footage:
   - { src: /media/games/grain/board.mp4, poster: /media/games/grain/board.jpg, alt: The kid riding a board down a dune }
   - { src: /media/games/grain/footprints.mp4, poster: /media/games/grain/footprints.jpg, alt: Footprints trailing behind the kid across open sand }
+theme: dunes
 ---
 
 A small kid who lives in the dunes sets out across a world that doesn't want to be crossed. Deep sand slows you down, storms force you to dig in, and the cold nights have to be survived by the fire.

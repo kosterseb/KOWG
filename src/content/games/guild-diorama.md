@@ -7,6 +7,7 @@ genres: [Management, Idle, Fantasy]
 platforms: [Windows, Mac, iOS, Android]
 color: '#B497E6'
 sticker: cat-knight
+draft: true
 ---
 
 A cosy, semi-idle guild management game. Send squads of heroes out on jobs, sort through whatever they drag home, and grow your guild hall one room at a time.
