@@ -10,11 +10,14 @@ export const site = {
    * Leave mp4 empty to show the plain paper background.
    */
   heroVideo: {
-    mp4: '', // e.g. '/media/hero/loop.mp4'
-    webm: '', // optional smaller version, e.g. '/media/hero/loop.webm'
-    poster: '', // still frame shown while it loads
-    /** How much paper colour is washed over the video (0 = none, 1 = hidden) so the logo stays readable. */
-    wash: 0.55,
+    mp4: '/media/hero/loop.mp4',
+    webm: '/media/hero/loop.webm', // optional smaller version
+    poster: '/media/hero/loop.jpg', // still frame shown while it loads
+    /**
+     * How much paper colour is washed over the edges of the video (0 = none, 1 = hidden).
+     * The middle, behind the logo and text, always gets a stronger wash so it stays readable.
+     */
+    wash: 0.35,
   },
   socials: {
     discord: '', // e.g. https://discord.gg/xxxx

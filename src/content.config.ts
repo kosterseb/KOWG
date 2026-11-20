@@ -25,6 +25,8 @@ const games = defineCollection({
     /** YouTube video id for a full trailer, e.g. "dQw4w9WgXcQ". */
     trailer: z.string().optional(),
     gallery: z.array(z.object({ src: z.string(), alt: z.string() })).default([]),
+    /** Extra short loops shown under "More footage" on the game page (.mp4; a .webm next to it is used too). */
+    footage: z.array(z.object({ src: z.string(), poster: z.string().optional(), alt: z.string() })).default([]),
     /** Play / download / wishlist buttons. */
     links: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
     draft: z.boolean().default(false),

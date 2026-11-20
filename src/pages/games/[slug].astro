@@ -14,7 +14,7 @@ interface Props {
 
 const { game } = Astro.props;
 const { Content } = await render(game);
-const { title, tagline, status, genres, platforms, color, trailer, gallery, links, poster } = game.data;
+const { title, tagline, status, genres, platforms, color, trailer, gallery, links, poster, footage } = game.data;
 
 const all = (await getCollection('games', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
 const i = all.findIndex((g) => g.id === game.id);
@@ -71,6 +71,25 @@ const next = all[(i + 1) % all.length];
         }
       </dl>
     </div>
+
+    {
+      footage.length > 0 && (
+        <section class="wrap block" aria-labelledby="footage-title">
+          <h2 id="footage-title">More footage</h2>
+          <ul class="footage">
+            {footage.map((f, n) => (
+              <li style={`--tilt:${n % 2 ? 0.8 : -0.8}deg`} data-reveal>
+                <video data-loop muted loop playsinline preload="none" poster={f.poster} aria-label={f.alt}>
+                  <source src={f.src.replace(/\.mp4$/, '.webm')} type="video/webm" />
+                  <source src={f.src} type="video/mp4" />
+                </video>
+                <p class="muted">{f.alt}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
 
     {
       trailer && (
@@ -215,6 +234,35 @@ const next = all[(i + 1) % all.length];
     width: 100%;
     height: 100%;
     border: 0;
+  }
+
+  .footage {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 2.5rem 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footage li {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .footage video {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border: 3px solid var(--ink);
+    border-radius: var(--wobble-radius);
+    box-shadow: 8px 8px 0 var(--accent);
+    rotate: var(--tilt);
+    background: var(--paper-2);
+  }
+
+  .footage p {
+    font-size: var(--step--1);
   }
 
   .gallery {

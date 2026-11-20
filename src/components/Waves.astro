@@ -1,6 +1,6 @@
 ---
 /**
- * Hand-drawn wavy edge made of three layers of purple that drift sideways at different speeds.
+ * Hand-drawn wavy edge made of three overlapping layers of the same plum drifting at different speeds, so the edge keeps changing shape.
  * `edge="bottom"` hangs below a block (header, curtain); `edge="top"` sits on top of one (footer).
  */
 interface Props {
@@ -17,8 +17,8 @@ const tile = (fill: string) =>
   )}")`;
 
 const layers = [
-  { fill: '#5a4383', size: 980, h: 42, dur: 30, dir: 1 }, // back: lightest violet
-  { fill: '#40305f', size: 660, h: 33, dur: 19, dir: -1 }, // middle
+  { fill: '#2a1f3d', size: 980, h: 42, dur: 30, dir: 1 }, // back
+  { fill: '#2a1f3d', size: 660, h: 33, dur: 19, dir: -1 }, // middle
   { fill: '#2a1f3d', size: 760, h: 22, dur: 24, dir: 1 }, // front: matches the bar
 ];
 ---

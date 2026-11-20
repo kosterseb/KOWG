@@ -386,8 +386,18 @@ const loadingText = 'Loading whimsy';
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--paper);
-    opacity: var(--wash);
+    background: radial-gradient(
+      ellipse 42% 55% at 50% 50%,
+      color-mix(in oklab, var(--paper) 86%, transparent) 0%,
+      color-mix(in oklab, var(--paper) 70%, transparent) 55%,
+      color-mix(in oklab, var(--paper) calc(var(--wash) * 100%), transparent) 100%
+    );
+  }
+
+  .hero-video {
+    animation: rise 1.2s ease var(--start) both;
+    /* Fade the footage into the paper at the bottom */
+    mask-image: linear-gradient(to bottom, #000 70%, transparent);
   }
 
   /* ---------- Games grid ---------- */
