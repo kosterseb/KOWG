@@ -91,7 +91,7 @@ const loadingText = 'Loading whimsy';
         loading="eager"
         fetchpriority="high"
       />
-      <h1 id="hero-title" class="hero-title">Odd little worlds, made with crayons and&nbsp;code</h1>
+      <h1 id="hero-title" class="hero-title">We make the games we wish&nbsp;existed</h1>
       <div class="btn-row hero-cta">
         <a class="btn" href="/games/">See our games</a>
         <a class="btn btn--ghost" href="/about/">Meet the studio</a>
@@ -313,7 +313,7 @@ const loadingText = 'Loading whimsy';
     min-height: min(100svh, 940px);
     display: grid;
     place-items: center;
-    padding: clamp(3rem, 7vw, 5rem) 1.25rem clamp(3rem, 6vw, 4rem);
+    padding: clamp(1.75rem, 5svh, 4rem) 1.25rem;
     overflow: hidden;
   }
 
@@ -326,20 +326,21 @@ const loadingText = 'Loading whimsy';
     z-index: 2;
     display: grid;
     justify-items: center;
-    gap: clamp(1rem, 2.5vw, 1.75rem);
+    gap: clamp(0.9rem, 2.6svh, 1.6rem);
     text-align: center;
   }
 
+  /* Logo is sized by screen height too, so logo, line and buttons always fit in the first view */
   .logo {
-    width: min(440px, 72vw);
+    width: max(180px, min(440px, 72vw, calc((100svh - 300px) / 1.16)));
     height: auto;
     transform-origin: 50% 85%;
     animation: logo-in 1s var(--bounce) var(--start) both;
   }
 
   .hero-title {
-    font-size: clamp(1.7rem, 1rem + 2.8vw, 3.1rem);
-    max-width: 18ch;
+    font-size: clamp(1.6rem, min(1rem + 2.4vw, 5.4svh), 2.9rem);
+    max-width: 20ch;
     animation: rise 0.7s var(--bounce) calc(var(--start) + 0.35s) both;
   }
 
