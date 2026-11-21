@@ -7,7 +7,6 @@ import NewsCard from '../components/NewsCard.astro';
 import { site } from '../site';
 import logo from '../assets/art/logo-full.png';
 import Waves from '../components/Waves.astro';
-import duo from '../assets/art/duo.png';
 import fox from '../assets/art/fox.png';
 import fish from '../assets/art/fish.png';
 import wizard from '../assets/art/wizard.png';
@@ -23,7 +22,7 @@ const news = (await getCollection('news', ({ data }) => !data.draft))
   .slice(0, 3);
 const hv = site.heroVideo;
 
-// Intro curtain: the gang pops in around the duo while the "loading" line bounces.
+// Intro curtain: the gang pops in around the logo while the "loading" line bounces.
 const gang = [fox, catKnight, wizard, fish, polar, eye, bunny, gnome];
 const loadingText = 'Loading whimsy';
 
@@ -44,7 +43,7 @@ const loadingText = 'Loading whimsy';
           ))
         }
       </div>
-      <Image class="duo" src={duo} alt="" width={200} densities={[1, 2]} loading="eager" />
+      <Image class="duo" src={logo} alt="" width={240} densities={[1, 2]} loading="eager" />
     </div>
     <p class="display loading">
       {
@@ -162,7 +161,7 @@ const loadingText = 'Loading whimsy';
   }
 
   .stage {
-    --r: clamp(124px, 28vw, 230px);
+    --r: clamp(132px, 30vw, 250px);
     position: relative;
     width: calc(var(--r) * 2 + 110px);
     height: calc(var(--r) * 2 + 60px);
@@ -202,7 +201,7 @@ const loadingText = 'Loading whimsy';
 
   .duo {
     position: relative;
-    width: clamp(130px, 22vw, 200px);
+    width: clamp(140px, 24vw, 230px);
     height: auto;
     animation:
       duo-in 0.6s var(--bounce) both,

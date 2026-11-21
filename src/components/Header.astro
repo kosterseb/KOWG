@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import duo from '../assets/art/duo.png';
+import logo from '../assets/art/logo-full.png';
 import Waves from './Waves.astro';
 
 interface Props {
@@ -23,7 +23,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
 <header class="site-header" data-autohide={autoHide ? '' : undefined}>
   <div class="wrap bar">
     <a class="brand" href="/" aria-label="Kinda Whimsical Games, home">
-      <Image src={duo} alt="" width={52} densities={[1, 2]} loading="eager" />
+      <Image src={logo} alt="" width={72} densities={[1, 2]} loading="eager" />
       <span>Kinda Whimsical Games</span>
     </a>
     <nav aria-label="Main">
@@ -90,10 +90,16 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
     text-transform: uppercase;
   }
 
+  /* The full logo hangs a little below the bar, over the waves */
   .brand img {
+    position: relative;
+    z-index: 2;
     flex-shrink: 0;
-    width: 46px;
+    width: 64px;
     height: auto;
+    margin-block: -0.35rem -1.9rem;
+    filter: drop-shadow(0 3px 0 rgb(0 0 0 / 0.25));
+    transform-origin: 50% 20%;
   }
 
   .brand:hover img {
@@ -157,7 +163,8 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
     }
 
     .brand img {
-      width: 40px;
+      width: 52px;
+      margin-bottom: -1.4rem;
     }
   }
 </style>
