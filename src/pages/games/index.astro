@@ -6,12 +6,12 @@ import GameRow from '../../components/GameRow.astro';
 const games = (await getCollection('games', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base title="Games" description="Every game Kinda Whimsical Games is working on right now.">
+<Base title="Games" description="Games from Kinda Whimsical Games, starting with Grain.">
   <header class="wrap intro">
     <h1>Our games</h1>
     <p class="lede">
-      Everything we're working on right now, from early sketches to things you can almost play. Clips are
-      captured straight from the current builds.
+      Grain is the first game we're showing. There's more on the drawing board, and we'll share it when it's
+      ready. Clips are captured straight from the current build.
     </p>
   </header>
   <div class="wrap list">

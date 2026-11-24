@@ -297,7 +297,7 @@ body[data-theme='dunes'] {
     linear-gradient(180deg, #f6e6c6 0%, #edd2a2 55%, #e2bd84 100%);
 }
 
-/* Pondoragon: calm pond water with ripples and lily pads */
+/* Pond: calm pond water with ripples and lily pads */
 body[data-theme='pond'] {
   --paper: #d4ebe2;
   --paper-2: #bfe0d4;
@@ -310,7 +310,7 @@ body[data-theme='pond'] {
     linear-gradient(180deg, #d9efe6 0%, #b7ddd0 100%);
 }
 
-/* Siphon Steel: a dim card-room table under one green lamp */
+/* Casino: a dim card-room table under one green lamp */
 body[data-theme='casino'] {
   --paper: #101a12;
   --paper-2: #18261a;
@@ -324,7 +324,7 @@ body[data-theme='casino'] {
     radial-gradient(ellipse at 50% 60%, #15241a 0%, #0a110b 100%);
 }
 
-/* Bindwheel: mossy forest floor with little flowers */
+/* Grove: mossy forest floor with little flowers */
 body[data-theme='grove'] {
   --paper: #18261b;
   --paper-2: #213324;
@@ -337,7 +337,7 @@ body[data-theme='grove'] {
     radial-gradient(ellipse at 50% 30%, #23382a 0%, #101a12 100%);
 }
 
-/* ODDS: deep space, scattered stars */
+/* Void: deep space, scattered stars */
 body[data-theme='void'] {
   --paper: #0c0c16;
   --paper-2: #161626;
@@ -352,7 +352,7 @@ body[data-theme='void'] {
     #0a0a13;
 }
 
-/* Scalp: a dark room lit by a single warm lamp */
+/* Lamplight: a dark room lit by a single warm lamp */
 body[data-theme='lamplight'] {
   --paper: #17110d;
   --paper-2: #221913;
